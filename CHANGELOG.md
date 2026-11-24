@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.0.4 (codex-powerline-cli, unreleased)
+## 1.0.5
 
 - Consolidate settings, migrations, themes, presets, widgets, and their tests
   in `powerline-dev/codex-powerline-cli`. Remove the separate Core npm dependency
