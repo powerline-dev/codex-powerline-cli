@@ -69,8 +69,8 @@ The commands below apply after `@powerline-dev/codex-powerline-cli` is released 
 For now, use the [development setup](#development). The executable name and
 settings path are unchanged.
 
-Both npm packages install a command named `codex-powerline`. If you want to
-keep both packages installed, use separate npm prefixes.
+If you still have the former unscoped package installed, it uses the same
+`codex-powerline` command. Use separate npm prefixes to keep both installs.
 
 ### 🪟 Windows
 
@@ -186,6 +186,10 @@ The published npm package uses a versioned Core dependency.
 See [AGENTS.md](AGENTS.md) for the project map and reusable development workflows.
 See the [release skill](.agents/skills/codex-powerline-release/SKILL.md) to
 prepare and test both packages without uploading them.
+
+From the CLI checkout, run `bun run release:dry-run` to build, check, and
+pack both packages without uploading them. Run `bun run release` when you
+intend to publish to npm. It publishes Core first, then the CLI.
 
 ## 🤝 Contributing
 
