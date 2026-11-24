@@ -2,7 +2,7 @@ import type {
     Settings,
     WidgetDefinition,
     WidgetItem
-} from 'codex-powerline-core';
+} from '@powerline-dev/codex-powerline-core';
 
 export type {
     CustomKeybind,
@@ -10,7 +10,7 @@ export type {
     WidgetEditorDisplay,
     WidgetItem,
     WidgetItemType
-} from 'codex-powerline-core';
+} from '@powerline-dev/codex-powerline-core';
 
 export interface Widget extends WidgetDefinition { renderEditor?(props: WidgetEditorProps): React.ReactElement | null }
 

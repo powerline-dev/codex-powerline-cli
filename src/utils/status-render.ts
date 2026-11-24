@@ -1,4 +1,3 @@
-import chalk from 'chalk';
 import {
     advanceGlobalPowerlineThemeIndex,
     advanceGlobalSeparatorIndex,
@@ -6,7 +5,8 @@ import {
     type RenderUsageData,
     type Settings,
     type StatusJSON
-} from 'codex-powerline-core';
+} from '@powerline-dev/codex-powerline-core';
+import chalk from 'chalk';
 
 import {
     getVisibleText,

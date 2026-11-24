@@ -1,4 +1,4 @@
-import { getEnabledHideStates } from 'codex-powerline-core';
+import { getEnabledHideStates } from '@powerline-dev/codex-powerline-core';
 import {
     describe,
     expect,

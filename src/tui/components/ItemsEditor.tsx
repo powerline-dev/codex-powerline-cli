@@ -9,7 +9,7 @@ import {
     getNumberFormatKeybind,
     getNumberFormatModifierText,
     type Settings
-} from 'codex-powerline-core';
+} from '@powerline-dev/codex-powerline-core';
 import {
     Box,
     Text,

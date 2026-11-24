@@ -29,7 +29,7 @@ beforeAll(() => {
     fs.writeFileSync(entryPath, `
         import { getGitConflictCount } from ${modulePath('../git.ts')};
         import { GitConflictsWidget } from ${modulePath('../../widgets/GitConflicts.ts')};
-        import { DEFAULT_SETTINGS } from ${JSON.stringify(fileURLToPath(import.meta.resolve('codex-powerline-core')))};
+        import { DEFAULT_SETTINGS } from ${JSON.stringify(fileURLToPath(import.meta.resolve('@powerline-dev/codex-powerline-core')))};
         const context = { data: { cwd: process.argv[2] } };
         const count = getGitConflictCount(context);
         const rendered = new GitConflictsWidget().render(

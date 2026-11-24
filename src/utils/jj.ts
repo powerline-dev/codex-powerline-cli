@@ -1,4 +1,4 @@
-import type { RenderContext } from 'codex-powerline-core';
+import type { RenderContext } from '@powerline-dev/codex-powerline-core';
 import { execFileSync } from 'node:child_process';
 
 import { resolveExecutable } from './executable-path';

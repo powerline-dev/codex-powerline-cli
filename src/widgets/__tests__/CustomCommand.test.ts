@@ -2,7 +2,7 @@ import {
     StatusJSONSchema,
     type RenderContext,
     type Settings
-} from 'codex-powerline-core';
+} from '@powerline-dev/codex-powerline-core';
 import { render } from 'ink';
 import type { SpawnSyncReturns } from 'node:child_process';
 import { spawnSync } from 'node:child_process';

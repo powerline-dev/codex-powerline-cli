@@ -1,7 +1,7 @@
 import {
     formatRawOrLabeledValue,
     type RenderContext
-} from 'codex-powerline-core';
+} from '@powerline-dev/codex-powerline-core';
 
 import type { WidgetItem } from '../types/Widget';
 import { runGitArgs } from '../utils/git';

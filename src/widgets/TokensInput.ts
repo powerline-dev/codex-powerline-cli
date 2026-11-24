@@ -1,7 +1,7 @@
 import {
     getContextWindowInputTotalTokens,
     type RenderContext
-} from 'codex-powerline-core';
+} from '@powerline-dev/codex-powerline-core';
 
 import { TokenCountWidget } from './shared/token-count-widget';
 

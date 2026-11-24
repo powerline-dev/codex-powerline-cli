@@ -1,4 +1,4 @@
-import { clearLabel } from 'codex-powerline-core';
+import { clearLabel } from '@powerline-dev/codex-powerline-core';
 
 import type {
     WidgetItem,

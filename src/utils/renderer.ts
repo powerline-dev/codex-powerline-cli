@@ -1,4 +1,3 @@
-import chalk from 'chalk';
 import {
     MERGE_TARGET_HIDDEN_HIDEABLE_STATE,
     getColorLevelString,
@@ -6,7 +5,8 @@ import {
     type ColorLevel,
     type DefaultPaddingSide,
     type Settings
-} from 'codex-powerline-core';
+} from '@powerline-dev/codex-powerline-core';
+import chalk from 'chalk';
 
 import type {
     RenderContext,
@@ -42,7 +42,7 @@ import {
     widgetPreservesColors
 } from './widgets';
 
-export { formatTokens } from 'codex-powerline-core';
+export { formatTokens } from '@powerline-dev/codex-powerline-core';
 
 // Build a red warning badge indicating that settings.json could not be loaded.
 // Passes colorLevel through so color is suppressed when the terminal has no color support.

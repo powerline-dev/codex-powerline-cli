@@ -3,7 +3,7 @@ import {
     advanceGlobalPowerlineThemeIndex,
     type RenderContext,
     type Settings
-} from 'codex-powerline-core';
+} from '@powerline-dev/codex-powerline-core';
 import { render } from 'ink';
 import { PassThrough } from 'node:stream';
 import React from 'react';

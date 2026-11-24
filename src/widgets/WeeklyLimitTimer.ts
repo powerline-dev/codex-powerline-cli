@@ -1,7 +1,7 @@
 import {
     getWeeklyLimitInMs,
     type RenderContext
-} from 'codex-powerline-core';
+} from '@powerline-dev/codex-powerline-core';
 
 import { LimitTimerWidget } from './shared/limit-timer-widget';
 

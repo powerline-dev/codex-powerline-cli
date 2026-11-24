@@ -2,7 +2,7 @@ import {
     EDIT_HIDE_STATES_ACTION,
     getHideKeybind,
     getNumberFormatKeybind
-} from 'codex-powerline-core';
+} from '@powerline-dev/codex-powerline-core';
 import {
     describe,
     expect,

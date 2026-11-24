@@ -1,7 +1,7 @@
 import {
     ContextLengthWidget,
     DEFAULT_SETTINGS
-} from 'codex-powerline-core';
+} from '@powerline-dev/codex-powerline-core';
 import {
     afterEach,
     beforeEach,

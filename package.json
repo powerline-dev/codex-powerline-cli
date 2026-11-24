@@ -1,5 +1,5 @@
 {
-  "name": "codex-powerline-cli",
+  "name": "@powerline-dev/codex-powerline-cli",
   "version": "1.0.4",
   "description": "Customizable terminal status bar for Codex CLI with model, usage limits, workspace, permissions, and Git widgets.",
   "main": "./dist/codex-powerline.js",
@@ -32,7 +32,8 @@
     "build": "bun run scripts/build.ts",
     "postinstall": "node scripts/postinstall.mjs",
     "prepublishOnly": "bun run build && node dist/codex-powerline.js --version && node dist/codex-powerline.js --help",
-    "release:dry-run": "bun install --frozen-lockfile && bun run lint && bun test && bun run build && node dist/codex-powerline.js --version && node dist/codex-powerline.js --help && npm pack --dry-run",
+    "release": "bun run scripts/release.ts --publish",
+    "release:dry-run": "bun run scripts/release.ts --dry-run",
     "lint": "bun tsc --noEmit && eslint . --config eslint.config.js --max-warnings=0",
     "lint:fix": "bun tsc --noEmit && eslint . --config eslint.config.js --max-warnings=0 --fix",
     "test": "bun test"
@@ -98,9 +99,13 @@
     "@xterm/headless": "^6.0.0",
     "node-pty": "^1.1.0",
     "ws": "^8.21.1",
-    "codex-powerline-core": "^1.0.4"
+    "@powerline-dev/codex-powerline-core": "1.0.4"
   },
   "resolutions": {
-    "codex-powerline-core": "link:../codex-powerline-core"
+    "@powerline-dev/codex-powerline-core": "link:../codex-powerline-core"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   }
 }

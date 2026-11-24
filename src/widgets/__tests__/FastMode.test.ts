@@ -1,4 +1,4 @@
-import { DEFAULT_SETTINGS } from 'codex-powerline-core';
+import { DEFAULT_SETTINGS } from '@powerline-dev/codex-powerline-core';
 import {
     describe,
     expect,
