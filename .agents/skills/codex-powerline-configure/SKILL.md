@@ -20,8 +20,9 @@ source CLI only when the user wants to configure a checkout.
    `npm view codex-powerline-cli@<version> gitHead`. Read the relevant files
    from [powerline-dev/codex-powerline-cli](https://github.com/powerline-dev/codex-powerline-cli)
    at that commit without cloning it. The catalog is in
-   `src/utils/widget-manifest.ts`, and widget-specific options are in `src/widgets/`. Follow shared imports to
-   [Core](https://github.com/powerline-dev/codex-powerline-core) at the CLI release’s Core version. Use unique item IDs.
+   `src/utils/widget-manifest.ts`. Widget options are in `src/widgets/`.
+   Follow shared imports to [Core](https://github.com/powerline-dev/codex-powerline-core)
+   at the CLI release’s Core version. Use unique item IDs.
    If you cannot check that the installed version supports a widget or
    option, tell the user instead of guessing or using the latest source.
 3. Create a named JSON layout, such as `powerline.local.json`, unless the user

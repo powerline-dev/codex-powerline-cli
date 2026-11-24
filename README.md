@@ -69,6 +69,9 @@ The commands below apply after `codex-powerline-cli` is released on npm.
 For now, use the [development setup](#development). The executable name and
 settings path are unchanged.
 
+Both npm packages install a command named `codex-powerline`. If you want to
+keep both packages installed, use separate npm prefixes.
+
 ### 🪟 Windows
 
 Install [Node.js 22.12 or newer](https://nodejs.org/en/download) if needed.
@@ -181,6 +184,8 @@ The Bun resolution links to the sibling Core checkout. Rebuild Core after shared
 The published npm package uses a versioned Core dependency.
 
 See [AGENTS.md](AGENTS.md) for the project map and reusable development workflows.
+See the [release skill](.agents/skills/codex-powerline-release/SKILL.md) to
+prepare and test both packages without uploading them.
 
 ## 🤝 Contributing
 

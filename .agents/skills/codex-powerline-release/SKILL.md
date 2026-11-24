@@ -11,6 +11,10 @@ in to npm or upload a package.
 
 ## Prepare and validate
 
+Build the sibling Core checkout first. Check that the Core version in that
+checkout satisfies the dependency range in the CLI manifest. The CLI uses a
+local Bun resolution in development; npm consumers use the versioned dependency.
+
 Check `package.json`, the changelog, and the working tree. For a new release,
 bump the version only if it has not already been prepared:
 
@@ -32,6 +36,11 @@ the package contents without uploading anything. Check that the package
 includes `dist/codex-powerline.js`, its chunks, `LICENSE`, and `NOTICE`, and
 that the built version matches the manifest.
 
+Pack Core and the CLI with `npm pack`. Install both tarballs in one command
+into a temporary npm prefix, then run the installed executable with the sample
+payload and a shipped preset. This checks the dependency without publishing
+Core. When release is approved, publish a compatible Core version before the CLI.
+
 For installer or font changes, also install the packed tarball with a temporary
 `HOME`, `CODEX_HOME`, and npm global prefix. Check that `assets/fonts/` and its
 licenses are packed, that macOS postinstall copies the bundled family, and that
@@ -44,6 +53,7 @@ Use the public npm version list to check whether the planned version is
 already published:
 
 ```sh
+npm view codex-powerline-core versions --json
 npm view codex-powerline-cli versions --json
 ```
 

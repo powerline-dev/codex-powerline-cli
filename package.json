@@ -32,8 +32,7 @@
     "build": "bun run scripts/build.ts",
     "postinstall": "node scripts/postinstall.mjs",
     "prepublishOnly": "bun run build && node dist/codex-powerline.js --version && node dist/codex-powerline.js --help",
-    "release": "bun install --frozen-lockfile && bun run lint && bun test && npm publish --access public",
-    "release:dry-run": "bun run release --dry-run",
+    "release:dry-run": "bun install --frozen-lockfile && bun run lint && bun test && bun run build && node dist/codex-powerline.js --version && node dist/codex-powerline.js --help && npm pack --dry-run",
     "lint": "bun tsc --noEmit && eslint . --config eslint.config.js --max-warnings=0",
     "lint:fix": "bun tsc --noEmit && eslint . --config eslint.config.js --max-warnings=0 --fix",
     "test": "bun test"

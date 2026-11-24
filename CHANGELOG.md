@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.4 (codex-powerline-cli, unreleased)
+
+- Move the CLI to `powerline-dev/codex-powerline-cli` and share settings,
+  migrations, themes, presets, and portable widgets through Core.
+- Keep the `codex-powerline` executable and the existing settings path and format.
+
 ## 1.0.4
 
 - Add a **Reserve space** option for widgets. It keeps their cells in place
