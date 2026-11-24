@@ -1,0 +1,14 @@
+codex
+codex-cli
+codex-powerline
+openai powerline
+statusline
+cli
+terminal
+typescript
+bun
+themes
+customization
+developer-tools
+cross-platform
+ai-coding
