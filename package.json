@@ -99,7 +99,7 @@
     "@xterm/headless": "^6.0.0",
     "node-pty": "^1.1.0",
     "ws": "^8.21.1",
-    "@powerline-dev/codex-powerline-core": "^1.0.4"
+    "@powerline-dev/codex-powerline-core": "1.0.4"
   },
   "resolutions": {
     "@powerline-dev/codex-powerline-core": "link:../codex-powerline-core"

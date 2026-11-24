@@ -18,7 +18,6 @@ interface PackedPackage {
     name: string;
     version: string;
     filename: string;
-    integrity: string;
 }
 
 const cliDirectory = resolve(import.meta.dir, '..');
@@ -57,23 +56,19 @@ async function pack(cwd: string, destination: string): Promise<PackedPackage> {
     return packed;
 }
 
-async function isPublished(packed: PackedPackage): Promise<boolean> {
-    const spec = `${packed.name}@${packed.version}`;
-    const response = await fetch(`${registry}${encodeURIComponent(packed.name)}/${encodeURIComponent(packed.version)}`, {
+async function requirePublishedCore(core: Manifest): Promise<void> {
+    const spec = `${core.name}@${core.version}`;
+    const response = await fetch(`${registry}${encodeURIComponent(core.name)}/${encodeURIComponent(core.version)}`, {
         headers: { 'Cache-Control': 'no-cache' },
         signal: AbortSignal.timeout(15000)
     });
     if (response.status === 404) {
-        return false;
+        throw new Error(`${spec} is not on npm. Release Core separately before releasing the CLI.`);
     }
     if (!response.ok) {
         throw new Error(`Could not check ${spec} on npm (HTTP ${response.status}).`);
     }
-    const metadata = await response.json() as { dist?: { integrity?: string } };
-    if (metadata.dist?.integrity !== packed.integrity) {
-        throw new Error(`${spec} already exists on npm with different contents. Use its release checkout or bump the version.`);
-    }
-    return true;
+    await response.body?.cancel();
 }
 
 const [mode, ...extraArgs] = process.argv.slice(2);
@@ -86,35 +81,33 @@ const cli = await Bun.file(join(cliDirectory, 'package.json')).json() as Manifes
 if (core.name !== '@powerline-dev/codex-powerline-core' || cli.name !== '@powerline-dev/codex-powerline-cli') {
     throw new Error('Both checkouts must use the powerline-dev npm package names.');
 }
-const coreRange = cli.dependencies[core.name];
-if (!coreRange || !Bun.semver.satisfies(core.version, coreRange)) {
-    throw new Error(`Core ${core.version} does not match the CLI dependency ${coreRange ?? '(missing)'}.`);
+const coreVersion = cli.dependencies[core.name];
+if (coreVersion !== core.version) {
+    throw new Error(`Core checkout ${core.version} does not match the CLI pin ${coreVersion ?? '(missing)'}.`);
 }
 
-await check(coreDirectory);
+if (mode === '--publish') {
+    await requirePublishedCore(core);
+}
+await run(coreDirectory, 'bun', 'install', '--frozen-lockfile');
+await run(coreDirectory, 'bun', 'run', 'build');
 await check(cliDirectory);
 await run(cliDirectory, 'node', 'dist/codex-powerline.js', '--version');
 await run(cliDirectory, 'node', 'dist/codex-powerline.js', '--help');
 
 const staging = await mkdtemp(join(tmpdir(), 'powerline-release-'));
 try {
-    const packages = [await pack(coreDirectory, staging), await pack(cliDirectory, staging)];
+    const packedCli = await pack(cliDirectory, staging);
     if (mode === '--dry-run') {
-        for (const packed of packages) {
-            console.log(`Checked ${packed.name}@${packed.version} (${packed.filename}).`);
-        }
+        console.log(`Checked ${packedCli.name}@${packedCli.version} (${packedCli.filename}).`);
         console.log('Dry run complete. Nothing was published.');
     } else {
-        // Check both versions before publishing either package. A retry can
-        // skip an identical upload when only one package reached npm.
-        const status = await Promise.all(packages.map(async packed => ({ packed, published: await isPublished(packed) })));
-        for (const { packed, published } of status) {
-            if (published) {
-                console.log(`Already published: ${packed.name}@${packed.version}`);
-                continue;
-            }
-            await run(staging, 'npm', 'publish', join(staging, packed.filename), '--access', 'public', '--registry', registry);
-        }
+        const tarball = join(staging, packedCli.filename);
+        // Check the distribution without the local Bun link. npm installs the
+        // pinned Core from the registry just as it does for a CLI user.
+        await run(staging, 'npm', 'install', '--prefix', staging, '--ignore-scripts', '--no-audit', '--no-fund', '--registry', registry, tarball);
+        await run(staging, 'node', join('node_modules', cli.name, 'dist/codex-powerline.js'), '--version');
+        await run(staging, 'npm', 'publish', tarball, '--access', 'public', '--registry', registry);
     }
 } finally {
     await rm(staging, { recursive: true, force: true });

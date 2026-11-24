@@ -187,9 +187,11 @@ See [AGENTS.md](AGENTS.md) for the project map and reusable development workflow
 See the [release skill](.agents/skills/codex-powerline-release/SKILL.md) to
 prepare and test both packages without uploading them.
 
-From the CLI checkout, run `bun run release:dry-run` to build, check, and
-pack both packages without uploading them. Run `bun run release` when you
-intend to publish to npm. It publishes Core first, then the CLI.
+Release Core from its own repository first. Pin the published Core version in
+the CLI's `package.json`, run `bun install` to update the lockfile, and use
+the matching sibling Core checkout. Run `bun run release:dry-run` here to
+check the CLI without uploading it. Run `bun run release` here to publish
+only the CLI. It checks the packaged CLI with the pinned Core from npm first.
 
 ## 🤝 Contributing
 
