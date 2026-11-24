@@ -1,7 +1,7 @@
 import {
     SettingsSchema,
     type Settings
-} from 'codex-powerline-core';
+} from '@powerline-dev/codex-powerline-core';
 import { spawn as spawnProcess } from 'node:child_process';
 import { randomBytes } from 'node:crypto';
 import * as fs from 'node:fs';

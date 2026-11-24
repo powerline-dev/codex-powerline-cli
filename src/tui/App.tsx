@@ -1,8 +1,8 @@
-import chalk from 'chalk';
 import {
     cloneSettings,
     type Settings
-} from 'codex-powerline-core';
+} from '@powerline-dev/codex-powerline-core';
+import chalk from 'chalk';
 import {
     Box,
     Text,

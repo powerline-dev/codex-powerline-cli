@@ -4,7 +4,7 @@ import {
     type NumberFormat,
     type RenderContext,
     type TurnCacheTokens
-} from 'codex-powerline-core';
+} from '@powerline-dev/codex-powerline-core';
 
 import { formatTokens } from '../../utils/renderer';
 

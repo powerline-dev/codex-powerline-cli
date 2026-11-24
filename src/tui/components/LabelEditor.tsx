@@ -2,7 +2,7 @@ import {
     clearLabel,
     getLabel,
     setLabel
-} from 'codex-powerline-core';
+} from '@powerline-dev/codex-powerline-core';
 import {
     Box,
     Text,

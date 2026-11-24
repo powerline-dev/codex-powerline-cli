@@ -7,7 +7,7 @@ import {
     type NumberFormat,
     type NumberKind,
     type Settings
-} from 'codex-powerline-core';
+} from '@powerline-dev/codex-powerline-core';
 import {
     Box,
     Text,

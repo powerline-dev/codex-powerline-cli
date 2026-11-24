@@ -1,7 +1,7 @@
 import {
     formatPercent,
     type NumberFormat
-} from 'codex-powerline-core';
+} from '@powerline-dev/codex-powerline-core';
 
 import type {
     CustomKeybind,

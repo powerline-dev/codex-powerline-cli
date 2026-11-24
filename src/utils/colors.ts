@@ -377,4 +377,4 @@ export {
     getPowerlineTheme,
     getPowerlineThemes,
     type PowerlineTheme
-} from 'codex-powerline-core';
+} from '@powerline-dev/codex-powerline-core';

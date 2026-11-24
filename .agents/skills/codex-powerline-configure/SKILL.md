@@ -7,7 +7,7 @@ description: Create or update a user's Codex Powerline layout from a plain-langu
 
 Use the user's installed Powerline CLI. A source checkout and Bun are not
 needed. For a global npm install, the package files are in the
-`codex-powerline-cli` folder under the path from `npm root -g`. Check that its
+`@powerline-dev/codex-powerline-cli` folder under the path from `npm root -g`. Check that its
 version matches `codex-powerline --version` before using its files. Use the
 source CLI only when the user wants to configure a checkout.
 
@@ -17,7 +17,7 @@ source CLI only when the user wants to configure a checkout.
    changes the result in a way that matters to the user.
 2. Reuse widget IDs and settings from the shipped presets. For widgets or
    options outside those presets, get the release commit with
-   `npm view codex-powerline-cli@<version> gitHead`. Read the relevant files
+   `npm view @powerline-dev/codex-powerline-cli@<version> gitHead`. Read the relevant files
    from [powerline-dev/codex-powerline-cli](https://github.com/powerline-dev/codex-powerline-cli)
    at that commit without cloning it. The catalog is in
    `src/utils/widget-manifest.ts`. Widget options are in `src/widgets/`.

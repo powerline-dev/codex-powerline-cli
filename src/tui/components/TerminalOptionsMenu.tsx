@@ -1,5 +1,5 @@
+import type { Settings } from '@powerline-dev/codex-powerline-core';
 import chalk from 'chalk';
-import type { Settings } from 'codex-powerline-core';
 import {
     Box,
     Text,

@@ -3,7 +3,7 @@ import {
     setNerdFontFormat,
     toggleNerdFont,
     type NerdFontFormats
-} from 'codex-powerline-core';
+} from '@powerline-dev/codex-powerline-core';
 
 import type {
     CustomKeybind,

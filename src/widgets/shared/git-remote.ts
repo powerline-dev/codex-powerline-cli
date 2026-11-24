@@ -1,7 +1,7 @@
 import {
     isMetadataFlagEnabled,
     toggleMetadataFlag
-} from 'codex-powerline-core';
+} from '@powerline-dev/codex-powerline-core';
 
 import type {
     CustomKeybind,

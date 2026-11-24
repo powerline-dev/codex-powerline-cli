@@ -1,4 +1,4 @@
-import type { Settings } from 'codex-powerline-core';
+import type { Settings } from '@powerline-dev/codex-powerline-core';
 import {
     Box,
     Text,

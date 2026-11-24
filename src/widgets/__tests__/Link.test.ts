@@ -1,7 +1,7 @@
 import {
     DEFAULT_SETTINGS,
     type RenderContext
-} from 'codex-powerline-core';
+} from '@powerline-dev/codex-powerline-core';
 import { render } from 'ink';
 import { PassThrough } from 'node:stream';
 import {

@@ -18,7 +18,7 @@ replacing anything. Use the user's existing writable npm prefix.
 For an unpublished Core version, pack the sibling checkout into a temporary
 folder first. Set `$corePackage` (PowerShell) or `core_package` (macOS) to
 its absolute tarball path. After Core is on npm, use the matching
-`codex-powerline-core@<version>` instead.
+`@powerline-dev/codex-powerline-core@<version>` instead.
 
 ## Windows (PowerShell)
 
@@ -38,7 +38,7 @@ $packDir = Join-Path ([IO.Path]::GetTempPath()) ('codex-powerline-' + [guid]::Ne
 $tarball = $null
 try {
     $packName = npm.cmd pack --pack-destination $packDir --silent
-    if ($LASTEXITCODE -ne 0 -or $packName -notmatch '^codex-powerline-cli-[^\\/]+\.tgz$') {
+    if ($LASTEXITCODE -ne 0 -or $packName -notmatch '^powerline-dev-codex-powerline-cli-[^\\/]+\.tgz$') {
         throw 'npm pack did not produce the expected tarball'
     }
     $tarball = Join-Path $packDir $packName

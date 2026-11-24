@@ -4,7 +4,7 @@ import {
     EDIT_LABEL_ACTION,
     cycleNumberStyle,
     generateGuid
-} from 'codex-powerline-core';
+} from '@powerline-dev/codex-powerline-core';
 
 import type {
     CustomKeybind,

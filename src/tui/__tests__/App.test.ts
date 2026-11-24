@@ -1,8 +1,8 @@
-import chalk from 'chalk';
 import {
     CURRENT_VERSION,
     DEFAULT_SETTINGS
-} from 'codex-powerline-core';
+} from '@powerline-dev/codex-powerline-core';
+import chalk from 'chalk';
 import * as fs from 'node:fs';
 import {
     afterEach,

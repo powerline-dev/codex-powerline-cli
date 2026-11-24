@@ -3,7 +3,7 @@ import {
     isHidden,
     type RenderContext,
     type Settings
-} from 'codex-powerline-core';
+} from '@powerline-dev/codex-powerline-core';
 
 import type {
     CustomKeybind,

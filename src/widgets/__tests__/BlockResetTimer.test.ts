@@ -2,7 +2,7 @@ import {
     DEFAULT_SETTINGS,
     type RenderContext,
     type UsageWindowMetrics
-} from 'codex-powerline-core';
+} from '@powerline-dev/codex-powerline-core';
 import {
     afterEach,
     beforeEach,

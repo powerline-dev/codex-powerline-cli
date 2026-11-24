@@ -1,5 +1,5 @@
 {
-  "name": "codex-powerline-cli",
+  "name": "@powerline-dev/codex-powerline-cli",
   "version": "1.0.4",
   "description": "Customizable terminal status bar for Codex CLI with model, usage limits, workspace, permissions, and Git widgets.",
   "main": "./dist/codex-powerline.js",
@@ -98,9 +98,13 @@
     "@xterm/headless": "^6.0.0",
     "node-pty": "^1.1.0",
     "ws": "^8.21.1",
-    "codex-powerline-core": "^1.0.4"
+    "@powerline-dev/codex-powerline-core": "^1.0.4"
   },
   "resolutions": {
-    "codex-powerline-core": "link:../codex-powerline-core"
+    "@powerline-dev/codex-powerline-core": "link:../codex-powerline-core"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   }
 }

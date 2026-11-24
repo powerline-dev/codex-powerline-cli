@@ -1,4 +1,4 @@
-import { removeMetadataKeys } from 'codex-powerline-core';
+import { removeMetadataKeys } from '@powerline-dev/codex-powerline-core';
 import {
     Box,
     Text,

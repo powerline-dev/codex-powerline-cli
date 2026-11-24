@@ -1,7 +1,7 @@
 import {
     DEFAULT_SETTINGS,
     cloneSettings
-} from 'codex-powerline-core';
+} from '@powerline-dev/codex-powerline-core';
 import {
     describe,
     expect,

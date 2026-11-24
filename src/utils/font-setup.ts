@@ -10,7 +10,7 @@ import type { PowerlineFontStatus } from '../types/PowerlineFontStatus';
 
 export const BUNDLED_FONT_NAME = manifest.family;
 
-const packageRoot = path.dirname(createRequire(import.meta.url).resolve('codex-powerline-cli/package.json'));
+const packageRoot = path.dirname(createRequire(import.meta.url).resolve('@powerline-dev/codex-powerline-cli/package.json'));
 const fontAssets = path.join(packageRoot, 'assets', 'fonts');
 let lastFontStatus: PowerlineFontStatus | undefined;
 

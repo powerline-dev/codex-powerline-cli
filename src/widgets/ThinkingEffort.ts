@@ -2,7 +2,7 @@ import {
     getColorLevelString,
     type RenderContext,
     type Settings
-} from 'codex-powerline-core';
+} from '@powerline-dev/codex-powerline-core';
 import React from 'react';
 
 import type {

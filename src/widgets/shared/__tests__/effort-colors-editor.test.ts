@@ -1,8 +1,8 @@
-import chalk from 'chalk';
 import {
     DEFAULT_SETTINGS,
     type Settings
-} from 'codex-powerline-core';
+} from '@powerline-dev/codex-powerline-core';
+import chalk from 'chalk';
 import { render } from 'ink';
 import { PassThrough } from 'node:stream';
 import React from 'react';

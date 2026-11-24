@@ -14,8 +14,8 @@ Give a ⭐ if this project helped you!
 [![GitHub forks](https://img.shields.io/github/forks/powerline-dev/codex-powerline-cli?style=social)](https://github.com/powerline-dev/codex-powerline-cli/forks)
 [![GitHub watchers](https://img.shields.io/github/watchers/powerline-dev/codex-powerline-cli?style=social)](https://github.com/powerline-dev/codex-powerline-cli)
 
-[![npm version](https://img.shields.io/npm/v/codex-powerline-cli?logo=npm)](https://www.npmjs.com/package/codex-powerline-cli)
-[![Monthly npm downloads](https://img.shields.io/npm/dm/codex-powerline-cli?logo=npm)](https://www.npmjs.com/package/codex-powerline-cli)
+[![npm version](https://img.shields.io/npm/v/@powerline-dev/codex-powerline-cli?logo=npm)](https://www.npmjs.com/package/@powerline-dev/codex-powerline-cli)
+[![Monthly npm downloads](https://img.shields.io/npm/dm/@powerline-dev/codex-powerline-cli?logo=npm)](https://www.npmjs.com/package/@powerline-dev/codex-powerline-cli)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 [![Made with Bun](https://img.shields.io/badge/Made%20with-Bun-000000?logo=bun)](https://bun.sh/)
 [![Node.js: 22.12+](https://img.shields.io/badge/Node.js-22.12%2B-339933?logo=nodedotjs&logoColor=white)](https://nodejs.org/)
@@ -65,7 +65,7 @@ Codex saves the layout separately and gives you the launch command. Add
 
 ## 🚀 Install
 
-The commands below apply after `codex-powerline-cli` is released on npm.
+The commands below apply after `@powerline-dev/codex-powerline-cli` is released on npm.
 For now, use the [development setup](#development). The executable name and
 settings path are unchanged.
 
@@ -78,7 +78,7 @@ Install [Node.js 22.12 or newer](https://nodejs.org/en/download) if needed.
 Open PowerShell and paste this block. Sign in, then save and exit the editor.
 
 ```powershell
-npm install --global @openai/codex codex-powerline-cli
+npm install --global @openai/codex @powerline-dev/codex-powerline-cli
 codex login
 codex-powerline configure
 codex-powerline run
@@ -87,13 +87,13 @@ codex-powerline run
 **Update Powerline**
 
 ```powershell
-npm install --global codex-powerline-cli@latest
+npm install --global @powerline-dev/codex-powerline-cli@latest
 ```
 
 **Uninstall Powerline**
 
 ```powershell
-npm uninstall --global codex-powerline-cli
+npm uninstall --global @powerline-dev/codex-powerline-cli
 ```
 
 If PowerShell blocks scripts, paste the same commands into Command Prompt.
@@ -109,7 +109,7 @@ Terminal, setup selects it for your current profile; allow Terminal automation
 if macOS asks. Other terminal apps may require selecting the font in settings.
 
 ```sh
-npm install --global @openai/codex codex-powerline-cli
+npm install --global @openai/codex @powerline-dev/codex-powerline-cli
 codex login
 codex-powerline configure
 codex-powerline run
@@ -118,13 +118,13 @@ codex-powerline run
 **Update Powerline**
 
 ```sh
-npm install --global codex-powerline-cli@latest
+npm install --global @powerline-dev/codex-powerline-cli@latest
 ```
 
 **Uninstall Powerline**
 
 ```sh
-npm uninstall --global codex-powerline-cli
+npm uninstall --global @powerline-dev/codex-powerline-cli
 ```
 
 ### 🐧 Linux
@@ -133,7 +133,7 @@ Install [Node.js 22.12 or newer](https://nodejs.org/en/download) if needed.
 Open a terminal and paste this block. Sign in, then save and exit the editor.
 
 ```sh
-npm install --global @openai/codex codex-powerline-cli
+npm install --global @openai/codex @powerline-dev/codex-powerline-cli
 codex login
 codex-powerline configure
 codex-powerline run
@@ -142,13 +142,13 @@ codex-powerline run
 **Update Powerline**
 
 ```sh
-npm install --global codex-powerline-cli@latest
+npm install --global @powerline-dev/codex-powerline-cli@latest
 ```
 
 **Uninstall Powerline**
 
 ```sh
-npm uninstall --global codex-powerline-cli
+npm uninstall --global @powerline-dev/codex-powerline-cli
 ```
 
 Uninstalling Powerline keeps Codex CLI, your saved layout, and installed fonts.

@@ -2,7 +2,7 @@ import {
     MERGE_TARGET_HIDDEN_HIDEABLE_STATE,
     type RenderContext,
     type Settings
-} from 'codex-powerline-core';
+} from '@powerline-dev/codex-powerline-core';
 import {
     Box,
     Text,

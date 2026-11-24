@@ -1,8 +1,8 @@
-import { execFileSync } from 'child_process';
 import {
     DEFAULT_SETTINGS,
     type RenderContext
-} from 'codex-powerline-core';
+} from '@powerline-dev/codex-powerline-core';
+import { execFileSync } from 'child_process';
 import {
     beforeEach,
     describe,

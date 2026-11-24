@@ -2,7 +2,7 @@ import {
     getLabel,
     removeMetadataKeys,
     type ColorLevelString
-} from 'codex-powerline-core';
+} from '@powerline-dev/codex-powerline-core';
 
 import type { WidgetItem } from '../../types/Widget';
 import { getColorAnsiCode } from '../../utils/colors';

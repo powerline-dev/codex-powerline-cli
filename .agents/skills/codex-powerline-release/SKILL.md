@@ -53,8 +53,8 @@ Use the public npm version list to check whether the planned version is
 already published:
 
 ```sh
-npm view codex-powerline-core versions --json
-npm view codex-powerline-cli versions --json
+npm view @powerline-dev/codex-powerline-core versions --json
+npm view @powerline-dev/codex-powerline-cli versions --json
 ```
 
 Report any published version conflict. The public version list and dry run

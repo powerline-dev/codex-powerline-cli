@@ -1,7 +1,7 @@
 import {
     SettingsSchema,
     type StatusJSON
-} from 'codex-powerline-core';
+} from '@powerline-dev/codex-powerline-core';
 import {
     describe,
     expect,

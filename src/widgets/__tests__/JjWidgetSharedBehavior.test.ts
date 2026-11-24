@@ -2,7 +2,7 @@ import {
     DEFAULT_SETTINGS,
     NO_JJ_HIDEABLE_STATE,
     getEnabledHideStates
-} from 'codex-powerline-core';
+} from '@powerline-dev/codex-powerline-core';
 import { execFileSync } from 'node:child_process';
 import {
     beforeEach,
