@@ -1,0 +1,27 @@
+import {
+    NO_GIT_HIDEABLE_STATE,
+    isHidden,
+    type RenderContext
+} from 'codex-powerline-core';
+
+import type { WidgetItem } from '../types/Widget';
+import { getGitShortSha } from '../utils/git';
+
+import { GitStatusWidgetBase } from './shared/git-status-widget';
+
+export class GitShaWidget extends GitStatusWidgetBase {
+    getDefaultColor(): string { return 'brightBlack'; }
+    getDescription(): string { return 'Shows short commit hash (SHA)'; }
+    getDisplayName(): string { return 'Git SHA'; }
+
+    protected renderPreview(): string {
+        return 'a1b2c3d';
+    }
+
+    protected renderInWorkTree(item: WidgetItem, context: RenderContext): string | null {
+        const sha = getGitShortSha(context);
+        return sha ?? (isHidden(item, NO_GIT_HIDEABLE_STATE.key) ? null : '(no commit)');
+    }
+
+    supportsRawValue(): boolean { return false; }
+}

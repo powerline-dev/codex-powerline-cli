@@ -1,0 +1,203 @@
+import type { RenderContext } from 'codex-powerline-core';
+
+import {
+    runGit,
+    runGitArgs
+} from './git';
+
+export interface RemoteInfo {
+    name: string;
+    url: string;
+    host: string;
+    owner: string;
+    repo: string;
+}
+
+export interface ForkStatus {
+    isFork: boolean;
+    origin: RemoteInfo | null;
+    upstream: RemoteInfo | null;
+}
+
+/**
+ * Extract owner and repo from a git remote URL.
+ * Supports SSH, HTTPS, git://, and ssh:// formats.
+ * Works with any git host (GitHub, GHES, GHEC, GitLab, etc.)
+ *
+ * Examples:
+ * - git@github.com:owner/repo.git
+ * - https://github.com/owner/repo.git
+ * - git@github.service.anz:owner/repo.git
+ * - ssh://git@github.com/owner/repo.git
+ * - git://github.com/owner/repo
+ */
+export function parseRemoteUrl(url: string): { host: string; owner: string; repo: string } | null {
+    const trimmed = url.trim();
+    if (trimmed.length === 0) {
+        return null;
+    }
+
+    // SSH format: git@host:owner/repo.git or user@host:owner/repo.git
+    const sshMatch = !trimmed.includes('://')
+        ? /^(?:[^@]+@)?([^:]+):(.+?)(?:\.git)?\/?$/.exec(trimmed)
+        : null;
+    if (sshMatch?.[1] && sshMatch[2]) {
+        const pathSegments = sshMatch[2].split('/').filter(Boolean);
+        const repo = pathSegments.at(-1);
+        const owner = pathSegments.slice(0, -1).join('/');
+
+        if (!owner || !repo) {
+            return null;
+        }
+
+        return {
+            host: sshMatch[1],
+            owner,
+            repo
+        };
+    }
+
+    // URL format: https://host/owner/repo.git, ssh://git@host/owner/repo.git, git://host/owner/repo
+    try {
+        const parsedUrl = new URL(trimmed);
+        const supportedProtocols = new Set(['http:', 'https:', 'ssh:', 'git:']);
+
+        if (!supportedProtocols.has(parsedUrl.protocol)) {
+            return null;
+        }
+
+        // Remove empty segments (leading, trailing or repeated slashes) and the
+        // .git suffix. Splitting stays linear where a trailing-slash regex
+        // would rescan every run of slashes from each position in it.
+        const pathname = parsedUrl.pathname.split('/').filter(Boolean).join('/').replace(/\.git$/, '');
+        const segments = pathname.split('/').filter(Boolean);
+
+        const repo = segments.at(-1);
+        const owner = segments.slice(0, -1).join('/');
+
+        if (!owner || !repo) {
+            return null;
+        }
+
+        return {
+            host: parsedUrl.protocol === 'http:' || parsedUrl.protocol === 'https:'
+                ? parsedUrl.host
+                : parsedUrl.hostname,
+            owner,
+            repo
+        };
+    } catch {
+        return null;
+    }
+}
+
+/**
+ * Get information about a specific remote.
+ */
+export function getRemoteInfo(remoteName: string, context: RenderContext): RemoteInfo | null {
+    const url = runGitArgs(['remote', 'get-url', '--', remoteName], context, `remote get-url -- ${remoteName}`);
+    if (!url) {
+        return null;
+    }
+
+    const parsed = parseRemoteUrl(url);
+    if (!parsed) {
+        return null;
+    }
+
+    return {
+        name: remoteName,
+        url,
+        host: parsed.host,
+        owner: parsed.owner,
+        repo: parsed.repo
+    };
+}
+
+const REMOTE_REF_PREFIX = 'refs/remotes/';
+
+function getTrackingRemoteName(context: RenderContext): string | null {
+    // The full ref, since --abbrev-ref turns it into "remotes/<remote>/<name>"
+    // when a branch or tag is named "<remote>/<name>"
+    const fullRef = runGit('rev-parse --symbolic-full-name @{upstream}', context);
+    if (!fullRef?.startsWith(REMOTE_REF_PREFIX)) {
+        return null;
+    }
+    const upstreamRef = fullRef.slice(REMOTE_REF_PREFIX.length);
+
+    const remotes = listRemotes(context)
+        .slice()
+        .sort((left, right) => right.length - left.length);
+
+    return remotes.find(remote => upstreamRef === remote || upstreamRef.startsWith(`${remote}/`)) ?? null;
+}
+
+/**
+ * Get upstream info for widgets.
+ * Prefer a literal "upstream" remote when it exists, otherwise fall back to the
+ * current branch's tracking remote.
+ */
+export function getUpstreamRemoteInfo(context: RenderContext): RemoteInfo | null {
+    const namedUpstream = getRemoteInfo('upstream', context);
+    if (namedUpstream) {
+        return namedUpstream;
+    }
+
+    const trackingRemoteName = getTrackingRemoteName(context);
+    if (!trackingRemoteName) {
+        return null;
+    }
+
+    return getRemoteInfo(trackingRemoteName, context);
+}
+
+/**
+ * Get fork status: a fork iff origin and its peer remote both exist and differ
+ * in owner/repo. The peer is the literal "upstream" remote, else the literal
+ * "fork" remote (inverted layout: origin = parent). Deliberately not routed
+ * through getUpstreamRemoteInfo — its tracking-remote fallback can resolve to
+ * origin itself, which would always read as not-a-fork.
+ */
+export function getForkStatus(context: RenderContext): ForkStatus {
+    const origin = getRemoteInfo('origin', context);
+    const upstream = getRemoteInfo('upstream', context);
+    const peer = upstream ?? getRemoteInfo('fork', context);
+
+    const isFork = Boolean(
+        origin
+        && peer
+        && (origin.owner !== peer.owner || origin.repo !== peer.repo)
+    );
+
+    return {
+        isFork,
+        origin,
+        upstream
+    };
+}
+
+/**
+ * List all remote names.
+ */
+export function listRemotes(context: RenderContext): string[] {
+    const output = runGit('remote', context);
+    if (!output) {
+        return [];
+    }
+
+    return output.split('\n').filter(Boolean);
+}
+
+// A forge cloned over plain HTTP (a LAN Gitea on :3000, say) serves its web
+// pages the same way, on the host:port parseRemoteUrl kept; https there would
+// fail the TLS handshake. Every other transport links to https.
+export function buildRepoWebUrl(remote: RemoteInfo): string {
+    const scheme = remote.url.trim().toLowerCase().startsWith('http://') ? 'http' : 'https';
+    return `${scheme}://${remote.host}/${remote.owner}/${remote.repo}`;
+}
+
+// GitLab redirects /tree/<branch> to its canonical /-/tree/<branch>, so one
+// suffix works for both GitHub and GitLab.
+export function buildBranchWebUrl(remote: RemoteInfo, encodedBranch: string): string {
+    return `${buildRepoWebUrl(remote)}/tree/${encodedBranch}`;
+}

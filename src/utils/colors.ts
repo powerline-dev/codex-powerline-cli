@@ -1,0 +1,380 @@
+import chalk, { type ChalkInstance } from 'chalk';
+
+import type { ColorEntry } from '../types/ColorEntry';
+
+import {
+    applyGradientToText,
+    isGradientSpec,
+    parseGradientSpec,
+    rgbToAnsi256,
+    type Rgb
+} from './gradient';
+
+// Re-export for backward compatibility
+export type { ColorEntry };
+
+// Create COLOR_MAP as a function so chalk instances are created with the correct level
+function createColorMap(): ColorEntry[] {
+    return [
+    // Regular colors - for ansi256 mode, use fixed palette colors (16-231) instead of theme colors (0-15)
+        { name: 'black', displayName: 'Black', isBackground: false, ansi16: chalk.black, ansi256: chalk.ansi256(16), truecolor: chalk.hex('#000000') },
+        { name: 'red', displayName: 'Red', isBackground: false, ansi16: chalk.red, ansi256: chalk.ansi256(160), truecolor: chalk.hex('#cc0000') },
+        { name: 'green', displayName: 'Green', isBackground: false, ansi16: chalk.green, ansi256: chalk.ansi256(70), truecolor: chalk.hex('#4e9a06') },
+        { name: 'yellow', displayName: 'Yellow', isBackground: false, ansi16: chalk.yellow, ansi256: chalk.ansi256(178), truecolor: chalk.hex('#c4a000') },
+        { name: 'blue', displayName: 'Blue', isBackground: false, ansi16: chalk.blue, ansi256: chalk.ansi256(26), truecolor: chalk.hex('#3465a4') },
+        { name: 'magenta', displayName: 'Magenta', isBackground: false, ansi16: chalk.magenta, ansi256: chalk.ansi256(96), truecolor: chalk.hex('#75507b') },
+        { name: 'cyan', displayName: 'Cyan', isBackground: false, ansi16: chalk.cyan, ansi256: chalk.ansi256(30), truecolor: chalk.hex('#06989a') },
+        { name: 'white', displayName: 'White', isBackground: false, ansi16: chalk.white, ansi256: chalk.ansi256(188), truecolor: chalk.hex('#d3d7cf') },
+
+        // Bright colors - use brighter fixed palette colors
+        { name: 'brightBlack', displayName: 'Bright Black', isBackground: false, ansi16: chalk.blackBright, ansi256: chalk.ansi256(59), truecolor: chalk.hex('#555753') },
+        { name: 'brightRed', displayName: 'Bright Red', isBackground: false, ansi16: chalk.redBright, ansi256: chalk.ansi256(203), truecolor: chalk.hex('#ef2929') },
+        { name: 'brightGreen', displayName: 'Bright Green', isBackground: false, ansi16: chalk.greenBright, ansi256: chalk.ansi256(155), truecolor: chalk.hex('#8ae234') },
+        { name: 'brightYellow', displayName: 'Bright Yellow', isBackground: false, ansi16: chalk.yellowBright, ansi256: chalk.ansi256(227), truecolor: chalk.hex('#fce94f') },
+        { name: 'brightBlue', displayName: 'Bright Blue', isBackground: false, ansi16: chalk.blueBright, ansi256: chalk.ansi256(111), truecolor: chalk.hex('#729fcf') },
+        { name: 'brightMagenta', displayName: 'Bright Magenta', isBackground: false, ansi16: chalk.magentaBright, ansi256: chalk.ansi256(140), truecolor: chalk.hex('#ad7fa8') },
+        { name: 'brightCyan', displayName: 'Bright Cyan', isBackground: false, ansi16: chalk.cyanBright, ansi256: chalk.ansi256(80), truecolor: chalk.hex('#34e2e2') },
+        { name: 'brightWhite', displayName: 'Bright White', isBackground: false, ansi16: chalk.whiteBright, ansi256: chalk.ansi256(231), truecolor: chalk.hex('#eeeeec') },
+
+        // Background colors - match foreground indices for consistency
+        { name: 'bgBlack', displayName: 'Black', isBackground: true, ansi16: chalk.bgBlack, ansi256: chalk.bgAnsi256(16), truecolor: chalk.bgHex('#000000') },
+        { name: 'bgRed', displayName: 'Red', isBackground: true, ansi16: chalk.bgRed, ansi256: chalk.bgAnsi256(160), truecolor: chalk.bgHex('#cc0000') },
+        { name: 'bgGreen', displayName: 'Green', isBackground: true, ansi16: chalk.bgGreen, ansi256: chalk.bgAnsi256(70), truecolor: chalk.bgHex('#4e9a06') },
+        { name: 'bgYellow', displayName: 'Yellow', isBackground: true, ansi16: chalk.bgYellow, ansi256: chalk.bgAnsi256(178), truecolor: chalk.bgHex('#c4a000') },
+        { name: 'bgBlue', displayName: 'Blue', isBackground: true, ansi16: chalk.bgBlue, ansi256: chalk.bgAnsi256(26), truecolor: chalk.bgHex('#3465a4') },
+        { name: 'bgMagenta', displayName: 'Magenta', isBackground: true, ansi16: chalk.bgMagenta, ansi256: chalk.bgAnsi256(96), truecolor: chalk.bgHex('#75507b') },
+        { name: 'bgCyan', displayName: 'Cyan', isBackground: true, ansi16: chalk.bgCyan, ansi256: chalk.bgAnsi256(30), truecolor: chalk.bgHex('#06989a') },
+        { name: 'bgWhite', displayName: 'White', isBackground: true, ansi16: chalk.bgWhite, ansi256: chalk.bgAnsi256(188), truecolor: chalk.bgHex('#d3d7cf') },
+
+        // Bright background colors - match bright foreground indices
+        { name: 'bgBrightBlack', displayName: 'Bright Black', isBackground: true, ansi16: chalk.bgBlackBright, ansi256: chalk.bgAnsi256(59), truecolor: chalk.bgHex('#555753') },
+        { name: 'bgBrightRed', displayName: 'Bright Red', isBackground: true, ansi16: chalk.bgRedBright, ansi256: chalk.bgAnsi256(203), truecolor: chalk.bgHex('#ef2929') },
+        { name: 'bgBrightGreen', displayName: 'Bright Green', isBackground: true, ansi16: chalk.bgGreenBright, ansi256: chalk.bgAnsi256(155), truecolor: chalk.bgHex('#8ae234') },
+        { name: 'bgBrightYellow', displayName: 'Bright Yellow', isBackground: true, ansi16: chalk.bgYellowBright, ansi256: chalk.bgAnsi256(227), truecolor: chalk.bgHex('#fce94f') },
+        { name: 'bgBrightBlue', displayName: 'Bright Blue', isBackground: true, ansi16: chalk.bgBlueBright, ansi256: chalk.bgAnsi256(111), truecolor: chalk.bgHex('#729fcf') },
+        { name: 'bgBrightMagenta', displayName: 'Bright Magenta', isBackground: true, ansi16: chalk.bgMagentaBright, ansi256: chalk.bgAnsi256(140), truecolor: chalk.bgHex('#ad7fa8') },
+        { name: 'bgBrightCyan', displayName: 'Bright Cyan', isBackground: true, ansi16: chalk.bgCyanBright, ansi256: chalk.bgAnsi256(80), truecolor: chalk.bgHex('#34e2e2') },
+        { name: 'bgBrightWhite', displayName: 'Bright White', isBackground: true, ansi16: chalk.bgWhiteBright, ansi256: chalk.bgAnsi256(231), truecolor: chalk.bgHex('#eeeeec') }
+    ];
+}
+
+// Initialize with default, will be recreated when chalk.level is set
+export let COLOR_MAP: ColorEntry[] = createColorMap();
+
+// Function to recreate COLOR_MAP after chalk.level is set
+export function updateColorMap(): void {
+    COLOR_MAP = createColorMap();
+}
+
+export function bgToFg(colorName: string | undefined): string | undefined {
+    if (!colorName)
+        return undefined;
+
+    // Custom formats pass through unchanged (ansi256:X and hex:XXXXXX)
+    if (colorName.startsWith('ansi256:') || colorName.startsWith('hex:')) {
+        return colorName;
+    }
+
+    // Convert background color names to foreground equivalents
+    if (colorName.startsWith('bgBright')) {
+        // bgBrightRed -> brightRed
+        const baseName = colorName.substring(8);
+        return 'bright' + baseName.charAt(0).toUpperCase() + baseName.slice(1).toLowerCase();
+    } else if (colorName.startsWith('bg')) {
+        // bgRed -> red
+        const baseName = colorName.substring(2);
+        return baseName.charAt(0).toLowerCase() + baseName.slice(1);
+    }
+
+    // Already a foreground color
+    return colorName;
+}
+
+export function getChalkColor(colorName: string | undefined, colorLevel: 'ansi16' | 'ansi256' | 'truecolor' = 'ansi16', isBackground = false): ChalkInstance | undefined {
+    if (!colorName)
+        return undefined;
+
+    // Handle ansi256:X format
+    if (colorName.startsWith('ansi256:')) {
+        const code = Number.parseInt(colorName.substring(8), 10);
+        if (!Number.isNaN(code) && code >= 0 && code <= 255) {
+            return isBackground ? chalk.bgAnsi256(code) : chalk.ansi256(code);
+        }
+        return undefined;
+    }
+
+    // Handle hex:XXXXXX format
+    if (colorName.startsWith('hex:')) {
+        const hex = colorName.substring(4);
+        if (/^[0-9A-Fa-f]{6}$/.test(hex)) {
+            return isBackground ? chalk.bgHex('#' + hex) : chalk.hex('#' + hex);
+        }
+        return undefined;
+    }
+
+    const colorEntry = COLOR_MAP.find(c => c.name === colorName);
+
+    if (!colorEntry) {
+        return undefined;
+    }
+
+    switch (colorLevel) {
+        case 'ansi256':
+            return colorEntry.ansi256;
+        case 'truecolor':
+            return colorEntry.truecolor;
+        case 'ansi16':
+        default:
+            return colorEntry.ansi16;
+    }
+}
+
+// Dim each (...) span within the text. \x1b[22m clears bold along with dim,
+// so bold is re-asserted after each span when the surrounding text is bold.
+export function applyParensDim(text: string, bold?: boolean): string {
+    const intensityReset = bold ? '\x1b[22;1m' : '\x1b[22m';
+    return text.replace(/\([^()]*\)/g, span => `\x1b[2m${span}${intensityReset}`);
+}
+
+// The parts of a style that wrap the text whatever its foreground: bold/dim
+// first, so they can be reset independently before color resets (a single
+// \x1b[22m clears both), then the background
+function getStyleWrap(
+    backgroundColor: string | undefined,
+    bold: boolean | undefined,
+    dim: boolean | 'parens' | undefined,
+    colorLevel: 'ansi16' | 'ansi256' | 'truecolor'
+): { prefix: string; suffix: string } {
+    let prefix = '';
+    let suffix = '';
+    if (bold) {
+        prefix += '\x1b[1m';
+    }
+    if (dim === true) {
+        prefix += '\x1b[2m';
+    }
+    if (bold || dim === true) {
+        suffix = '\x1b[22m';
+    }
+
+    const bgCode = backgroundColor ? getColorAnsiCode(backgroundColor, colorLevel, true) : '';
+    if (bgCode) {
+        prefix += bgCode;
+        suffix = '\x1b[49m' + suffix;
+    }
+    return { prefix, suffix };
+}
+
+export function applyColors(
+    text: string,
+    foregroundColor?: string,
+    backgroundColor?: string,
+    bold?: boolean,
+    colorLevel: 'ansi16' | 'ansi256' | 'truecolor' = 'ansi16',
+    dim?: boolean | 'parens',
+    // The text colors some runs itself (Widget.colorsOnlyItsRuns), so the
+    // foreground goes around those runs instead of over them
+    keepColoredRuns = false
+): string {
+    let styledText = dim === 'parens' ? applyParensDim(text, bold) : text;
+
+    if (!foregroundColor && !backgroundColor && !bold && dim !== true) {
+        return styledText;
+    }
+
+    // Use raw ANSI codes for precise reset sequencing.
+    // This avoids style leakage (for example, bold affecting later widgets).
+    let { prefix, suffix } = getStyleWrap(backgroundColor, bold, dim, colorLevel);
+
+    // Apply foreground color
+    if (foregroundColor) {
+        // Per-character gradient foreground. Only representable with a real color
+        // palette; at ansi16 (or for an unparseable spec) we fall through to
+        // getColorAnsiCode below, which suppresses gradient specs at ansi16.
+        // parseGradientSpec returns null for non-gradient values, so it doubles
+        // as the prefix guard.
+        const gradientStops = parseGradientSpec(foregroundColor);
+        if (gradientStops && colorLevel !== 'ansi16') {
+            return prefix + applyGradientToText(styledText, gradientStops, colorLevel, keepColoredRuns) + '\x1b[39m' + suffix;
+        }
+
+        const fgCode = getColorAnsiCode(foregroundColor, colorLevel, false);
+        if (fgCode) {
+            prefix += fgCode;
+            suffix = '\x1b[39m' + suffix;
+            if (keepColoredRuns) {
+                styledText = restoreForegroundAfterRuns(styledText, fgCode);
+            }
+        }
+    }
+
+    return prefix + styledText + suffix;
+}
+
+// Widget text can color part of itself, ending each colored run with the
+// default-foreground code. Inside a colored widget that code would drop the rest
+// of the text to the terminal's default color, so it becomes the widget's own
+// foreground instead.
+export function restoreForegroundAfterRuns(text: string, foregroundCode: string): string {
+    return text.split('\x1b[39m').join(foregroundCode);
+}
+
+// The 256-color palette past the 16 basic colors: a 6x6x6 color cube (16-231)
+// and 24 grays (232-255), at xterm's values
+const CUBE_LEVELS = [0, 95, 135, 175, 215, 255];
+
+function getAnsi256Rgb(code: number): Rgb {
+    if (code >= 232) {
+        const level = 8 + 10 * (code - 232);
+        return { r: level, g: level, b: level };
+    }
+    const offset = code - 16;
+    return {
+        r: CUBE_LEVELS[Math.floor(offset / 36)] ?? 0,
+        g: CUBE_LEVELS[Math.floor(offset / 6) % 6] ?? 0,
+        b: CUBE_LEVELS[offset % 6] ?? 0
+    };
+}
+
+// The palette color closest to an RGB value. The 16 basic colors aren't
+// candidates: terminals theme them, so their real values are unknown
+function nearestAnsi256(rgb: Rgb): number {
+    let nearest = 16;
+    let nearestDistance = Infinity;
+    for (let code = 16; code < 256; code++) {
+        const entry = getAnsi256Rgb(code);
+        const distance = (entry.r - rgb.r) ** 2 + (entry.g - rgb.g) ** 2 + (entry.b - rgb.b) ** 2;
+        if (distance < nearestDistance) {
+            nearest = code;
+            nearestDistance = distance;
+        }
+    }
+    return nearest;
+}
+
+// Get raw ANSI codes for a color without the reset codes
+export function getColorAnsiCode(colorName: string | undefined, colorLevel: 'ansi16' | 'ansi256' | 'truecolor' = 'ansi16', isBackground = false): string {
+    if (!colorName)
+        return '';
+
+    // Handle gradient:<name> / gradient:RRGGBB-RRGGBB / gradient:hex:…,… formats.
+    // A single ANSI code cannot represent a gradient, so collapse to the first
+    // stop as a solid color. The per-character gradient is produced in applyColors();
+    // this path is what the powerline renderer (which calls getColorAnsiCode
+    // directly) sees. At ansi16, return no code so Basic/No Color modes do not
+    // receive truecolor escapes from a stored gradient setting.
+    if (isGradientSpec(colorName)) {
+        const stops = parseGradientSpec(colorName);
+        const first = stops?.[0];
+        if (!first)
+            return '';
+        if (colorLevel === 'ansi16') {
+            return '';
+        }
+        if (colorLevel === 'ansi256') {
+            const code = rgbToAnsi256(first);
+            return isBackground ? `\x1b[48;5;${code}m` : `\x1b[38;5;${code}m`;
+        }
+        return isBackground ? `\x1b[48;2;${first.r};${first.g};${first.b}m` : `\x1b[38;2;${first.r};${first.g};${first.b}m`;
+    }
+
+    // Same for custom colors: Basic/No Color modes get no 256-color or
+    // truecolor escapes (the TUI drops these colors when switching to them).
+    if (colorLevel === 'ansi16' && (colorName.startsWith('ansi256:') || colorName.startsWith('hex:'))) {
+        return '';
+    }
+
+    // Handle ansi256:X format
+    if (colorName.startsWith('ansi256:')) {
+        const code = Number.parseInt(colorName.substring(8), 10);
+        if (!Number.isNaN(code) && code >= 0 && code <= 255) {
+            return isBackground ? `\x1b[48;5;${code}m` : `\x1b[38;5;${code}m`;
+        }
+        return '';
+    }
+
+    // Handle hex:XXXXXX format. At ansi256, draw the nearest palette color, so
+    // 256-color terminals get no truecolor escapes from a hex color.
+    if (colorName.startsWith('hex:')) {
+        const hex = colorName.substring(4);
+        if (/^[0-9A-Fa-f]{6}$/.test(hex)) {
+            const r = Number.parseInt(hex.substring(0, 2), 16);
+            const g = Number.parseInt(hex.substring(2, 4), 16);
+            const b = Number.parseInt(hex.substring(4, 6), 16);
+            if (colorLevel === 'ansi256') {
+                const code = nearestAnsi256({ r, g, b });
+                return isBackground ? `\x1b[48;5;${code}m` : `\x1b[38;5;${code}m`;
+            }
+            return isBackground ? `\x1b[48;2;${r};${g};${b}m` : `\x1b[38;2;${r};${g};${b}m`;
+        }
+        return '';
+    }
+
+    // Find the color in COLOR_MAP
+    const colorEntry = COLOR_MAP.find(c => c.name === colorName);
+    if (!colorEntry)
+        return '';
+
+    // Now that chalk.level is set correctly, we can use chalk to generate the codes
+    let chalkFn: ChalkInstance;
+    switch (colorLevel) {
+        case 'ansi256':
+            chalkFn = colorEntry.ansi256;
+            break;
+        case 'truecolor':
+            chalkFn = colorEntry.truecolor;
+            break;
+        default:
+            chalkFn = colorEntry.ansi16;
+            break;
+    }
+
+    // Apply the color and extract the opening ANSI code
+    const colored = chalkFn('TEST');
+    const escapeChar = '\u001b'; // ESC character
+    const ansiRegex = new RegExp(`^(${escapeChar.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\[[^m]+m)`);
+    const match = ansiRegex.exec(colored);
+    return match?.[1] ?? '';
+}
+
+export function getColorDisplayName(colorName: string): string {
+    const colorEntry = COLOR_MAP.find(c => c.name === colorName);
+    return colorEntry?.displayName ?? colorName;
+}
+
+export function getAvailableColors(): string[] {
+    return COLOR_MAP.map(c => c.name);
+}
+
+export function getAvailableColorsForUI(): { name: string; value: string }[] {
+    // Add default option, then filter for non-background colors
+    return [
+        { name: 'Default', value: '' },
+        ...COLOR_MAP
+            .filter(c => !c.isBackground)
+            .map(c => ({ name: c.displayName, value: c.name }))
+    ];
+}
+
+export function getAvailableBackgroundColorsForUI(): { name: string; value: string }[] {
+    // Add default/none option, then filter for background colors
+    return [
+        { name: 'Default', value: '' },
+        ...COLOR_MAP
+            .filter(c => c.isBackground)
+            .map(c => ({ name: c.displayName, value: c.name }))
+    ];
+}
+
+export function getBackgroundColorsForPowerline(): string[] {
+    // Get background colors excluding black for better visibility in powerline mode
+    return COLOR_MAP
+        .filter(c => c.isBackground && c.name !== 'bgBlack')
+        .map(c => c.name);
+}
+
+export {
+    getPowerlineTheme,
+    getPowerlineThemes,
+    type PowerlineTheme
+} from 'codex-powerline-core';

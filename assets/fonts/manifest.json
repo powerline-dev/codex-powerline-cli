@@ -1,0 +1,24 @@
+{
+  "family": "MesloLGS Nerd Font Mono",
+  "postscriptName": "MesloLGSNFM-Regular",
+  "version": "3.5.1",
+  "source": "https://github.com/ryanoasis/nerd-fonts/tree/v3.5.1/patched-fonts/Meslo/S",
+  "fonts": [
+    {
+      "file": "MesloLGSNerdFontMono-Bold.ttf",
+      "sha256": "640778cf27cf13d44f29d8d7cfddfdbd2979d6fce30732295d9ee5d610b000c4"
+    },
+    {
+      "file": "MesloLGSNerdFontMono-BoldItalic.ttf",
+      "sha256": "f6f421d599ab25cac00f88eb9a7ed5ff56bc8f618dfe0642a59ca6d033798648"
+    },
+    {
+      "file": "MesloLGSNerdFontMono-Italic.ttf",
+      "sha256": "11d958b5b54017a9e896f8a159b37a24b8998b1937577160a56f2ec2fb2a3f8b"
+    },
+    {
+      "file": "MesloLGSNerdFontMono-Regular.ttf",
+      "sha256": "d14fdc035e41392917b9d665f91af5570b717191b63875532b5bb1b5d5aafcf8"
+    }
+  ]
+}

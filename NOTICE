@@ -1,0 +1,16 @@
+Codex Powerline
+Copyright (c) 2026 Martin Hájek
+
+The first version includes portions adapted from ccstatusline:
+Copyright (c) 2025 Matthew Breedlove (https://github.com/sirmalloc)
+Source: https://github.com/sirmalloc/ccstatusline/tree/0c94df755665ed7794f082863821fd5f428cdf60
+
+Both the project and the adapted portions are licensed under the MIT License.
+See LICENSE for the terms.
+
+Bundled font assets are distributed under their own licenses:
+Meslo LG, copyright 2009, 2010, 2013 André Berg (Apache License 2.0),
+patched by Nerd Fonts v3.5.1 (Ryan L McIntyre and contributors).
+Source: https://github.com/ryanoasis/nerd-fonts/tree/v3.5.1/patched-fonts/Meslo/S
+See assets/fonts/LICENSE.txt, assets/fonts/APACHE-2.0.txt, and
+assets/fonts/NERD-FONTS-LICENSE for the font license terms.

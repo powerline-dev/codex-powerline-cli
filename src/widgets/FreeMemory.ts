@@ -1,0 +1,112 @@
+import {
+    effectiveDecimals,
+    formatRawOrLabeledValue,
+    renderMagnitude,
+    resolveNumberFormat,
+    type NumberFormat,
+    type RenderContext,
+    type Settings
+} from 'codex-powerline-core';
+import { execSync } from 'node:child_process';
+import os from 'node:os';
+
+import type {
+    Widget,
+    WidgetEditorDisplay,
+    WidgetItem
+} from '../types/Widget';
+
+const LABEL = 'Mem: ';
+
+function formatBytes(bytes: number, format: NumberFormat): string {
+    const GB = 1024 ** 3;
+    const MB = 1024 ** 2;
+    const KB = 1024;
+    // Promote to the next unit once the smaller-unit value would round up to
+    // "1024" at the displayed precision (e.g. 1023.6M -> "1.0G", not "1024M").
+    const rollover = 1024 - 0.5 / 10 ** effectiveDecimals(format, 0);
+
+    if (bytes >= MB * rollover)
+        return `${renderMagnitude(bytes / GB, format, 1)}G`;
+    if (bytes >= KB * rollover)
+        return `${renderMagnitude(bytes / MB, format, 0)}M`;
+    if (bytes >= KB)
+        return `${renderMagnitude(bytes / KB, format, 0)}K`;
+    return `${bytes}B`;
+}
+
+// Get memory usage like htop does on macOS (Active + Wired)
+function getUsedMemoryMacOS(): number | null {
+    try {
+        const output = execSync('vm_stat', { encoding: 'utf8', windowsHide: true });
+        const lines = output.split('\n');
+
+        // Parse page size from first line: "Mach Virtual Memory Statistics: (page size of 16384 bytes)"
+        const firstLine = lines[0];
+        if (!firstLine)
+            return null;
+
+        const pageSizeMatch = /page size of (\d+) bytes/.exec(firstLine);
+        const pageSizeString = pageSizeMatch?.[1];
+        if (!pageSizeString)
+            return null;
+        const pageSize = Number.parseInt(pageSizeString, 10);
+
+        // Parse page counts
+        let activePages = 0;
+        let wiredPages = 0;
+
+        for (const line of lines) {
+            const activeMatch = /Pages active:\s+(\d+)/.exec(line);
+            const activeValue = activeMatch?.[1];
+            if (activeValue)
+                activePages = Number.parseInt(activeValue, 10);
+            const wiredMatch = /Pages wired down:\s+(\d+)/.exec(line);
+            const wiredValue = wiredMatch?.[1];
+            if (wiredValue)
+                wiredPages = Number.parseInt(wiredValue, 10);
+        }
+
+        return (activePages + wiredPages) * pageSize;
+    } catch {
+        return null;
+    }
+}
+
+export class FreeMemoryWidget implements Widget {
+    getDefaultColor(): string { return 'cyan'; }
+    getDescription(): string { return 'Shows system memory usage (used/total)'; }
+    getDisplayName(): string { return 'Memory Usage'; }
+    getCategory(): string { return 'Environment'; }
+    getLabelPrefix(): string { return LABEL; }
+    getEditorDisplay(item: WidgetItem): WidgetEditorDisplay {
+        return { displayText: this.getDisplayName() };
+    }
+
+    render(item: WidgetItem, context: RenderContext, settings: Settings): string | null {
+        const format = resolveNumberFormat('memory', item, settings);
+        if (context.isPreview) {
+            const value = `${formatBytes(12.4 * 1024 ** 3, format)}/${formatBytes(16 * 1024 ** 3, format)}`;
+            return formatRawOrLabeledValue(item, this.getLabelPrefix(), value);
+        }
+
+        const total = os.totalmem();
+        let used: number;
+
+        if (os.platform() === 'darwin') {
+            // Use htop-style calculation on macOS
+            used = getUsedMemoryMacOS() ?? (total - os.freemem());
+        } else {
+            // Fallback for other platforms
+            used = total - os.freemem();
+        }
+
+        const value = `${formatBytes(used, format)}/${formatBytes(total, format)}`;
+
+        return formatRawOrLabeledValue(item, this.getLabelPrefix(), value);
+    }
+
+    supportsRawValue(): boolean { return true; }
+    supportsColors(item: WidgetItem): boolean { return true; }
+    supportsNumberFormat(): boolean { return true; }
+}

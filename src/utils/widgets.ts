@@ -1,0 +1,147 @@
+import {
+    resolveLegacyWidgetType,
+    type Settings
+} from 'codex-powerline-core';
+
+import type {
+    Widget,
+    WidgetItem,
+    WidgetItemType
+} from '../types/Widget';
+
+import {
+    filterFuzzySearchRecords,
+    type FuzzySearchRecord
+} from './fuzzy';
+import {
+    LAYOUT_WIDGET_MANIFEST,
+    WIDGET_MANIFEST
+} from './widget-manifest';
+
+export { getMatchSegments } from './fuzzy';
+
+// Create widget registry
+const widgetRegistry = new Map<WidgetItemType, Widget>(
+    WIDGET_MANIFEST.map((entry): [WidgetItemType, Widget] => [entry.type, entry.create()])
+);
+const layoutWidgetTypes = new Set<WidgetItemType>(LAYOUT_WIDGET_MANIFEST.map(entry => entry.type));
+
+export function getWidget(type: WidgetItemType): Widget | null {
+    return widgetRegistry.get(resolveLegacyWidgetType(type)) ?? null;
+}
+
+/**
+ * True when the item's rendered output carries its own ANSI foreground codes
+ * (e.g. custom-command with preserve colors), so
+ * the renderer must not layer theme/item foreground colors on top of it unless
+ * a global foreground override is active.
+ */
+export function widgetPreservesColors(item: WidgetItem): boolean {
+    return getWidget(item.type)?.preservesRenderedColors?.(item) ?? false;
+}
+
+/**
+ * True when the item's rendered output colors some runs of its text itself
+ * (e.g. Thinking Effort's level colors), so the renderer colors the rest around
+ * them instead of over them.
+ */
+export function widgetColorsOnlyItsRuns(item: WidgetItem): boolean {
+    return getWidget(item.type)?.colorsOnlyItsRuns?.(item) ?? false;
+}
+
+export function getAllWidgetTypes(settings: Settings): WidgetItemType[] {
+    const allTypes = WIDGET_MANIFEST.map(entry => entry.type);
+
+    // Add separator types based on settings
+    if (!settings.powerline.enabled && !settings.defaultSeparator) {
+        allTypes.push('separator');
+    }
+    allTypes.push('flex-separator');
+
+    return allTypes;
+}
+
+export interface WidgetCatalogEntry {
+    type: WidgetItemType;
+    displayName: string;
+    description: string;
+    category: string;
+    searchText: string;
+}
+
+const layoutCatalogEntries = new Map<WidgetItemType, WidgetCatalogEntry>(
+    LAYOUT_WIDGET_MANIFEST.map((entry): [WidgetItemType, WidgetCatalogEntry] => [
+        entry.type,
+        {
+            type: entry.type,
+            displayName: entry.displayName,
+            description: entry.description,
+            category: entry.category,
+            searchText: `${entry.displayName} ${entry.description} ${entry.type}`.toLowerCase()
+        }
+    ])
+);
+
+function getLayoutCatalogEntry(type: WidgetItemType): WidgetCatalogEntry | null {
+    return layoutCatalogEntries.get(type) ?? null;
+}
+
+export function getWidgetCatalog(settings: Settings): WidgetCatalogEntry[] {
+    return getAllWidgetTypes(settings).map((type) => {
+        const layoutEntry = getLayoutCatalogEntry(type);
+        if (layoutEntry) {
+            return layoutEntry;
+        }
+
+        const widget = getWidget(type);
+        const displayName = widget?.getDisplayName() ?? type;
+        const description = widget?.getDescription() ?? `Unknown widget: ${type}`;
+        const category = widget?.getCategory() ?? 'Other';
+
+        return {
+            type,
+            displayName,
+            description,
+            category,
+            searchText: `${displayName} ${description} ${type}`.toLowerCase()
+        };
+    });
+}
+
+export function getWidgetCatalogCategories(catalog: WidgetCatalogEntry[]): string[] {
+    const categories = new Set<string>();
+
+    for (const entry of catalog) {
+        categories.add(entry.category);
+    }
+
+    return Array.from(categories);
+}
+
+export function filterWidgetCatalog(catalog: WidgetCatalogEntry[], category: string, query: string): WidgetCatalogEntry[] {
+    const categoryFiltered = category === 'All'
+        ? [...catalog]
+        : catalog.filter(entry => entry.category === category);
+
+    const records: FuzzySearchRecord<WidgetCatalogEntry>[] = categoryFiltered.map(entry => ({
+        item: entry,
+        name: entry.displayName,
+        type: entry.type,
+        description: entry.description,
+        searchText: entry.searchText,
+        sortText: entry.displayName,
+        secondarySortText: entry.type
+    }));
+
+    return filterFuzzySearchRecords(records, query);
+}
+
+export function isKnownWidgetType(type: string): boolean {
+    const resolved = resolveLegacyWidgetType(type);
+    return widgetRegistry.has(resolved)
+        || layoutWidgetTypes.has(resolved);
+}
+
+export function getCodexLines(lines: WidgetItem[][]): WidgetItem[][] {
+    return lines.map(line => line.filter(item => isKnownWidgetType(item.type)));
+}

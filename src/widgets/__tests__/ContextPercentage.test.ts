@@ -1,0 +1,207 @@
+import { DEFAULT_SETTINGS } from 'codex-powerline-core';
+import {
+    describe,
+    expect,
+    it
+} from 'vitest';
+
+import type {
+    RenderContext,
+    WidgetItem
+} from '../../types';
+import { ContextPercentageWidget } from '../ContextPercentage';
+
+function render(modelId: string | undefined, contextLength: number, rawValue = false, inverse = false) {
+    const widget = new ContextPercentageWidget();
+    const context: RenderContext = {
+        data: modelId ? { model: { id: modelId } } : undefined,
+        tokenMetrics: {
+            inputTokens: 0,
+            outputTokens: 0,
+            cachedTokens: 0,
+            totalTokens: 0,
+            contextLength
+        }
+    };
+    const item: WidgetItem = {
+        id: 'context-percentage',
+        type: 'context-percentage',
+        rawValue,
+        metadata: inverse ? { inverse: 'true' } : undefined
+    };
+
+    return widget.render(item, context, DEFAULT_SETTINGS);
+}
+
+describe('ContextPercentageWidget', () => {
+    it('toggles inverse metadata and editor modifier', () => {
+        const widget = new ContextPercentageWidget();
+        const base: WidgetItem = {
+            id: 'context-percentage',
+            type: 'context-percentage'
+        };
+
+        const inverted = widget.handleEditorAction('toggle-inverse', base);
+        const cleared = widget.handleEditorAction('toggle-inverse', inverted ?? base);
+
+        expect(inverted?.metadata?.inverse).toBe('true');
+        expect(cleared?.metadata?.inverse).toBe('false');
+        expect(widget.getEditorDisplay(base).modifierText).toBeUndefined();
+        expect(widget.getEditorDisplay({
+            ...base,
+            metadata: { inverse: 'true' }
+        }).modifierText).toBe('(remaining)');
+    });
+
+    it('reports the default label for the current used/remaining mode', () => {
+        const widget = new ContextPercentageWidget();
+        const base: WidgetItem = { id: 'context-percentage', type: 'context-percentage' };
+
+        expect(widget.getLabelPrefix(base)).toBe('Ctx Used: ');
+        expect(widget.getLabelPrefix({ ...base, metadata: { inverse: 'true' } })).toBe('Ctx Left: ');
+    });
+
+    it('prefers context_window percentage over token metrics when both exist', () => {
+        const widget = new ContextPercentageWidget();
+        const item: WidgetItem = {
+            id: 'context-percentage',
+            type: 'context-percentage'
+        };
+        const context: RenderContext = {
+            data: {
+                model: { id: 'example-default-model' },
+                context_window: {
+                    context_window_size: 200000,
+                    used_percentage: 9.3
+                }
+            },
+            tokenMetrics: {
+                inputTokens: 0,
+                outputTokens: 0,
+                cachedTokens: 0,
+                totalTokens: 0,
+                contextLength: 100000
+            }
+        };
+
+        expect(widget.render(item, context, DEFAULT_SETTINGS)).toBe('Ctx Used: 9.3%');
+    });
+
+    it('leaves output tokens out of the percentage worked out from current_usage', () => {
+        const widget = new ContextPercentageWidget();
+        const item: WidgetItem = {
+            id: 'context-percentage',
+            type: 'context-percentage'
+        };
+        const context: RenderContext = {
+            data: {
+                model: { id: 'example-extended-model' },
+                context_window: {
+                    context_window_size: 200000,
+                    current_usage: {
+                        input_tokens: 10000,
+                        output_tokens: 30000,
+                        cache_creation_input_tokens: 2000,
+                        cache_read_input_tokens: 38000
+                    }
+                }
+            }
+        };
+
+        expect(widget.render(item, context, DEFAULT_SETTINGS)).toBe('Ctx Used: 25.0%');
+    });
+
+    describe('a model with 1M context window', () => {
+        it('should calculate percentage using 1M denominator for a model with [1m] suffix', () => {
+            const result = render('example-extended-model[1m]', 42000);
+            expect(result).toBe('Ctx Used: 4.2%');
+        });
+
+        it('should calculate percentage using 1M denominator for a model (raw value) with [1m] suffix', () => {
+            const result = render('example-extended-model[1m]', 42000, true);
+            expect(result).toBe('4.2%');
+        });
+
+        it('should calculate percentage using 1M denominator for 1M context label model IDs', () => {
+            const result = render('Example Large (1M context)', 42000);
+            expect(result).toBe('Ctx Used: 4.2%');
+        });
+
+        it('should calculate percentage using 1M denominator for 1M in parentheses model IDs', () => {
+            const result = render('Example Large (1M)', 42000);
+            expect(result).toBe('Ctx Used: 4.2%');
+        });
+    });
+
+    it('cycles slider display modes', () => {
+        const widget = new ContextPercentageWidget();
+        const base: WidgetItem = { id: 'ctx', type: 'context-percentage' };
+
+        const slider = widget.handleEditorAction('toggle-slider', base);
+        const sliderOnly = widget.handleEditorAction('toggle-slider', slider ?? base);
+        const line = widget.handleEditorAction('toggle-slider', sliderOnly ?? base);
+        const none = widget.handleEditorAction('toggle-slider', line ?? base);
+
+        expect(slider?.metadata?.display).toBe('slider');
+        expect(sliderOnly?.metadata?.display).toBe('slider-only');
+        expect(line?.metadata?.display).toBe('line');
+        expect(none?.metadata?.display).toBeUndefined();
+    });
+
+    it('renders slider with percentage in slider mode', () => {
+        const widget = new ContextPercentageWidget();
+        const item: WidgetItem = {
+            id: 'ctx',
+            type: 'context-percentage',
+            metadata: { display: 'slider' }
+        };
+        const context: RenderContext = {
+            data: {
+                model: { id: 'example-default-model' },
+                context_window: {
+                    context_window_size: 200000,
+                    used_percentage: 50
+                }
+            }
+        };
+
+        expect(widget.render(item, context, DEFAULT_SETTINGS)).toBe('Ctx Used: ▓▓▓▓▓░░░░░ 50.0%');
+    });
+
+    it('renders slider only in slider-only mode', () => {
+        const widget = new ContextPercentageWidget();
+        const item: WidgetItem = {
+            id: 'ctx',
+            type: 'context-percentage',
+            metadata: { display: 'slider-only' }
+        };
+        const context: RenderContext = {
+            data: {
+                model: { id: 'example-default-model' },
+                context_window: {
+                    context_window_size: 200000,
+                    used_percentage: 50
+                }
+            }
+        };
+
+        expect(widget.render(item, context, DEFAULT_SETTINGS)).toBe('Ctx Used: ▓▓▓▓▓░░░░░');
+    });
+
+    describe('Older models with 200k context window', () => {
+        it('should calculate percentage using 200k denominator for a model without a context hint', () => {
+            const result = render('example-default-model', 42000);
+            expect(result).toBe('Ctx Used: 21.0%');
+        });
+
+        it('should calculate percentage using 200k denominator when model ID is undefined', () => {
+            const result = render(undefined, 42000);
+            expect(result).toBe('Ctx Used: 21.0%');
+        });
+
+        it('should calculate percentage using 200k denominator for unknown model', () => {
+            const result = render('unknown-model', 42000);
+            expect(result).toBe('Ctx Used: 21.0%');
+        });
+    });
+});

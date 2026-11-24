@@ -1,0 +1,23 @@
+{
+    "session_id": "01900000-0000-7000-8000-000000000001",
+    "model": "gpt-6.2-sol",
+    "effort": { "level": "high" },
+    "version": "0.167.0",
+    "context_window": {
+        "context_window_size": 272000,
+        "current_usage": 33800,
+        "used_percentage": 12.43,
+        "remaining_percentage": 87.57
+    },
+    "rate_limits": {
+        "five_hour": { "used_percentage": 25 },
+        "seven_day": { "used_percentage": 52 }
+    },
+    "codex": {
+        "input_tokens": 29800,
+        "output_tokens": 4000,
+        "cached_input_tokens": 12000,
+        "total_tokens": 33800,
+        "session_name": "Powerline example"
+    }
+}
