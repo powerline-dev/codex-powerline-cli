@@ -1,7 +1,8 @@
 codex
 codex-cli
 codex-powerline
-openai powerline
+openai 
+powerline
 statusline
 cli
 terminal
