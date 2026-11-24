@@ -1,3 +1,4 @@
+import unicode11 from '@xterm/addon-unicode11';
 import xterm from '@xterm/headless';
 import nodePty from 'node-pty';
 import { fork } from 'node:child_process';
@@ -54,6 +55,8 @@ export async function launchCodex(args: string[]): Promise<number> {
             allowProposedApi: true, cols: size.cols, rows: size.childRows, scrollback: 3000,
             windowsPty: process.platform === 'win32' ? { backend: 'conpty' } : undefined
         });
+        screen.loadAddon(new unicode11.Unicode11Addon());
+        screen.unicode.activeVersion = '11';
 
         return await new Promise<number>((resolveExit) => {
             let done = false;

@@ -45,14 +45,14 @@ interface SymbolCase {
 
 const cases: SymbolCase[] = [
     { name: 'GitBranchWidget', itemType: 'git-branch', widget: new GitBranchWidget(), defaultPreview: '⎇ main', overriddenPreview: '★ main', suppressedPreview: 'main' },
-    { name: 'GitWorktreeWidget', itemType: 'git-worktree', widget: new GitWorktreeWidget(), defaultPreview: '𖠰 main', overriddenPreview: '★ main', suppressedPreview: 'main' },
+    { name: 'GitWorktreeWidget', itemType: 'git-worktree', widget: new GitWorktreeWidget(), defaultPreview: '🌳 main', overriddenPreview: '★ main', suppressedPreview: 'main' },
     { name: 'JjBookmarksWidget', itemType: 'jj-bookmarks', widget: new JjBookmarksWidget(), defaultPreview: '🔖 main', overriddenPreview: '★ main', suppressedPreview: 'main' },
     { name: 'JjWorkspaceWidget', itemType: 'jj-workspace', widget: new JjWorkspaceWidget(), defaultPreview: '◆ default', overriddenPreview: '★ default', suppressedPreview: 'default' },
     { name: 'GitConflictsWidget', itemType: 'git-conflicts', widget: new GitConflictsWidget(), defaultPreview: '⚠2', overriddenPreview: '★2', suppressedPreview: '2' },
     { name: 'GitStagedWidget', itemType: 'git-staged', widget: new GitStagedWidget(), defaultPreview: '+', overriddenPreview: '★', suppressedPreview: '' },
     { name: 'GitUnstagedWidget', itemType: 'git-unstaged', widget: new GitUnstagedWidget(), defaultPreview: '*', overriddenPreview: '★', suppressedPreview: '' },
     { name: 'GitUntrackedWidget', itemType: 'git-untracked', widget: new GitUntrackedWidget(), defaultPreview: '?', overriddenPreview: '★', suppressedPreview: '' },
-    { name: 'JjRevisionWidget', itemType: 'jj-revision', widget: new JjRevisionWidget(), defaultPreview: ' kkmpptxz', overriddenPreview: '★ kkmpptxz', suppressedPreview: 'kkmpptxz' }
+    { name: 'JjRevisionWidget', itemType: 'jj-revision', widget: new JjRevisionWidget(), defaultPreview: '@ kkmpptxz', overriddenPreview: '★ kkmpptxz', suppressedPreview: 'kkmpptxz' }
 ];
 
 function makeItem(itemType: string, character?: string): WidgetItem {

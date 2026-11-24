@@ -1,5 +1,5 @@
 import {
-    isNerdFontEnabled,
+    WIDGET_SYMBOLS,
     type RenderContext,
     type Settings
 } from '@powerline-dev/codex-powerline-core';
@@ -19,31 +19,19 @@ import {
     type FormatOptions
 } from './shared/format-options';
 
-const DOT_ON = '●';
-const DOT_OFF = '○';
-const LOCK_NERD_FONT = '';
-const UNLOCK_NERD_FONT = '';
-
 const FORMATS = ['glyph', 'text', 'word'] as const;
 type SandboxFormat = typeof FORMATS[number];
 
 const DEFAULT_FORMAT: SandboxFormat = 'glyph';
 
-function canUseNerdFont(item: WidgetItem): boolean {
-    return getFormat(item, FORMAT_OPTIONS) === 'glyph';
-}
-
 const FORMAT_OPTIONS: FormatOptions<SandboxFormat> = {
     formats: FORMATS,
-    defaultFormat: DEFAULT_FORMAT,
-    canUseNerdFont
+    defaultFormat: DEFAULT_FORMAT
 };
 
-function formatStatus(enabled: boolean, format: SandboxFormat, nerdFont: boolean, rawValue: boolean): string {
+function formatStatus(enabled: boolean, format: SandboxFormat, rawValue: boolean): string {
     const stateText = enabled ? 'ON' : 'OFF';
-    const glyph = nerdFont
-        ? (enabled ? LOCK_NERD_FONT : UNLOCK_NERD_FONT)
-        : (enabled ? DOT_ON : DOT_OFF);
+    const glyph = enabled ? WIDGET_SYMBOLS.sandboxLocked : WIDGET_SYMBOLS.sandboxUnlocked;
 
     switch (format) {
         case 'glyph':
@@ -75,10 +63,8 @@ export class SandboxStatusWidget implements Widget {
 
     render(item: WidgetItem, context: RenderContext, _settings: Settings): string | null {
         const format = getFormat(item, FORMAT_OPTIONS);
-        const nerdFont = isNerdFontEnabled(item, FORMAT_OPTIONS);
-
         if (context.isPreview) {
-            return formatStatus(true, format, nerdFont, item.rawValue ?? false);
+            return formatStatus(true, format, item.rawValue ?? false);
         }
 
         const sandbox = context.data?.codex?.sandbox;
@@ -86,11 +72,11 @@ export class SandboxStatusWidget implements Widget {
             return null;
         }
 
-        return formatStatus(sandbox !== 'dangerFullAccess', format, nerdFont, item.rawValue ?? false);
+        return formatStatus(sandbox !== 'dangerFullAccess', format, item.rawValue ?? false);
     }
 
-    getCustomKeybinds(item?: WidgetItem): CustomKeybind[] {
-        return getFormatKeybinds(item, FORMAT_OPTIONS);
+    getCustomKeybinds(): CustomKeybind[] {
+        return getFormatKeybinds();
     }
 
     supportsRawValue(): boolean { return true; }

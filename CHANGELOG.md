@@ -5,6 +5,9 @@
 - Move the CLI to `powerline-dev/codex-powerline-cli` and share settings,
   migrations, themes, presets, and portable widgets through Core.
 - Keep the `codex-powerline` executable and the existing settings path and format.
+- Use standard Unicode symbols in Fast Mode, Sandbox Status, Compaction Counter,
+  Git Worktree, and JJ Revision. Apply the standard symbols to imported layouts
+  that still have the old Nerd Font toggle.
 
 ## 1.0.4
 

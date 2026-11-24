@@ -8,6 +8,8 @@ Source: https://github.com/sirmalloc/ccstatusline/tree/0c94df755665ed7794f082863
 Both the project and the adapted portions are licensed under the MIT License.
 See LICENSE for the terms.
 
+The bundled xterm.js Unicode 11 addon uses the MIT License. See LICENSE.
+
 Bundled font assets are distributed under their own licenses:
 Meslo LG, copyright 2009, 2010, 2013 André Berg (Apache License 2.0),
 patched by Nerd Fonts v3.5.1 (Ryan L McIntyre and contributors).

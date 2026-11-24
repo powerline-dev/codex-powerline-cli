@@ -17,14 +17,8 @@ function makeContext(fastMode?: boolean | null, overrides: Partial<RenderContext
     return { data: fastMode === undefined ? {} : { fast_mode: fastMode }, ...overrides };
 }
 
-function render(item: WidgetItem, context: RenderContext, platform: NodeJS.Platform = 'darwin'): string | null {
-    const originalPlatform = process.platform;
-    Object.defineProperty(process, 'platform', { value: platform });
-    try {
-        return new FastModeWidget().render(item, context, DEFAULT_SETTINGS);
-    } finally {
-        Object.defineProperty(process, 'platform', { value: originalPlatform });
-    }
+function render(item: WidgetItem, context: RenderContext): string | null {
+    return new FastModeWidget().render(item, context, DEFAULT_SETTINGS);
 }
 
 describe('FastModeWidget', () => {
@@ -61,26 +55,10 @@ describe('FastModeWidget', () => {
     });
 
     describe('editor configuration', () => {
-        it('exposes f and n keybinds', () => {
+        it('exposes the format keybind', () => {
             expect(new FastModeWidget().getCustomKeybinds()).toEqual([
-                { key: 'f', label: '(f)ormat', action: 'cycle-format' },
-                { key: 'n', label: '(n)erd font', action: 'toggle-nerd-font' }
+                { key: 'f', label: '(f)ormat', action: 'cycle-format' }
             ]);
-        });
-
-        it('exposes the Nerd Font keybind only when its icon is visible', () => {
-            const widget = new FastModeWidget();
-            const nerdFontKeybind = { key: 'n', label: '(n)erd font', action: 'toggle-nerd-font' };
-
-            expect(widget.getCustomKeybinds(ITEM)).toContainEqual(nerdFontKeybind);
-            expect(widget.getCustomKeybinds({ ...ITEM, rawValue: true })).not.toContainEqual(nerdFontKeybind);
-            expect(widget.getCustomKeybinds({ ...ITEM, metadata: { format: 'icon' } })).toContainEqual(nerdFontKeybind);
-            expect(widget.getCustomKeybinds({ ...ITEM, rawValue: true, metadata: { format: 'icon' } }))
-                .toContainEqual(nerdFontKeybind);
-            expect(widget.getCustomKeybinds({ ...ITEM, metadata: { format: 'text' } }))
-                .not.toContainEqual(nerdFontKeybind);
-            expect(widget.getCustomKeybinds({ ...ITEM, metadata: { format: 'word' } }))
-                .not.toContainEqual(nerdFontKeybind);
         });
 
         it('defaults to icon-text in the editor display', () => {
@@ -90,13 +68,13 @@ describe('FastModeWidget', () => {
             });
         });
 
-        it('shows the configured format and nerd font in the editor display', () => {
+        it('shows the configured format for a legacy Nerd Font layout', () => {
             expect(new FastModeWidget().getEditorDisplay({
                 ...ITEM,
                 metadata: { format: 'icon', nerdFont: 'true' }
             })).toEqual({
                 displayText: 'Fast Mode',
-                modifierText: '(icon, nerd font)'
+                modifierText: '(icon)'
             });
         });
 
@@ -113,23 +91,14 @@ describe('FastModeWidget', () => {
             expect(back?.metadata?.format).toBeUndefined();
         });
 
-        it('keeps Nerd Font through icon formats and clears it before text formats', () => {
+        it('clears the old icon flag when changing format', () => {
             const widget = new FastModeWidget();
-            const item: WidgetItem = { ...ITEM, metadata: { nerdFont: 'true' } };
+            const item: WidgetItem = { ...ITEM, metadata: { nerdFont: 'true', hide: 'off' } };
             const icon = widget.handleEditorAction('cycle-format', item);
             const text = widget.handleEditorAction('cycle-format', icon ?? ITEM);
 
-            expect(icon?.metadata).toEqual({ format: 'icon', nerdFont: 'true' });
-            expect(text?.metadata).toEqual({ format: 'text' });
-        });
-
-        it('toggles nerd font metadata on and off', () => {
-            const widget = new FastModeWidget();
-            const enabled = widget.handleEditorAction('toggle-nerd-font', ITEM);
-            const disabled = widget.handleEditorAction('toggle-nerd-font', enabled ?? ITEM);
-
-            expect(enabled?.metadata?.nerdFont).toBe('true');
-            expect(disabled?.metadata?.nerdFont).toBeUndefined();
+            expect(icon?.metadata).toEqual({ format: 'icon', hide: 'off' });
+            expect(text?.metadata).toEqual({ format: 'text', hide: 'off' });
         });
 
         it('returns null for unknown editor actions', () => {
@@ -148,12 +117,12 @@ describe('FastModeWidget', () => {
             expect(render(ITEM, makeContext(true))).toBe('⚡ on');
         });
 
-        it('renders flash-off glyph (U+F0243) off when OFF (nerd font)', () => {
-            expect(render(NERD_ITEM, makeContext(false))).toBe('\u{F0243} off');
+        it('renders the standard lightning bolt when a legacy layout is off', () => {
+            expect(render(NERD_ITEM, makeContext(false))).toBe('⚡ off');
         });
 
-        it('renders flash glyph (U+F0241) on when ON (nerd font)', () => {
-            expect(render(NERD_ITEM, makeContext(true))).toBe('\u{F0241} on');
+        it('renders the standard lightning bolt when a legacy layout is on', () => {
+            expect(render(NERD_ITEM, makeContext(true))).toBe('⚡ on');
         });
     });
 
@@ -169,29 +138,12 @@ describe('FastModeWidget', () => {
             expect(render(FORMAT_ITEM, makeContext(true))).toBe('⚡ ◉');
         });
 
-        it('renders the flash-off glyph alone when OFF (nerd font)', () => {
-            expect(render(FORMAT_NERD_ITEM, makeContext(false))).toBe('\u{F0243}');
+        it('shows the standard icon and off indicator for a legacy layout', () => {
+            expect(render(FORMAT_NERD_ITEM, makeContext(false))).toBe('⚡ ○');
         });
 
-        it('renders the flash glyph alone when ON (nerd font)', () => {
-            expect(render(FORMAT_NERD_ITEM, makeContext(true))).toBe('\u{F0241}');
-        });
-    });
-
-    describe('render() on Windows', () => {
-        const nerdItem: WidgetItem = { ...ITEM, metadata: { nerdFont: 'true' } };
-
-        it('omits the width-changing variation selector in preview and live output on Windows', () => {
-            expect(render(ITEM, makeContext(false), 'win32')).toBe('\u26A1 off');
-            expect(render(nerdItem, makeContext(false), 'win32')).toBe('\u26A1 off');
-            expect(render(nerdItem, makeContext(true), 'win32')).toBe('\u26A1 on');
-            expect(render(nerdItem, makeContext(undefined, { isPreview: true }), 'win32')).toBe('\u26A1 on');
-        });
-
-        it('keeps the on and off states distinct in icon format', () => {
-            const item: WidgetItem = { ...nerdItem, metadata: { ...nerdItem.metadata, format: 'icon' } };
-            expect(render(item, makeContext(false), 'win32')).toBe('\u26A1 ○');
-            expect(render(item, makeContext(true), 'win32')).toBe('\u26A1 ◉');
+        it('shows the standard icon and on indicator for a legacy layout', () => {
+            expect(render(FORMAT_NERD_ITEM, makeContext(true))).toBe('⚡ ◉');
         });
     });
 
@@ -268,17 +220,17 @@ describe('FastModeWidget', () => {
         const cases: { name: string; item: WidgetItem; off: string; on: string }[] = [
             { name: 'icon-text', item: RAW_ITEM, off: 'off', on: 'on' },
             {
-                name: 'icon-text with Nerd Font',
+                name: 'icon-text with legacy metadata',
                 item: { ...RAW_ITEM, metadata: { nerdFont: 'true' } },
                 off: 'off',
                 on: 'on'
             },
             { name: 'icon', item: { ...RAW_ITEM, metadata: { format: 'icon' } }, off: '○', on: '◉' },
             {
-                name: 'icon with Nerd Font',
+                name: 'icon with legacy metadata',
                 item: { ...RAW_ITEM, metadata: { format: 'icon', nerdFont: 'true' } },
-                off: '\u{F0243}',
-                on: '\u{F0241}'
+                off: '○',
+                on: '◉'
             },
             { name: 'text', item: { ...RAW_ITEM, metadata: { format: 'text' } }, off: 'off', on: 'on' },
             { name: 'word', item: { ...RAW_ITEM, metadata: { format: 'word' } }, off: 'off', on: 'on' }

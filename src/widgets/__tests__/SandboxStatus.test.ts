@@ -13,8 +13,8 @@ import { SandboxStatusWidget } from '../SandboxStatus';
 
 const ITEM: WidgetItem = { id: 'sandbox-status', type: 'sandbox-status' };
 
-const LOCK = '';
-const UNLOCK = '';
+const LOCK = '🔒';
+const UNLOCK = '🔓';
 
 function makeContext(overrides: Partial<RenderContext> = {}): RenderContext {
     return { ...overrides };
@@ -48,23 +48,10 @@ describe('SandboxStatusWidget', () => {
     });
 
     describe('editor configuration', () => {
-        it('exposes f and n keybinds', () => {
+        it('exposes the format keybind', () => {
             expect(new SandboxStatusWidget().getCustomKeybinds()).toEqual([
-                { key: 'f', label: '(f)ormat', action: 'cycle-format' },
-                { key: 'n', label: '(n)erd font', action: 'toggle-nerd-font' }
+                { key: 'f', label: '(f)ormat', action: 'cycle-format' }
             ]);
-        });
-
-        it('exposes the Nerd Font keybind only for glyph format', () => {
-            const widget = new SandboxStatusWidget();
-            const nerdFontKeybind = { key: 'n', label: '(n)erd font', action: 'toggle-nerd-font' };
-
-            expect(widget.getCustomKeybinds(ITEM)).toContainEqual(nerdFontKeybind);
-            expect(widget.getCustomKeybinds({ ...ITEM, rawValue: true })).toContainEqual(nerdFontKeybind);
-            expect(widget.getCustomKeybinds({ ...ITEM, metadata: { format: 'text' } }))
-                .not.toContainEqual(nerdFontKeybind);
-            expect(widget.getCustomKeybinds({ ...ITEM, metadata: { format: 'word' } }))
-                .not.toContainEqual(nerdFontKeybind);
         });
 
         it('defaults to glyph in the editor display', () => {
@@ -74,13 +61,13 @@ describe('SandboxStatusWidget', () => {
             });
         });
 
-        it('shows the configured format and nerd font in the editor display', () => {
+        it('shows the glyph format for a legacy Nerd Font layout', () => {
             expect(new SandboxStatusWidget().getEditorDisplay({
                 ...ITEM,
                 metadata: { nerdFont: 'true' }
             })).toEqual({
                 displayText: 'Sandbox Status',
-                modifierText: '(glyph, nerd font)'
+                modifierText: '(glyph)'
             });
         });
 
@@ -112,45 +99,22 @@ describe('SandboxStatusWidget', () => {
             expect(text?.metadata).toEqual({ format: 'text' });
         });
 
-        it('toggles nerd font metadata on and off', () => {
-            const widget = new SandboxStatusWidget();
-            const enabled = widget.handleEditorAction('toggle-nerd-font', ITEM);
-            const disabled = widget.handleEditorAction('toggle-nerd-font', enabled ?? ITEM);
-
-            expect(enabled?.metadata?.nerdFont).toBe('true');
-            expect(disabled?.metadata?.nerdFont).toBeUndefined();
-        });
-
-        it('does not toggle Nerd Font in text-only formats', () => {
-            const widget = new SandboxStatusWidget();
-            const textItem: WidgetItem = { ...ITEM, metadata: { format: 'text' } };
-            const staleWordItem: WidgetItem = {
-                ...ITEM,
-                metadata: { format: 'word', nerdFont: 'true' }
-            };
-
-            expect(widget.handleEditorAction('toggle-nerd-font', textItem)?.metadata)
-                .toEqual({ format: 'text' });
-            expect(widget.handleEditorAction('toggle-nerd-font', staleWordItem)?.metadata)
-                .toEqual({ format: 'word' });
-        });
-
         it('returns null for unknown editor actions', () => {
             expect(new SandboxStatusWidget().handleEditorAction('unknown', ITEM)).toBeNull();
         });
     });
 
     describe('render() - format glyph (default), standard glyphs', () => {
-        it('renders SB: ○ when OFF', () => {
-            expect(new SandboxStatusWidget().render(ITEM, makeContext({ data: { codex: { sandbox: 'dangerFullAccess' } } }), DEFAULT_SETTINGS)).toBe('SB: ○');
+        it('renders SB: 🔓 when OFF', () => {
+            expect(new SandboxStatusWidget().render(ITEM, makeContext({ data: { codex: { sandbox: 'dangerFullAccess' } } }), DEFAULT_SETTINGS)).toBe('SB: 🔓');
         });
 
-        it('renders SB: ● when ON', () => {
-            expect(new SandboxStatusWidget().render(ITEM, makeContext({ data: { codex: { sandbox: 'workspaceWrite' } } }), DEFAULT_SETTINGS)).toBe('SB: ●');
+        it('renders SB: 🔒 when ON', () => {
+            expect(new SandboxStatusWidget().render(ITEM, makeContext({ data: { codex: { sandbox: 'workspaceWrite' } } }), DEFAULT_SETTINGS)).toBe('SB: 🔒');
         });
     });
 
-    describe('render() - format glyph, Nerd Font', () => {
+    describe('render() - format glyph with legacy metadata', () => {
         const NERD_ITEM: WidgetItem = { ...ITEM, metadata: { nerdFont: 'true' } };
 
         it('renders the unlock glyph when OFF', () => {
@@ -188,7 +152,7 @@ describe('SandboxStatusWidget', () => {
 
     describe('render() - preview mode', () => {
         it('renders the ON state for the default format', () => {
-            expect(new SandboxStatusWidget().render(ITEM, makeContext({ isPreview: true }), DEFAULT_SETTINGS)).toBe('SB: ●');
+            expect(new SandboxStatusWidget().render(ITEM, makeContext({ isPreview: true }), DEFAULT_SETTINGS)).toBe('SB: 🔒');
         });
     });
 
@@ -201,9 +165,9 @@ describe('SandboxStatusWidget', () => {
     describe('render() - raw value', () => {
         const RAW_ITEM: WidgetItem = { ...ITEM, rawValue: true };
         const cases: { name: string; item: WidgetItem; off: string; on: string }[] = [
-            { name: 'glyph', item: RAW_ITEM, off: '○', on: '●' },
+            { name: 'glyph', item: RAW_ITEM, off: UNLOCK, on: LOCK },
             {
-                name: 'glyph with Nerd Font',
+                name: 'glyph with legacy metadata',
                 item: { ...RAW_ITEM, metadata: { nerdFont: 'true' } },
                 off: UNLOCK,
                 on: LOCK
@@ -229,7 +193,7 @@ describe('SandboxStatusWidget', () => {
         });
 
         it('preserves the default glyph format in preview mode', () => {
-            expect(new SandboxStatusWidget().render(RAW_ITEM, makeContext({ isPreview: true }), DEFAULT_SETTINGS)).toBe('●');
+            expect(new SandboxStatusWidget().render(RAW_ITEM, makeContext({ isPreview: true }), DEFAULT_SETTINGS)).toBe(LOCK);
         });
 
         it('returns null when config is null', () => {

@@ -73,7 +73,7 @@ const cases: {
     { name: 'JjInsertionsWidget', itemType: 'jj-insertions', widget: new JjInsertionsWidget(), color: 'green', displayName: 'JJ Insertions', rawValue: false, keys: ['g'], noJj: '(no jj)', commandFailed: '+0', hidesCommandFailed: false },
     { name: 'JjDeletionsWidget', itemType: 'jj-deletions', widget: new JjDeletionsWidget(), color: 'red', displayName: 'JJ Deletions', rawValue: false, keys: ['g'], noJj: '(no jj)', commandFailed: '-0', hidesCommandFailed: false },
     { name: 'JjDescriptionWidget', itemType: 'jj-description', widget: new JjDescriptionWidget(), color: 'white', displayName: 'JJ Description', rawValue: false, keys: [], noJj: 'no jj', commandFailed: 'no jj', hidesCommandFailed: true },
-    { name: 'JjRevisionWidget', itemType: 'jj-revision', widget: new JjRevisionWidget(), color: 'green', displayName: 'JJ Revision', rawValue: true, keys: ['g'], noJj: ' no jj', commandFailed: ' no jj', hidesCommandFailed: true }
+    { name: 'JjRevisionWidget', itemType: 'jj-revision', widget: new JjRevisionWidget(), color: 'green', displayName: 'JJ Revision', rawValue: true, keys: ['g'], noJj: '@ no jj', commandFailed: '@ no jj', hidesCommandFailed: true }
 ];
 
 // The widgets whose glyph is one prefix (the item's character), with what

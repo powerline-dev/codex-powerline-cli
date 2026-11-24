@@ -1,8 +1,8 @@
 import {
+    WIDGET_SYMBOLS,
     formatTokens,
     isHidden,
     isMetadataFlagEnabled,
-    isNerdFontEnabled,
     resolveNumberFormat,
     toggleMetadataFlag,
     type CompactionData,
@@ -34,8 +34,6 @@ import {
     type SymbolSlot
 } from './shared/symbol-override';
 
-const COMPACTION_ICON = '↻';
-const COMPACTION_NERD_FONT_ICON = '\uF021';
 const FORMATS = ['icon-space-number', 'text-and-number', 'number'] as const;
 type CompactionCounterFormat = typeof FORMATS[number];
 
@@ -61,15 +59,9 @@ const SAMPLE_STATS: CompactionData = Object.freeze({
     tokensReclaimed: 120000
 });
 
-// Only the icon format draws a glyph; the other two are text.
-function canUseNerdFont(item: WidgetItem): boolean {
-    return getFormat(item, FORMAT_OPTIONS) === DEFAULT_FORMAT;
-}
-
 const FORMAT_OPTIONS: FormatOptions<CompactionCounterFormat> = {
     formats: FORMATS,
-    defaultFormat: DEFAULT_FORMAT,
-    canUseNerdFont
+    defaultFormat: DEFAULT_FORMAT
 };
 
 function getMetric(item: WidgetItem): CompactionMetric {
@@ -128,8 +120,8 @@ function formatTriggerSuffix(byTrigger: CompactionData['byTrigger']): string {
     return parts.length > 0 ? ` (${parts.join(', ')})` : '';
 }
 
-function formatStats(data: CompactionData, item: WidgetItem, icon: string, format: NumberFormat): string {
-    let out = formatCount(data.count, getFormat(item, FORMAT_OPTIONS), icon);
+function formatStats(data: CompactionData, item: WidgetItem, format: NumberFormat): string {
+    let out = formatCount(data.count, getFormat(item, FORMAT_OPTIONS));
     if (isMetadataFlagEnabled(item, SHOW_TRIGGERS_METADATA_KEY)) {
         out += formatTriggerSuffix(data.byTrigger);
     }
@@ -139,9 +131,9 @@ function formatStats(data: CompactionData, item: WidgetItem, icon: string, forma
     return out;
 }
 
-function formatCount(count: number, format: CompactionCounterFormat, icon: string): string {
+function formatCount(count: number, format: CompactionCounterFormat): string {
     switch (format) {
-        case 'icon-space-number': return `${icon} ${count}`;
+        case 'icon-space-number': return `${WIDGET_SYMBOLS.compaction} ${count}`;
         case 'text-and-number': return `Compactions: ${count}`;
         case 'number': return String(count);
     }
@@ -172,9 +164,6 @@ export class CompactionCounterWidget implements Widget {
             modifiers.push(`${metric} value`);
         } else {
             modifiers.push(getFormat(item, FORMAT_OPTIONS));
-            if (isNerdFontEnabled(item, FORMAT_OPTIONS)) {
-                modifiers.push('nerd font');
-            }
             if (isMetadataFlagEnabled(item, SHOW_TRIGGERS_METADATA_KEY)) {
                 modifiers.push('trigger split');
             }
@@ -234,8 +223,7 @@ export class CompactionCounterWidget implements Widget {
             return null;
         }
 
-        const icon = isNerdFontEnabled(item, FORMAT_OPTIONS) ? COMPACTION_NERD_FONT_ICON : COMPACTION_ICON;
-        return formatStats(data, item, icon, format);
+        return formatStats(data, item, format);
     }
 
     getCustomKeybinds(item?: WidgetItem): CustomKeybind[] {
@@ -243,7 +231,7 @@ export class CompactionCounterWidget implements Widget {
             { key: 'v', label: '(v)alue', action: CYCLE_METRIC_ACTION }
         ];
 
-        // The format / glyph / trigger toggles only shape the composite 'count'
+        // The format and trigger toggles only shape the composite 'count'
         // display; a single-metric value just needs the metric selector, since
         // hide-zero is one of the states in the shared hide checklist.
         if (item !== undefined && getMetric(item) !== DEFAULT_METRIC) {
@@ -251,7 +239,7 @@ export class CompactionCounterWidget implements Widget {
         }
 
         keybinds.push(
-            ...getFormatKeybinds(item, FORMAT_OPTIONS),
+            ...getFormatKeybinds(),
             { key: 's', label: '(s)plit by trigger', action: TOGGLE_TRIGGERS_ACTION },
             { key: 't', label: '(t)okens reclaimed', action: TOGGLE_RECLAIMED_ACTION },
             getSymbolKeybind()

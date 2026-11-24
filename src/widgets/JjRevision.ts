@@ -1,4 +1,5 @@
 import {
+    WIDGET_SYMBOLS,
     formatRawOrLabeledValue,
     type RenderContext
 } from '@powerline-dev/codex-powerline-core';
@@ -17,7 +18,7 @@ import {
     renderSymbolOverrideEditor
 } from './shared/symbol-override';
 
-const DEFAULT_SYMBOL = '';
+const DEFAULT_SYMBOL = WIDGET_SYMBOLS.jjRevision;
 
 export class JjRevisionWidget extends JjWidgetBase {
     protected readonly previewValue = 'kkmpptxz';

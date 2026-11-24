@@ -1,5 +1,6 @@
 import {
     NO_GIT_HIDEABLE_STATE,
+    WIDGET_SYMBOLS,
     isHidden,
     type RenderContext
 } from '@powerline-dev/codex-powerline-core';
@@ -25,7 +26,7 @@ import {
 } from './shared/symbol-override';
 import { getGraphemes } from './shared/text-cursor';
 
-const DEFAULT_SYMBOL = '𖠰';
+const DEFAULT_SYMBOL = WIDGET_SYMBOLS.gitWorktree;
 
 export class GitWorktreeWidget implements Widget {
     getDefaultColor(): string { return 'blue'; }

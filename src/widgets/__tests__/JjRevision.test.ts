@@ -53,7 +53,7 @@ describe('JjRevisionWidget', () => {
     });
 
     it('should render preview', () => {
-        expect(render({ isPreview: true })).toBe(' kkmpptxz');
+        expect(render({ isPreview: true })).toBe('@ kkmpptxz');
     });
 
     it('should render preview with raw value', () => {
@@ -64,7 +64,7 @@ describe('JjRevisionWidget', () => {
         mockExecFileSync.mockReturnValueOnce('/tmp/repo\n');
         mockExecFileSync.mockReturnValueOnce('kkmpptxz');
 
-        expect(render({ cwd: '/tmp/repo' })).toBe(' kkmpptxz');
+        expect(render({ cwd: '/tmp/repo' })).toBe('@ kkmpptxz');
         expect(mockExecFileSync.mock.calls[0]?.[0]).toBe('jj');
         expect(mockExecFileSync.mock.calls[0]?.[1]).toEqual(['--color=never', 'root']);
         expect(mockExecFileSync.mock.calls[0]?.[2]).toEqual({
@@ -103,7 +103,7 @@ describe('JjRevisionWidget', () => {
     it('should render no jj when not in jj repo', () => {
         mockExecFileSync.mockImplementation(() => { throw new Error('Not a jj repo'); });
 
-        expect(render()).toBe(' no jj');
+        expect(render()).toBe('@ no jj');
     });
 
     it('should hide no jj when configured', () => {
@@ -116,6 +116,6 @@ describe('JjRevisionWidget', () => {
         mockExecFileSync.mockReturnValueOnce('/tmp/repo\n');
         mockExecFileSync.mockReturnValueOnce('');
 
-        expect(render()).toBe(' no jj');
+        expect(render()).toBe('@ no jj');
     });
 });

@@ -65,7 +65,7 @@ describe('GitWorktreeWidget', () => {
     });
 
     it('should render preview', () => {
-        expect(render({ isPreview: true })).toBe('𖠰 main');
+        expect(render({ isPreview: true })).toBe('🌳 main');
     });
 
     it('should render preview with raw value', () => {
@@ -76,7 +76,7 @@ describe('GitWorktreeWidget', () => {
         mockExecFileSync.mockReturnValueOnce('true\n');
         mockExecFileSync.mockReturnValueOnce('/some/path/.git/worktrees/some-worktree\n/some/path/.git\n');
 
-        expect(render({ cwd: '/tmp/worktree' })).toBe('𖠰 some-worktree');
+        expect(render({ cwd: '/tmp/worktree' })).toBe('🌳 some-worktree');
         expect(mockExecFileSync.mock.calls[0]?.[0]).toBe('git');
         expect(mockExecFileSync.mock.calls[0]?.[1]).toEqual([...GIT_HARDENING_ARGS, 'rev-parse', '--is-inside-work-tree']);
         expectGitExecOptions(mockExecFileSync.mock.calls[0]?.[2], '/tmp/worktree');
@@ -89,21 +89,21 @@ describe('GitWorktreeWidget', () => {
         mockExecFileSync.mockReturnValueOnce('true\n');
         mockExecFileSync.mockReturnValueOnce('/some/path/.git/worktrees/some-dir/some-worktree\n/some/path/.git\n');
 
-        expect(render()).toBe('𖠰 some-dir/some-worktree');
+        expect(render()).toBe('🌳 some-dir/some-worktree');
     });
 
     it('should render with no worktree', () => {
         mockExecFileSync.mockReturnValueOnce('true\n');
         mockExecFileSync.mockReturnValueOnce('.git\n.git\n');
 
-        expect(render()).toBe('𖠰 main');
+        expect(render()).toBe('🌳 main');
     });
 
     it('should render main from a subdirectory of the main worktree', () => {
         mockExecFileSync.mockReturnValueOnce('true\n');
         mockExecFileSync.mockReturnValueOnce('/repo/.git\n../../.git\n');
 
-        expect(render()).toBe('𖠰 main');
+        expect(render()).toBe('🌳 main');
     });
 
     it.each([
@@ -114,26 +114,26 @@ describe('GitWorktreeWidget', () => {
         mockExecFileSync.mockReturnValueOnce('true\n');
         mockExecFileSync.mockReturnValueOnce(`${gitDir}\n${gitDir}\n`);
 
-        expect(render()).toBe('𖠰 main');
+        expect(render()).toBe('🌳 main');
     });
 
     it('should handle windows git-dir paths', () => {
         mockExecFileSync.mockReturnValueOnce('true\n');
         mockExecFileSync.mockReturnValueOnce('C:\\repo\\.git\\worktrees\\some-worktree\nC:\\repo\\.git\n');
 
-        expect(render()).toBe('𖠰 some-worktree');
+        expect(render()).toBe('🌳 some-worktree');
     });
 
     it('should render with no git when probe returns false', () => {
         mockExecFileSync.mockReturnValue('false\n');
 
-        expect(render()).toBe('𖠰 no git');
+        expect(render()).toBe('🌳 no git');
     });
 
     it('should render with no git', () => {
         mockExecFileSync.mockImplementation(() => { throw new Error('No git'); });
 
-        expect(render()).toBe('𖠰 no git');
+        expect(render()).toBe('🌳 no git');
     });
 
     it('should hide no git when configured', () => {
@@ -146,43 +146,43 @@ describe('GitWorktreeWidget', () => {
         mockExecFileSync.mockReturnValueOnce('true\n');
         mockExecFileSync.mockReturnValueOnce('');
 
-        expect(render()).toBe('𖠰 no git');
+        expect(render()).toBe('🌳 no git');
     });
 
     it('should render with bare repo worktree', () => {
         mockExecFileSync.mockReturnValueOnce('true\n');
         mockExecFileSync.mockReturnValueOnce('/some/path/worktrees/some-worktree\n/some/path\n');
 
-        expect(render()).toBe('𖠰 some-worktree');
+        expect(render()).toBe('🌳 some-worktree');
     });
 
     it('should render with nested bare repo worktree', () => {
         mockExecFileSync.mockReturnValueOnce('true\n');
         mockExecFileSync.mockReturnValueOnce('/some/path/worktrees/some-dir/some-worktree\n/some/path\n');
 
-        expect(render()).toBe('𖠰 some-dir/some-worktree');
+        expect(render()).toBe('🌳 some-dir/some-worktree');
     });
 
     it('should handle windows bare repo git-dir paths', () => {
         mockExecFileSync.mockReturnValueOnce('true\n');
         mockExecFileSync.mockReturnValueOnce('C:\\repo\\worktrees\\some-worktree\nC:\\repo\n');
 
-        expect(render()).toBe('𖠰 some-worktree');
+        expect(render()).toBe('🌳 some-worktree');
     });
 
     describe('fish style', () => {
         it.each([
-            { name: 'preserves a flag in a single segment', gitDir: '/some/path/.git/worktrees/🇨🇳release\n/some/path/.git\n', expected: '𖠰 🇨🇳' },
-            { name: 'preserves a ZWJ emoji in a single segment', gitDir: '/some/path/.git/worktrees/👩‍💻tools\n/some/path/.git\n', expected: '𖠰 👩‍💻' },
-            { name: 'preserves a combining mark in a single segment', gitDir: '/some/path/.git/worktrees/e\u0301quipe\n/some/path/.git\n', expected: '𖠰 e\u0301' },
-            { name: 'preserves skin tone modifiers', gitDir: '/some/path/.git/worktrees/👍🏽fix/topic\n/some/path/.git\n', expected: '𖠰 👍🏽/topic' },
-            { name: 'preserves variation selectors', gitDir: '/some/path/.git/worktrees/❤️health/topic\n/some/path/.git\n', expected: '𖠰 ❤️/topic' },
-            { name: 'preserves graphemes in every abbreviated segment', gitDir: '/some/path/.git/worktrees/🇨🇳release/👩‍💻tools/e\u0301quipe/topic\n/some/path/.git\n', expected: '𖠰 🇨🇳/👩‍💻/e\u0301/topic' },
-            { name: 'keeps the final grapheme-bearing segment full', gitDir: '/some/path/.git/worktrees/feature/👩‍💻tools\n/some/path/.git\n', expected: '𖠰 f/👩‍💻tools' },
-            { name: 'collapses the main worktree to its first letter', gitDir: '.git\n/some/path\n', expected: '𖠰 m' },
-            { name: 'keeps the last segment full', gitDir: '/some/path/.git/worktrees/some-dir/some-worktree\n/some/path/.git\n', expected: '𖠰 s/some-worktree' },
-            { name: 'preserves a non-BMP character in a single segment', gitDir: '/some/path/.git/worktrees/🚀launch\n/some/path/.git\n', expected: '𖠰 🚀' },
-            { name: 'preserves non-BMP characters in abbreviated segments', gitDir: '/some/path/.git/worktrees/🚀launch/🧪tests/topic\n/some/path/.git\n', expected: '𖠰 🚀/🧪/topic' }
+            { name: 'preserves a flag in a single segment', gitDir: '/some/path/.git/worktrees/🇨🇳release\n/some/path/.git\n', expected: '🌳 🇨🇳' },
+            { name: 'preserves a ZWJ emoji in a single segment', gitDir: '/some/path/.git/worktrees/👩‍💻tools\n/some/path/.git\n', expected: '🌳 👩‍💻' },
+            { name: 'preserves a combining mark in a single segment', gitDir: '/some/path/.git/worktrees/e\u0301quipe\n/some/path/.git\n', expected: '🌳 e\u0301' },
+            { name: 'preserves skin tone modifiers', gitDir: '/some/path/.git/worktrees/👍🏽fix/topic\n/some/path/.git\n', expected: '🌳 👍🏽/topic' },
+            { name: 'preserves variation selectors', gitDir: '/some/path/.git/worktrees/❤️health/topic\n/some/path/.git\n', expected: '🌳 ❤️/topic' },
+            { name: 'preserves graphemes in every abbreviated segment', gitDir: '/some/path/.git/worktrees/🇨🇳release/👩‍💻tools/e\u0301quipe/topic\n/some/path/.git\n', expected: '🌳 🇨🇳/👩‍💻/e\u0301/topic' },
+            { name: 'keeps the final grapheme-bearing segment full', gitDir: '/some/path/.git/worktrees/feature/👩‍💻tools\n/some/path/.git\n', expected: '🌳 f/👩‍💻tools' },
+            { name: 'collapses the main worktree to its first letter', gitDir: '.git\n/some/path\n', expected: '🌳 m' },
+            { name: 'keeps the last segment full', gitDir: '/some/path/.git/worktrees/some-dir/some-worktree\n/some/path/.git\n', expected: '🌳 s/some-worktree' },
+            { name: 'preserves a non-BMP character in a single segment', gitDir: '/some/path/.git/worktrees/🚀launch\n/some/path/.git\n', expected: '🌳 🚀' },
+            { name: 'preserves non-BMP characters in abbreviated segments', gitDir: '/some/path/.git/worktrees/🚀launch/🧪tests/topic\n/some/path/.git\n', expected: '🌳 🚀/🧪/topic' }
         ])('$name', ({ gitDir, expected }) => {
             mockExecFileSync.mockReturnValueOnce('true\n');
             mockExecFileSync.mockReturnValueOnce(gitDir);

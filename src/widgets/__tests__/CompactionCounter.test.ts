@@ -83,15 +83,15 @@ describe('CompactionCounterWidget', () => {
             })).toBe('3');
         });
 
-        it('renders the Nerd Font glyph when enabled', () => {
+        it('renders the standard arrow for legacy Nerd Font layouts', () => {
             expect(render({
                 compactionData: { count: 3 },
                 item: { ...ITEM, metadata: { nerdFont: 'true' } }
-            })).toBe('\uF021 3');
+            })).toBe('↻ 3');
             expect(render({
                 compactionData: { count: 3 },
                 item: { ...ITEM, metadata: { format: 'icon-number', nerdFont: 'true' } }
-            })).toBe('\uF021 3');
+            })).toBe('↻ 3');
         });
 
         it('treats legacy icon-number metadata as the default format', () => {
@@ -101,7 +101,7 @@ describe('CompactionCounterWidget', () => {
             })).toBe('↻ 3');
         });
 
-        it('does not render the Nerd Font glyph for text-only formats', () => {
+        it('keeps text formats for legacy Nerd Font layouts', () => {
             expect(render({
                 compactionData: { count: 3 },
                 item: { ...ITEM, metadata: { format: 'text-and-number', nerdFont: 'true' } }
@@ -258,20 +258,6 @@ describe('CompactionCounterWidget', () => {
             expect(new CompactionCounterWidget().getCustomKeybinds(ITEM)).toEqual([
                 { key: 'v', label: '(v)alue', action: 'cycle-metric' },
                 { key: 'f', label: '(f)ormat', action: 'cycle-format' },
-                { key: 'n', label: '(n)erd font', action: 'toggle-nerd-font' },
-                { key: 's', label: '(s)plit by trigger', action: 'toggle-triggers' },
-                { key: 't', label: '(t)okens reclaimed', action: 'toggle-reclaimed' },
-                { key: 'g', label: '(g)lyph', action: 'edit-symbol-override' }
-            ]);
-        });
-
-        it('hides the nerd font keybind for non-default formats', () => {
-            expect(new CompactionCounterWidget().getCustomKeybinds({
-                ...ITEM,
-                metadata: { format: 'text-and-number' }
-            })).toEqual([
-                { key: 'v', label: '(v)alue', action: 'cycle-metric' },
-                { key: 'f', label: '(f)ormat', action: 'cycle-format' },
                 { key: 's', label: '(s)plit by trigger', action: 'toggle-triggers' },
                 { key: 't', label: '(t)okens reclaimed', action: 'toggle-reclaimed' },
                 { key: 'g', label: '(g)lyph', action: 'edit-symbol-override' }
@@ -295,13 +281,13 @@ describe('CompactionCounterWidget', () => {
             });
         });
 
-        it('shows nerd font in the editor display when enabled', () => {
+        it('shows the format for a legacy Nerd Font layout', () => {
             expect(new CompactionCounterWidget().getEditorDisplay({
                 ...ITEM,
                 metadata: { nerdFont: 'true' }
             })).toEqual({
                 displayText: 'Compaction Counter',
-                modifierText: '(icon-space-number, nerd font)'
+                modifierText: '(icon-space-number)'
             });
         });
 
@@ -315,7 +301,7 @@ describe('CompactionCounterWidget', () => {
                 metadata: { format: 'icon-number', nerdFont: 'true' }
             })).toEqual({
                 displayText: 'Compaction Counter',
-                modifierText: '(icon-space-number, nerd font)'
+                modifierText: '(icon-space-number)'
             });
         });
 
@@ -337,26 +323,6 @@ describe('CompactionCounterWidget', () => {
 
             expect(textAndNumber?.metadata?.format).toBe('text-and-number');
             expect(textAndNumber?.metadata?.nerdFont).toBeUndefined();
-        });
-
-        it('toggles nerd font metadata on and off', () => {
-            const widget = new CompactionCounterWidget();
-            const enabled = widget.handleEditorAction('toggle-nerd-font', ITEM);
-            const disabled = widget.handleEditorAction('toggle-nerd-font', enabled ?? ITEM);
-
-            expect(enabled?.metadata?.nerdFont).toBe('true');
-            expect(disabled?.metadata?.nerdFont).toBeUndefined();
-        });
-
-        it('does not enable nerd font for non-default formats', () => {
-            const widget = new CompactionCounterWidget();
-            const enabled = widget.handleEditorAction('toggle-nerd-font', {
-                ...ITEM,
-                metadata: { format: 'text-and-number' }
-            });
-
-            expect(enabled?.metadata?.format).toBe('text-and-number');
-            expect(enabled?.metadata?.nerdFont).toBeUndefined();
         });
 
         it('toggles showTriggers metadata on and off', () => {
