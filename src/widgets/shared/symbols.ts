@@ -1,5 +1,6 @@
 export const WIDGET_SYMBOLS = {
-    fastMode: '⚡',
+    fastModeOn: '⚡',
+    fastModeOff: '❌',
     sandboxLocked: '🔒',
     sandboxUnlocked: '🔓',
     compaction: '↻',

@@ -11,6 +11,7 @@
 - Use standard Unicode symbols in Fast Mode, Sandbox Status, Compaction Counter,
   Git Worktree, and JJ Revision. Apply the standard symbols to imported layouts
   that still have the old Nerd Font toggle.
+- Show ⚡ when Fast Mode is on and ❌ when it is off, including in icon-only layouts.
 
 ## 1.0.4
 

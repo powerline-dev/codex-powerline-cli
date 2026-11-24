@@ -35,14 +35,13 @@ const FORMAT_OPTIONS: FormatOptions<FastModeFormat> = {
 
 function formatStatus(enabled: boolean, format: FastModeFormat, rawValue: boolean): string {
     const stateText = enabled ? 'on' : 'off';
-    const stateDot = enabled ? STATE_DOT_ON : STATE_DOT_OFF;
-    const icon = WIDGET_SYMBOLS.fastMode;
+    const icon = enabled ? WIDGET_SYMBOLS.fastModeOn : WIDGET_SYMBOLS.fastModeOff;
 
     switch (format) {
         case 'icon-text':
             return rawValue ? stateText : `${icon} ${stateText}`;
         case 'icon':
-            return rawValue ? stateDot : `${icon} ${stateDot}`;
+            return rawValue ? (enabled ? STATE_DOT_ON : STATE_DOT_OFF) : icon;
         case 'text':
             return stateText;
         case 'word':

@@ -109,16 +109,16 @@ describe('FastModeWidget', () => {
     describe('render() - format icon-text (default)', () => {
         const NERD_ITEM: WidgetItem = { ...ITEM, metadata: { nerdFont: 'true' } };
 
-        it('renders ⚡ off when OFF', () => {
-            expect(render(ITEM, makeContext(false))).toBe('⚡ off');
+        it('renders ❌ off when OFF', () => {
+            expect(render(ITEM, makeContext(false))).toBe('❌ off');
         });
 
         it('renders ⚡ on when ON', () => {
             expect(render(ITEM, makeContext(true))).toBe('⚡ on');
         });
 
-        it('renders the standard lightning bolt when a legacy layout is off', () => {
-            expect(render(NERD_ITEM, makeContext(false))).toBe('⚡ off');
+        it('renders the standard cross when a legacy layout is off', () => {
+            expect(render(NERD_ITEM, makeContext(false))).toBe('❌ off');
         });
 
         it('renders the standard lightning bolt when a legacy layout is on', () => {
@@ -130,20 +130,20 @@ describe('FastModeWidget', () => {
         const FORMAT_ITEM: WidgetItem = { ...ITEM, metadata: { format: 'icon' } };
         const FORMAT_NERD_ITEM: WidgetItem = { ...ITEM, metadata: { format: 'icon', nerdFont: 'true' } };
 
-        it('renders ⚡ ○ when OFF', () => {
-            expect(render(FORMAT_ITEM, makeContext(false))).toBe('⚡ ○');
+        it('renders ❌ when OFF', () => {
+            expect(render(FORMAT_ITEM, makeContext(false))).toBe('❌');
         });
 
-        it('renders ⚡ ◉ when ON', () => {
-            expect(render(FORMAT_ITEM, makeContext(true))).toBe('⚡ ◉');
+        it('renders ⚡ when ON', () => {
+            expect(render(FORMAT_ITEM, makeContext(true))).toBe('⚡');
         });
 
-        it('shows the standard icon and off indicator for a legacy layout', () => {
-            expect(render(FORMAT_NERD_ITEM, makeContext(false))).toBe('⚡ ○');
+        it('shows the standard off icon for a legacy layout', () => {
+            expect(render(FORMAT_NERD_ITEM, makeContext(false))).toBe('❌');
         });
 
-        it('shows the standard icon and on indicator for a legacy layout', () => {
-            expect(render(FORMAT_NERD_ITEM, makeContext(true))).toBe('⚡ ◉');
+        it('shows the standard on icon for a legacy layout', () => {
+            expect(render(FORMAT_NERD_ITEM, makeContext(true))).toBe('⚡');
         });
     });
 
@@ -183,7 +183,7 @@ describe('FastModeWidget', () => {
         });
 
         it('shows the off state without the option', () => {
-            expect(render(ITEM, makeContext(false))).toBe('⚡ off');
+            expect(render(ITEM, makeContext(false))).toBe('❌ off');
         });
     });
 
@@ -236,7 +236,7 @@ describe('FastModeWidget', () => {
             { name: 'word', item: { ...RAW_ITEM, metadata: { format: 'word' } }, off: 'off', on: 'on' }
         ];
 
-        it.each(cases)('removes only the label from $name format', ({ item, off, on }) => {
+        it.each(cases)('renders the raw state for $name format', ({ item, off, on }) => {
             expect(render(item, makeContext(false))).toBe(off);
             expect(render(item, makeContext(true))).toBe(on);
         });
