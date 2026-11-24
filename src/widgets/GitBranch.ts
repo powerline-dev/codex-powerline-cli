@@ -46,7 +46,7 @@ import {
 } from './shared/symbol-override';
 import { getGraphemes } from './shared/text-cursor';
 
-const DEFAULT_SYMBOL = '⎇';
+const DEFAULT_SYMBOL = '🔀';
 const LINK_KEY = 'linkToRepo';
 const LEGACY_LINK_KEY = 'linkToGitHub';
 const TOGGLE_LINK_ACTION = 'toggle-link';

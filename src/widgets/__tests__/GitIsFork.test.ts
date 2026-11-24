@@ -53,7 +53,7 @@ describe('GitIsForkWidget', () => {
     });
 
     it('renders the default glyph in preview and raw true', () => {
-        expect(render({ isPreview: true })).toBe('⑂');
+        expect(render({ isPreview: true })).toBe('↪');
         expect(render({ isPreview: true, rawValue: true })).toBe('true');
     });
 
@@ -61,7 +61,7 @@ describe('GitIsForkWidget', () => {
         mockExecFileSync.mockReturnValueOnce('git@github.com:fork-owner/codex-powerline.git\n');
         mockExecFileSync.mockReturnValueOnce('git@github.com:upstream-owner/codex-powerline.git\n');
 
-        expect(render()).toBe('⑂');
+        expect(render()).toBe('↪');
 
         clearGitCache();
         mockExecFileSync.mockReturnValueOnce('git@github.com:fork-owner/codex-powerline.git\n');

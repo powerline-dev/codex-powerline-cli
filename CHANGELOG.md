@@ -12,6 +12,7 @@
   Git Worktree, and JJ Revision. Apply the standard symbols to imported layouts
   that still have the old Nerd Font toggle.
 - Show ⚡ when Fast Mode is on and ❌ when it is off, including in icon-only layouts.
+- Use 🔀 for Git Branch and ↪ for Git Is Fork by default.
 
 ## 1.0.4
 

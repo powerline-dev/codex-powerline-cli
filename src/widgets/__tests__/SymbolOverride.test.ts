@@ -44,7 +44,7 @@ interface SymbolCase {
 }
 
 const cases: SymbolCase[] = [
-    { name: 'GitBranchWidget', itemType: 'git-branch', widget: new GitBranchWidget(), defaultPreview: '⎇ main', overriddenPreview: '★ main', suppressedPreview: 'main' },
+    { name: 'GitBranchWidget', itemType: 'git-branch', widget: new GitBranchWidget(), defaultPreview: '🔀 main', overriddenPreview: '★ main', suppressedPreview: 'main' },
     { name: 'GitWorktreeWidget', itemType: 'git-worktree', widget: new GitWorktreeWidget(), defaultPreview: '🌳 main', overriddenPreview: '★ main', suppressedPreview: 'main' },
     { name: 'JjBookmarksWidget', itemType: 'jj-bookmarks', widget: new JjBookmarksWidget(), defaultPreview: '🔖 main', overriddenPreview: '★ main', suppressedPreview: 'main' },
     { name: 'JjWorkspaceWidget', itemType: 'jj-workspace', widget: new JjWorkspaceWidget(), defaultPreview: '◆ default', overriddenPreview: '★ default', suppressedPreview: 'default' },

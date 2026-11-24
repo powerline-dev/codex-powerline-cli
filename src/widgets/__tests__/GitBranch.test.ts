@@ -74,7 +74,7 @@ describe('GitBranchWidget', () => {
     });
 
     it('should render preview', () => {
-        expect(render({ isPreview: true })).toBe('⎇ main');
+        expect(render({ isPreview: true })).toBe('🔀 main');
     });
 
     it('should render preview with raw value', () => {
@@ -83,7 +83,7 @@ describe('GitBranchWidget', () => {
 
     // A sample long enough for the limit to show, cut the way a real branch is
     it('should apply the max width to the preview', () => {
-        expect(render({ isPreview: true, maxWidth: 12 })).toBe('⎇ feature...');
+        expect(render({ isPreview: true, maxWidth: 12 })).toBe('🔀 featur...');
         expect(render({ isPreview: true, rawValue: true, maxWidth: 12 })).toBe('feature/l...');
     });
 
@@ -91,7 +91,7 @@ describe('GitBranchWidget', () => {
         mockExecFileSync.mockReturnValueOnce('true\n');
         mockExecFileSync.mockReturnValueOnce('refs/heads/feature/worktree\n');
 
-        expect(render({ cwd: '/tmp/worktree' })).toBe('⎇ feature/worktree');
+        expect(render({ cwd: '/tmp/worktree' })).toBe('🔀 feature/worktree');
         expect(mockExecFileSync.mock.calls[0]?.[0]).toBe('git');
         expect(mockExecFileSync.mock.calls[0]?.[1]).toEqual([...GIT_HARDENING_ARGS, 'rev-parse', '--is-inside-work-tree']);
         expectGitExecOptions(mockExecFileSync.mock.calls[0]?.[2], '/tmp/worktree');
@@ -114,7 +114,7 @@ describe('GitBranchWidget', () => {
 
         expect(render({ linkToRepo: true })).toBe(renderOsc8Link(
             'https://github.com/owner/repo/tree/feature/issue%231',
-            '⎇ feature/issue#1'
+            '🔀 feature/issue#1'
         ));
     });
 
@@ -125,7 +125,7 @@ describe('GitBranchWidget', () => {
 
         expect(render({ linkToRepo: true })).toBe(renderOsc8Link(
             'https://gitlab.com/owner/repo/tree/feature/issue%231',
-            '⎇ feature/issue#1'
+            '🔀 feature/issue#1'
         ));
     });
 
@@ -136,7 +136,7 @@ describe('GitBranchWidget', () => {
 
         expect(render({ linkToRepo: true })).toBe(renderOsc8Link(
             'https://git.example.com/group/subgroup/repo/tree/main',
-            '⎇ main'
+            '🔀 main'
         ));
     });
 
@@ -147,7 +147,7 @@ describe('GitBranchWidget', () => {
 
         expect(render({ linkToRepo: true })).toBe(renderOsc8Link(
             'http://git.example.lan:3000/team/app/tree/main',
-            '⎇ main'
+            '🔀 main'
         ));
     });
 
@@ -158,7 +158,7 @@ describe('GitBranchWidget', () => {
 
         expect(render({ linkToRepo: true })).toBe(renderOsc8Link(
             'https://github.com/owner/repo/tree/release',
-            '⎇ release'
+            '🔀 release'
         ));
     });
 
@@ -168,7 +168,7 @@ describe('GitBranchWidget', () => {
         mockExecFileSync.mockImplementationOnce(() => { throw new Error('Error: There is no jj repo in "."'); });
         mockExecFileSync.mockReturnValueOnce('ddfb2de\n');
 
-        expect(render({ hideNoGit: true, metadata: { fishStyle } })).toBe('⎇ (ddfb2de)');
+        expect(render({ hideNoGit: true, metadata: { fishStyle } })).toBe('🔀 (ddfb2de)');
         expect(mockExecFileSync.mock.calls[2]?.[0]).toBe('jj');
         expect(mockExecFileSync.mock.calls[2]?.[1]).toEqual(['--color=never', 'root']);
         expect(mockExecFileSync.mock.calls[3]?.[1]).toEqual([...GIT_HARDENING_ARGS, 'rev-parse', '--short', 'HEAD']);
@@ -192,7 +192,7 @@ describe('GitBranchWidget', () => {
         // one the user checked out: Git Branch reads it as no branch, as before
         // it showed detached commits
         it.each([
-            [false, '⎇ no git'],
+            [false, '🔀 no git'],
             [true, null]
         ])('should treat a colocated jj repo\'s detached HEAD as no branch (hide no git: %s)', (hideNoGit, expected) => {
             mockExecFileSync.mockReturnValueOnce('true\n');
@@ -216,7 +216,7 @@ describe('GitBranchWidget', () => {
             mockExecFileSync.mockReturnValueOnce(`${path.join(workspaceDir, 'code', 'app')}\n`);
             mockExecFileSync.mockReturnValueOnce('ddfb2de\n');
 
-            expect(render({ hideNoGit: true, metadata: { fishStyle } })).toBe('⎇ (ddfb2de)');
+            expect(render({ hideNoGit: true, metadata: { fishStyle } })).toBe('🔀 (ddfb2de)');
             expect(mockExecFileSync.mock.calls[4]?.[1]).toEqual([...GIT_HARDENING_ARGS, 'rev-parse', '--short', 'HEAD']);
         });
     });
@@ -237,7 +237,7 @@ describe('GitBranchWidget', () => {
     it('should render no git when probe returns false', () => {
         mockExecFileSync.mockReturnValue('false\n');
 
-        expect(render()).toBe('⎇ no git');
+        expect(render()).toBe('🔀 no git');
     });
 
     it('should hide no git when configured', () => {
@@ -252,13 +252,13 @@ describe('GitBranchWidget', () => {
         mockExecFileSync.mockReturnValueOnce('');
         mockExecFileSync.mockReturnValueOnce('');
 
-        expect(render()).toBe('⎇ no git');
+        expect(render()).toBe('🔀 no git');
     });
 
     it('should render no git when command fails', () => {
         mockExecFileSync.mockImplementation(() => { throw new Error('No git'); });
 
-        expect(render()).toBe('⎇ no git');
+        expect(render()).toBe('🔀 no git');
     });
 
     it('should keep plain text when origin remote cannot be parsed', () => {
@@ -266,7 +266,7 @@ describe('GitBranchWidget', () => {
         mockExecFileSync.mockReturnValueOnce('refs/heads/feature/worktree\n');
         mockExecFileSync.mockReturnValueOnce('not-a-valid-remote-url');
 
-        expect(render({ linkToRepo: true })).toBe('⎇ feature/worktree');
+        expect(render({ linkToRepo: true })).toBe('🔀 feature/worktree');
     });
 
     it('should render a link when only the legacy linkToGitHub flag is set', () => {
@@ -276,7 +276,7 @@ describe('GitBranchWidget', () => {
 
         expect(render({ metadata: { linkToGitHub: 'true' } })).toBe(renderOsc8Link(
             'https://github.com/owner/repo/tree/main',
-            '⎇ main'
+            '🔀 main'
         ));
     });
 
@@ -284,7 +284,7 @@ describe('GitBranchWidget', () => {
         mockExecFileSync.mockReturnValueOnce('true\n');
         mockExecFileSync.mockReturnValueOnce('refs/heads/main\n');
 
-        expect(render({ metadata: { linkToRepo: 'false', linkToGitHub: 'true' } })).toBe('⎇ main');
+        expect(render({ metadata: { linkToRepo: 'false', linkToGitHub: 'true' } })).toBe('🔀 main');
     });
 
     describe('max width', () => {
@@ -366,17 +366,17 @@ describe('GitBranchWidget', () => {
 
     describe('fish style', () => {
         it.each([
-            { name: 'preserves a flag in a single segment', branch: '🇨🇳release', expected: '⎇ 🇨🇳' },
-            { name: 'preserves a ZWJ emoji in a single segment', branch: '👩‍💻tools', expected: '⎇ 👩‍💻' },
-            { name: 'preserves a combining mark in a single segment', branch: 'e\u0301quipe', expected: '⎇ e\u0301' },
-            { name: 'preserves skin tone modifiers', branch: '👍🏽fix/topic', expected: '⎇ 👍🏽/topic' },
-            { name: 'preserves variation selectors', branch: '❤️health/topic', expected: '⎇ ❤️/topic' },
-            { name: 'preserves graphemes in every abbreviated segment', branch: '🇨🇳release/👩‍💻tools/e\u0301quipe/topic', expected: '⎇ 🇨🇳/👩‍💻/e\u0301/topic' },
-            { name: 'keeps the final grapheme-bearing segment full', branch: 'feature/👩‍💻tools', expected: '⎇ f/👩‍💻tools' },
-            { name: 'collapses a plain branch to its first letter', branch: 'main', expected: '⎇ m' },
-            { name: 'keeps the last segment full', branch: 'feature/worktree', expected: '⎇ f/worktree' },
-            { name: 'preserves a non-BMP character in a single segment', branch: '🚀launch', expected: '⎇ 🚀' },
-            { name: 'preserves non-BMP characters in abbreviated segments', branch: '🚀launch/🧪tests/topic', expected: '⎇ 🚀/🧪/topic' }
+            { name: 'preserves a flag in a single segment', branch: '🇨🇳release', expected: '🔀 🇨🇳' },
+            { name: 'preserves a ZWJ emoji in a single segment', branch: '👩‍💻tools', expected: '🔀 👩‍💻' },
+            { name: 'preserves a combining mark in a single segment', branch: 'e\u0301quipe', expected: '🔀 e\u0301' },
+            { name: 'preserves skin tone modifiers', branch: '👍🏽fix/topic', expected: '🔀 👍🏽/topic' },
+            { name: 'preserves variation selectors', branch: '❤️health/topic', expected: '🔀 ❤️/topic' },
+            { name: 'preserves graphemes in every abbreviated segment', branch: '🇨🇳release/👩‍💻tools/e\u0301quipe/topic', expected: '🔀 🇨🇳/👩‍💻/e\u0301/topic' },
+            { name: 'keeps the final grapheme-bearing segment full', branch: 'feature/👩‍💻tools', expected: '🔀 f/👩‍💻tools' },
+            { name: 'collapses a plain branch to its first letter', branch: 'main', expected: '🔀 m' },
+            { name: 'keeps the last segment full', branch: 'feature/worktree', expected: '🔀 f/worktree' },
+            { name: 'preserves a non-BMP character in a single segment', branch: '🚀launch', expected: '🔀 🚀' },
+            { name: 'preserves non-BMP characters in abbreviated segments', branch: '🚀launch/🧪tests/topic', expected: '🔀 🚀/🧪/topic' }
         ])('$name', ({ branch, expected }) => {
             mockExecFileSync.mockReturnValueOnce('true\n');
             mockExecFileSync.mockReturnValueOnce(branch);

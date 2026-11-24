@@ -17,7 +17,7 @@ import {
     renderSymbolOverrideEditor
 } from './shared/symbol-override';
 
-const DEFAULT_SYMBOL = '⑂';
+const DEFAULT_SYMBOL = '↪';
 const NOT_FORK_HIDEABLE_STATE: HideableState = { key: 'not-fork', label: 'when repo is not a fork' };
 
 export class GitIsForkWidget implements Widget {
