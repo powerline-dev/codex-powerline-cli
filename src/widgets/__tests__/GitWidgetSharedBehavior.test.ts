@@ -1,4 +1,3 @@
-import { getEnabledHideStates } from '@powerline-dev/codex-powerline-core';
 import {
     describe,
     expect,
@@ -20,6 +19,7 @@ import { GitStagedFilesWidget } from '../GitStagedFiles';
 import { GitUnstagedFilesWidget } from '../GitUnstagedFiles';
 import { GitUntrackedFilesWidget } from '../GitUntrackedFiles';
 import { GitWorktreeWidget } from '../GitWorktree';
+import { getEnabledHideStates } from '../shared/hideable';
 
 const cases: { name: string; itemType: string; widget: Widget }[] = [
     { name: 'GitBranchWidget', itemType: 'git-branch', widget: new GitBranchWidget() },

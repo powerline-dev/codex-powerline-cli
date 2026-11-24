@@ -1,4 +1,3 @@
-import { DEFAULT_SETTINGS } from '@powerline-dev/codex-powerline-core';
 import * as childProcess from 'node:child_process';
 import os from 'node:os';
 import {
@@ -14,6 +13,7 @@ import type {
     RenderContext,
     WidgetItem
 } from '../../types';
+import { DEFAULT_SETTINGS } from '../../types/Settings';
 import { FreeMemoryWidget } from '../FreeMemory';
 
 describe('FreeMemoryWidget', () => {

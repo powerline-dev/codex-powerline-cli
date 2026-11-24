@@ -1,5 +1,4 @@
-import type { RenderContext } from '@powerline-dev/codex-powerline-core';
-
+import type { RenderContext } from '../types/RenderContext';
 import type { WidgetItem } from '../types/Widget';
 import { runJjArgs } from '../utils/jj';
 

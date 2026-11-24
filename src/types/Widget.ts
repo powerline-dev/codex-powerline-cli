@@ -1,16 +1,10 @@
+import type { Settings } from './Settings';
 import type {
-    Settings,
     WidgetDefinition,
     WidgetItem
-} from '@powerline-dev/codex-powerline-core';
+} from './WidgetDefinition';
 
-export type {
-    CustomKeybind,
-    HideableState,
-    WidgetEditorDisplay,
-    WidgetItem,
-    WidgetItemType
-} from '@powerline-dev/codex-powerline-core';
+export type { CustomKeybind, HideableState, WidgetEditorDisplay, WidgetItem, WidgetItemType } from './WidgetDefinition';
 
 export interface Widget extends WidgetDefinition { renderEditor?(props: WidgetEditorProps): React.ReactElement | null }
 

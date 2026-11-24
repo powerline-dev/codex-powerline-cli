@@ -1,9 +1,4 @@
 import {
-    formatRawOrLabeledValue,
-    type RenderContext,
-    type Settings
-} from '@powerline-dev/codex-powerline-core';
-import {
     Box,
     Text,
     useInput
@@ -11,6 +6,8 @@ import {
 import * as os from 'node:os';
 import React, { useState } from 'react';
 
+import { type RenderContext } from '../types/RenderContext';
+import { type Settings } from '../types/Settings';
 import type {
     CustomKeybind,
     Widget,
@@ -28,6 +25,7 @@ import {
 import { shouldInsertInput } from '../utils/input-guards';
 
 import { BlinkingCursor } from './shared/BlinkingCursor';
+import { formatRawOrLabeledValue } from './shared/raw-or-labeled';
 import {
     SYMBOL_OVERRIDE_ACTION,
     formatSymbolPrefix,

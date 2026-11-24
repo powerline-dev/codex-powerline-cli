@@ -1,26 +1,25 @@
-import {
-    formatPercent,
-    formatRawOrLabeledValue,
-    getContextWindowMetrics,
-    resolveNumberFormat,
-    type RenderContext,
-    type Settings
-} from '@powerline-dev/codex-powerline-core';
-
+import { type RenderContext } from '../types/RenderContext';
+import { type Settings } from '../types/Settings';
 import type {
     CustomKeybind,
     Widget,
     WidgetEditorDisplay,
     WidgetItem
 } from '../types/Widget';
+import { getContextWindowMetrics } from '../utils/context-window';
 import {
     getContextConfig,
     getModelContextIdentifier
 } from '../utils/model-context';
+import {
+    formatPercent,
+    resolveNumberFormat
+} from '../utils/number-format';
 import { formatTokens } from '../utils/renderer';
 import { makeUsageProgressBar } from '../utils/usage';
 
 import { makeLineProgressBar } from './shared/progress-bar';
+import { formatRawOrLabeledValue } from './shared/raw-or-labeled';
 import { makeSliderBar } from './shared/usage-display';
 
 const LABEL = 'Context: ';

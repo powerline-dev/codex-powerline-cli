@@ -1,8 +1,4 @@
-import {
-    resolveLegacyWidgetType,
-    type Settings
-} from '@powerline-dev/codex-powerline-core';
-
+import { type Settings } from '../types/Settings';
 import type {
     Widget,
     WidgetItem,
@@ -13,6 +9,7 @@ import {
     filterFuzzySearchRecords,
     type FuzzySearchRecord
 } from './fuzzy';
+import { resolveLegacyWidgetType } from './widget-aliases';
 import {
     LAYOUT_WIDGET_MANIFEST,
     WIDGET_MANIFEST

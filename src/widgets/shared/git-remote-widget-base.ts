@@ -1,11 +1,5 @@
-import {
-    NO_REMOTE_HIDEABLE_STATE,
-    NO_UPSTREAM_HIDEABLE_STATE,
-    isHidden,
-    type RenderContext,
-    type Settings
-} from '@powerline-dev/codex-powerline-core';
-
+import { type RenderContext } from '../../types/RenderContext';
+import { type Settings } from '../../types/Settings';
 import type {
     CustomKeybind,
     HideableState,
@@ -27,6 +21,11 @@ import {
     handleRemoteWidgetAction,
     isLinkToRepoEnabled
 } from './git-remote';
+import {
+    NO_REMOTE_HIDEABLE_STATE,
+    NO_UPSTREAM_HIDEABLE_STATE,
+    isHidden
+} from './hideable';
 
 // How each remote is found, and what shows when it's missing
 const REMOTES = {

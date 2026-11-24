@@ -1,14 +1,11 @@
-import {
-    isHidden,
-    type RenderContext,
-    type Settings
-} from '@powerline-dev/codex-powerline-core';
-
+import { type RenderContext } from '../types/RenderContext';
+import { type Settings } from '../types/Settings';
 import type {
     HideableState,
     WidgetItem
 } from '../types/Widget';
 
+import { isHidden } from './shared/hideable';
 import {
     SESSION_AT_LIMIT_HIDEABLE_STATE,
     isAtSessionLimit

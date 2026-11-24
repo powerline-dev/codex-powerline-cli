@@ -1,9 +1,4 @@
 import {
-    DEFAULT_SETTINGS,
-    type RenderContext,
-    type RenderUsageData
-} from '@powerline-dev/codex-powerline-core';
-import {
     afterEach,
     beforeEach,
     describe,
@@ -12,6 +7,11 @@ import {
     vi
 } from 'vitest';
 
+import {
+    type RenderContext,
+    type RenderUsageData
+} from '../../types/RenderContext';
+import { DEFAULT_SETTINGS } from '../../types/Settings';
 import type { WidgetItem } from '../../types/Widget';
 // Imported before the widgets, as the reset timer tests do: loading a widget first
 // enters the usage -> config -> widget registry import cycle midway under Node.

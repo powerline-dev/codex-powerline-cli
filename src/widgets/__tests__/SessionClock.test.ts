@@ -1,8 +1,4 @@
 import {
-    DEFAULT_SETTINGS,
-    SessionClockWidget
-} from '@powerline-dev/codex-powerline-core';
-import {
     describe,
     expect,
     it
@@ -12,6 +8,8 @@ import type {
     RenderContext,
     WidgetItem
 } from '../../types';
+import { DEFAULT_SETTINGS } from '../../types/Settings';
+import { SessionClockWidget } from '../SessionClock';
 
 function render(item: WidgetItem, context: RenderContext = {}): string | null {
     const widget = new SessionClockWidget();

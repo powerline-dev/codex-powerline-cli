@@ -11,7 +11,6 @@ import {
 interface Manifest {
     name: string;
     version: string;
-    dependencies: Record<string, string>;
 }
 
 interface PackedPackage {
@@ -21,7 +20,6 @@ interface PackedPackage {
 }
 
 const cliDirectory = resolve(import.meta.dir, '..');
-const coreDirectory = resolve(cliDirectory, '../codex-powerline-core');
 const registry = 'https://registry.npmjs.org/';
 
 async function run(cwd: string, ...command: string[]): Promise<void> {
@@ -56,41 +54,16 @@ async function pack(cwd: string, destination: string): Promise<PackedPackage> {
     return packed;
 }
 
-async function requirePublishedCore(core: Manifest): Promise<void> {
-    const spec = `${core.name}@${core.version}`;
-    const response = await fetch(`${registry}${encodeURIComponent(core.name)}/${encodeURIComponent(core.version)}`, {
-        headers: { 'Cache-Control': 'no-cache' },
-        signal: AbortSignal.timeout(15000)
-    });
-    if (response.status === 404) {
-        throw new Error(`${spec} is not on npm. Release Core separately before releasing the CLI.`);
-    }
-    if (!response.ok) {
-        throw new Error(`Could not check ${spec} on npm (HTTP ${response.status}).`);
-    }
-    await response.body?.cancel();
-}
-
 const [mode, ...extraArgs] = process.argv.slice(2);
 if (extraArgs.length || (mode !== '--dry-run' && mode !== '--publish')) {
     throw new Error('Use bun run release or bun run release:dry-run.');
 }
 
-const core = await Bun.file(join(coreDirectory, 'package.json')).json() as Manifest;
 const cli = await Bun.file(join(cliDirectory, 'package.json')).json() as Manifest;
-if (core.name !== '@powerline-dev/codex-powerline-core' || cli.name !== '@powerline-dev/codex-powerline-cli') {
-    throw new Error('Both checkouts must use the powerline-dev npm package names.');
-}
-const coreVersion = cli.dependencies[core.name];
-if (coreVersion !== core.version) {
-    throw new Error(`Core checkout ${core.version} does not match the CLI pin ${coreVersion ?? '(missing)'}.`);
+if (cli.name !== '@powerline-dev/codex-powerline-cli') {
+    throw new Error('Expected the Codex Powerline CLI package.');
 }
 
-if (mode === '--publish') {
-    await requirePublishedCore(core);
-}
-await run(coreDirectory, 'bun', 'install', '--frozen-lockfile');
-await run(coreDirectory, 'bun', 'run', 'build');
 await check(cliDirectory);
 await run(cliDirectory, 'node', 'dist/codex-powerline.js', '--version');
 await run(cliDirectory, 'node', 'dist/codex-powerline.js', '--help');
@@ -98,15 +71,16 @@ await run(cliDirectory, 'node', 'dist/codex-powerline.js', '--help');
 const staging = await mkdtemp(join(tmpdir(), 'powerline-release-'));
 try {
     const packedCli = await pack(cliDirectory, staging);
+    const tarball = join(staging, packedCli.filename);
+    // Validate the packed distribution in isolation for both release modes.
+    await run(staging, 'npm', 'install', '--prefix', staging, '--ignore-scripts', '--no-audit', '--no-fund', '--registry', registry, tarball);
+    const entrypoint = join('node_modules', cli.name, 'dist/codex-powerline.js');
+    await run(staging, 'node', entrypoint, '--version');
+    await run(staging, 'node', entrypoint, '--help');
     if (mode === '--dry-run') {
         console.log(`Checked ${packedCli.name}@${packedCli.version} (${packedCli.filename}).`);
         console.log('Dry run complete. Nothing was published.');
     } else {
-        const tarball = join(staging, packedCli.filename);
-        // Check the distribution without the local Bun link. npm installs the
-        // pinned Core from the registry just as it does for a CLI user.
-        await run(staging, 'npm', 'install', '--prefix', staging, '--ignore-scripts', '--no-audit', '--no-fund', '--registry', registry, tarball);
-        await run(staging, 'node', join('node_modules', cli.name, 'dist/codex-powerline.js'), '--version');
         await run(staging, 'npm', 'publish', tarball, '--access', 'public', '--registry', registry);
     }
 } finally {

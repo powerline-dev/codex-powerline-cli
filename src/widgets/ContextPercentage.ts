@@ -1,5 +1,4 @@
-import type { RenderContext } from '@powerline-dev/codex-powerline-core';
-
+import type { RenderContext } from '../types/RenderContext';
 import { calculateContextPercentageMetrics } from '../utils/context-percentage';
 
 import { ContextPercentageWidgetBase } from './shared/context-percentage-widget-base';

@@ -1,15 +1,12 @@
 import {
-    MERGE_TARGET_HIDDEN_HIDEABLE_STATE,
-    type RenderContext,
-    type Settings
-} from '@powerline-dev/codex-powerline-core';
-import {
     Box,
     Text,
     useInput
 } from 'ink';
 import React, { useState } from 'react';
 
+import { type RenderContext } from '../types/RenderContext';
+import { type Settings } from '../types/Settings';
 import type {
     CustomKeybind,
     HideableState,
@@ -21,6 +18,7 @@ import type {
 import { shouldInsertInput } from '../utils/input-guards';
 
 import { BlinkingCursor } from './shared/BlinkingCursor';
+import { MERGE_TARGET_HIDDEN_HIDEABLE_STATE } from './shared/hideable';
 import { getGraphemes } from './shared/text-cursor';
 
 export class CustomSymbolWidget implements Widget {

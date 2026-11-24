@@ -1,4 +1,3 @@
-import { removeMetadataKeys } from '@powerline-dev/codex-powerline-core';
 import {
     Box,
     Text,
@@ -15,6 +14,7 @@ import { getVisibleWidth } from '../../utils/ansi';
 import { shouldInsertInput } from '../../utils/input-guards';
 
 import { BlinkingCursor } from './BlinkingCursor';
+import { removeMetadataKeys } from './metadata';
 import { getGraphemes } from './text-cursor';
 
 export const SYMBOL_OVERRIDE_ACTION = 'edit-symbol-override';

@@ -1,7 +1,3 @@
-import {
-    cloneSettings,
-    type Settings
-} from '@powerline-dev/codex-powerline-core';
 import chalk from 'chalk';
 import {
     Box,
@@ -17,7 +13,9 @@ import React, {
     useState
 } from 'react';
 
+import { type Settings } from '../types/Settings';
 import type { WidgetItem } from '../types/Widget';
+import { cloneSettings } from '../utils/clone-settings';
 import { updateColorMap } from '../utils/colors';
 import {
     applyImport,

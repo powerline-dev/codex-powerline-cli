@@ -1,15 +1,12 @@
 import {
-    MERGE_TARGET_HIDDEN_HIDEABLE_STATE,
-    type RenderContext,
-    type Settings
-} from '@powerline-dev/codex-powerline-core';
-import {
     Box,
     Text,
     useInput
 } from 'ink';
 import React from 'react';
 
+import { type RenderContext } from '../types/RenderContext';
+import { type Settings } from '../types/Settings';
 import type {
     CustomKeybind,
     HideableState,
@@ -19,6 +16,7 @@ import type {
     WidgetItem
 } from '../types/Widget';
 
+import { MERGE_TARGET_HIDDEN_HIDEABLE_STATE } from './shared/hideable';
 import { useTextCursor } from './shared/text-cursor';
 
 export class CustomTextWidget implements Widget {

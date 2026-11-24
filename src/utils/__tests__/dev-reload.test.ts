@@ -1,4 +1,3 @@
-import { DEFAULT_SETTINGS } from '@powerline-dev/codex-powerline-core';
 import { randomBytes } from 'node:crypto';
 import { EventEmitter } from 'node:events';
 import * as fs from 'node:fs';
@@ -14,6 +13,7 @@ import {
     vi
 } from 'vitest';
 
+import { DEFAULT_SETTINGS } from '../../types/Settings';
 import {
     DEV_RELOAD_CHILD_ARG_PREFIX,
     DEV_RELOAD_EXIT_CODE,

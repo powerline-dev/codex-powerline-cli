@@ -1,16 +1,9 @@
+import { type NumberFormat } from '../types/NumberFormat';
 import {
-    WIDGET_SYMBOLS,
-    formatTokens,
-    isHidden,
-    isMetadataFlagEnabled,
-    resolveNumberFormat,
-    toggleMetadataFlag,
     type CompactionData,
-    type NumberFormat,
-    type RenderContext,
-    type Settings
-} from '@powerline-dev/codex-powerline-core';
-
+    type RenderContext
+} from '../types/RenderContext';
+import { type Settings } from '../types/Settings';
 import type {
     CustomKeybind,
     HideableState,
@@ -20,6 +13,8 @@ import type {
     WidgetItem
 } from '../types/Widget';
 import { ZERO_COMPACTION_STATS } from '../utils/compaction';
+import { formatTokens } from '../utils/format-tokens';
+import { resolveNumberFormat } from '../utils/number-format';
 
 import {
     getFormat,
@@ -27,12 +22,18 @@ import {
     handleFormatAction,
     type FormatOptions
 } from './shared/format-options';
+import { isHidden } from './shared/hideable';
+import {
+    isMetadataFlagEnabled,
+    toggleMetadataFlag
+} from './shared/metadata';
 import {
     getSlotSymbol,
     getSymbolKeybind,
     renderSymbolSlotsEditor,
     type SymbolSlot
 } from './shared/symbol-override';
+import { WIDGET_SYMBOLS } from './shared/symbols';
 
 const FORMATS = ['icon-space-number', 'text-and-number', 'number'] as const;
 type CompactionCounterFormat = typeof FORMATS[number];

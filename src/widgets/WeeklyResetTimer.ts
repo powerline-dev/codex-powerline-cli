@@ -1,14 +1,7 @@
-import {
-    formatRawOrLabeledValue,
-    isHidden,
-    isMetadataFlagEnabled,
-    resolveNumberFormat,
-    toggleMetadataFlag,
-    type RenderContext,
-    type Settings
-} from '@powerline-dev/codex-powerline-core';
 import type React from 'react';
 
+import { type RenderContext } from '../types/RenderContext';
+import { type Settings } from '../types/Settings';
 import type {
     CustomKeybind,
     HideableState,
@@ -17,6 +10,7 @@ import type {
     WidgetEditorProps,
     WidgetItem
 } from '../types/Widget';
+import { resolveNumberFormat } from '../utils/number-format';
 import {
     formatUsageDuration,
     formatUsageResetAt,
@@ -25,10 +19,16 @@ import {
 } from '../utils/usage';
 
 import { makeModifierText } from './shared/editor-display';
+import { isHidden } from './shared/hideable';
 import {
     LOCALE_EDITOR_ACTION,
     renderUsageLocaleEditor
 } from './shared/locale-editor';
+import {
+    isMetadataFlagEnabled,
+    toggleMetadataFlag
+} from './shared/metadata';
+import { formatRawOrLabeledValue } from './shared/raw-or-labeled';
 import {
     TIMEZONE_EDITOR_ACTION,
     renderUsageTimezoneEditor

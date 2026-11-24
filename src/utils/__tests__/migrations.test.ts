@@ -1,14 +1,14 @@
 import {
-    DEFAULT_SETTINGS,
-    V4_HIDE_FLAG_RULES,
-    migrateConfig
-} from '@powerline-dev/codex-powerline-core';
-import {
     describe,
     expect,
     it
 } from 'vitest';
 
+import { DEFAULT_SETTINGS } from '../../types/Settings';
+import {
+    V4_HIDE_FLAG_RULES,
+    migrateConfig
+} from '../migrations';
 import {
     getAllWidgetTypes,
     getWidget

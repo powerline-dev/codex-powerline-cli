@@ -1,9 +1,10 @@
-import type { RenderContext } from '@powerline-dev/codex-powerline-core';
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import * as fs from 'node:fs';
 import * as os from 'node:os';
 import * as path from 'node:path';
+
+import type { RenderContext } from '../types/RenderContext';
 
 import { resolveExecutable } from './executable-path';
 import {

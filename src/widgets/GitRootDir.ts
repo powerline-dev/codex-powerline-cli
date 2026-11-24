@@ -1,11 +1,5 @@
-import {
-    NO_GIT_HIDEABLE_STATE,
-    isHidden,
-    isMetadataFlagEnabled,
-    type RenderContext,
-    type Settings
-} from '@powerline-dev/codex-powerline-core';
-
+import { type RenderContext } from '../types/RenderContext';
+import { type Settings } from '../types/Settings';
 import type {
     CustomKeybind,
     HideableState,
@@ -27,12 +21,17 @@ import {
 
 import { makeModifierText } from './shared/editor-display';
 import {
+    NO_GIT_HIDEABLE_STATE,
+    isHidden
+} from './shared/hideable';
+import {
     MAX_WIDTH_ACTION,
     applyMaxWidth,
     getMaxWidthKeybind,
     getMaxWidthModifier,
     renderMaxWidthEditor
 } from './shared/max-width';
+import { isMetadataFlagEnabled } from './shared/metadata';
 
 const IDE_LINK_KEY = 'linkToIDE';
 const LEGACY_CURSOR_LINK_KEY = 'linkToCursor';

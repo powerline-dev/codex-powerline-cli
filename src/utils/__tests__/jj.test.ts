@@ -1,4 +1,3 @@
-import type { RenderContext } from '@powerline-dev/codex-powerline-core';
 import { execFileSync } from 'node:child_process';
 import {
     beforeEach,
@@ -8,6 +7,7 @@ import {
     vi
 } from 'vitest';
 
+import type { RenderContext } from '../../types/RenderContext';
 import * as executablePath from '../executable-path';
 import {
     getJjChangeCounts,

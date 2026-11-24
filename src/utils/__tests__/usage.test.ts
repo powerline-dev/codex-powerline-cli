@@ -1,20 +1,22 @@
 import {
-    FIVE_HOUR_BLOCK_MS,
-    SEVEN_DAY_WINDOW_MS,
-    formatUsageDuration,
-    formatUsageResetAt,
-    getUsageWindowFromResetAt,
-    getWeeklyUsageWindowFromResetAt,
-    resolveUsageWindowWithFallback,
-    resolveWeeklyUsageWindow
-} from '@powerline-dev/codex-powerline-core';
-import {
     describe,
     expect,
     it
 } from 'vitest';
 
 import type { BlockMetrics } from '../../types';
+import {
+    FIVE_HOUR_BLOCK_MS,
+    SEVEN_DAY_WINDOW_MS
+} from '../usage-types';
+import {
+    formatUsageDuration,
+    formatUsageResetAt,
+    getUsageWindowFromResetAt,
+    getWeeklyUsageWindowFromResetAt,
+    resolveUsageWindowWithFallback,
+    resolveWeeklyUsageWindow
+} from '../usage-windows';
 
 describe('usage window helpers', () => {
     it('parses usage reset timestamp into elapsed and remaining metrics', () => {

@@ -1,9 +1,3 @@
-import {
-    advanceGlobalPowerlineThemeIndex,
-    advanceGlobalSeparatorIndex,
-    type RenderContext,
-    type Settings
-} from '@powerline-dev/codex-powerline-core';
 import chalk from 'chalk';
 import {
     Box,
@@ -11,11 +5,14 @@ import {
 } from 'ink';
 import React from 'react';
 
+import { type RenderContext } from '../../types/RenderContext';
+import { type Settings } from '../../types/Settings';
 import type { WidgetItem } from '../../types/Widget';
 import {
     getVisibleWidth,
     truncateStyledText
 } from '../../utils/ansi';
+import { advanceGlobalPowerlineThemeIndex } from '../../utils/powerline-theme-index';
 import {
     calculateMaxWidthsFromPreRendered,
     countPowerlineStartCapSlots,
@@ -24,6 +21,7 @@ import {
     type PreRenderedWidget,
     type RenderResult
 } from '../../utils/renderer';
+import { advanceGlobalSeparatorIndex } from '../../utils/separator-index';
 import { sanitizeTerminalText } from '../../utils/terminal-sanitize';
 import { getCodexLines } from '../../utils/widgets';
 

@@ -1,9 +1,4 @@
 import {
-    MERGE_TARGET_HIDDEN_HIDEABLE_STATE,
-    getEnabledHideStates,
-    setEnabledHideStates
-} from '@powerline-dev/codex-powerline-core';
-import {
     Box,
     Text,
     useInput
@@ -15,6 +10,11 @@ import type {
     WidgetItem
 } from '../../types/Widget';
 import { getPlainInput } from '../../utils/input-guards';
+import {
+    MERGE_TARGET_HIDDEN_HIDEABLE_STATE,
+    getEnabledHideStates,
+    setEnabledHideStates
+} from '../../widgets/shared/hideable';
 
 export interface HideStatesEditorProps {
     widget: WidgetItem;

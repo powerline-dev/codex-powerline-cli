@@ -6,7 +6,7 @@ description: Install or refresh the current Powerline checkout as the user's cod
 # Codex Powerline local install
 
 From the repository root, build and install a tarball from the current
-checkout. Build and link the sibling Core checkout as described in the README.
+checkout. All settings, themes, widgets, and presets are included in this repository.
 If dependencies are missing, run `bun install --frozen-lockfile`
 before the build. The tarball can replace the installed package at the same
 version without a registry release. It does not change saved layouts.
@@ -14,11 +14,6 @@ version without a registry release. It does not change saved layouts.
 Check `npm prefix -g` and locate the existing command. If the command resolves
 outside that prefix, identify which installation is first on PATH before
 replacing anything. Use the user's existing writable npm prefix.
-
-For an unpublished Core version, pack the sibling checkout into a temporary
-folder first. Set `$corePackage` (PowerShell) or `core_package` (macOS) to
-its absolute tarball path. After Core is on npm, use the matching
-`@powerline-dev/codex-powerline-core@<version>` instead.
 
 ## Windows (PowerShell)
 
@@ -42,7 +37,7 @@ try {
         throw 'npm pack did not produce the expected tarball'
     }
     $tarball = Join-Path $packDir $packName
-    npm.cmd install --global $corePackage $tarball
+    npm.cmd install --global $tarball
     if ($LASTEXITCODE -ne 0) { throw 'Local Powerline installation failed' }
 } finally {
     if ($tarball) { Remove-Item -LiteralPath $tarball }
@@ -63,7 +58,7 @@ exercises the built Node entry point, bundled assets, and macOS postinstall.
   tarball=
   trap 'test -z "$tarball" || unlink "$pack_dir/$tarball"; rmdir "$pack_dir"' EXIT
   tarball="$(npm pack --pack-destination "$pack_dir" --silent)"
-  npm install --global "$core_package" "$pack_dir/$tarball"
+  npm install --global "$pack_dir/$tarball"
 )
 ```
 

@@ -1,10 +1,5 @@
-import {
-    NO_GIT_HIDEABLE_STATE,
-    isHidden,
-    type RenderContext,
-    type Settings
-} from '@powerline-dev/codex-powerline-core';
-
+import { type RenderContext } from '../../types/RenderContext';
+import { type Settings } from '../../types/Settings';
 import type {
     CustomKeybind,
     HideableState,
@@ -18,6 +13,10 @@ import {
     isInsideGitWorkTree
 } from '../../utils/git';
 
+import {
+    NO_GIT_HIDEABLE_STATE,
+    isHidden
+} from './hideable';
 import {
     getSymbol,
     getSymbolKeybind,

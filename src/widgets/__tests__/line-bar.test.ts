@@ -1,8 +1,4 @@
 import {
-    DEFAULT_SETTINGS,
-    type RenderContext
-} from '@powerline-dev/codex-powerline-core';
-import {
     afterEach,
     beforeEach,
     describe,
@@ -11,6 +7,8 @@ import {
     vi
 } from 'vitest';
 
+import { type RenderContext } from '../../types/RenderContext';
+import { DEFAULT_SETTINGS } from '../../types/Settings';
 import type { WidgetItem } from '../../types/Widget';
 import { BlockResetTimerWidget } from '../BlockResetTimer';
 import { ContextBarWidget } from '../ContextBar';

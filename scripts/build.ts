@@ -1,5 +1,4 @@
 import {
-    cp,
     readdir,
     rm
 } from 'node:fs/promises';
@@ -12,7 +11,7 @@ const result = await Bun.build({
     splitting: true,
     format: 'esm',
     outdir,
-    external: ['@xterm/headless', '@powerline-dev/codex-powerline-core', 'node-pty', 'ws']
+    external: ['@xterm/headless', 'node-pty', 'ws']
 });
 
 if (!result.success) {
@@ -20,9 +19,6 @@ if (!result.success) {
         console.error(log);
     process.exit(1);
 }
-
-const coreManifest = import.meta.resolve('@powerline-dev/codex-powerline-core/package.json');
-await cp(new URL('./configTemplates/', coreManifest), 'configTemplates', { recursive: true });
 
 // Bun writes the executable and its lazy chunks as JavaScript.
 const packageJson = await Bun.file('package.json').json() as { version: string };

@@ -1,9 +1,3 @@
-import {
-    DEFAULT_SETTINGS,
-    advanceGlobalPowerlineThemeIndex,
-    type RenderContext,
-    type Settings
-} from '@powerline-dev/codex-powerline-core';
 import { render } from 'ink';
 import { PassThrough } from 'node:stream';
 import React from 'react';
@@ -15,8 +9,14 @@ import {
     vi
 } from 'vitest';
 
+import { type RenderContext } from '../../../types/RenderContext';
+import {
+    DEFAULT_SETTINGS,
+    type Settings
+} from '../../../types/Settings';
 import type { WidgetItem } from '../../../types/Widget';
 import { getPowerlineThemes } from '../../../utils/colors';
+import { advanceGlobalPowerlineThemeIndex } from '../../../utils/powerline-theme-index';
 import {
     calculateMaxWidthsFromPreRendered,
     preRenderAllWidgets,

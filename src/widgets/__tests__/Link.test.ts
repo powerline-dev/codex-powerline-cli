@@ -1,7 +1,3 @@
-import {
-    DEFAULT_SETTINGS,
-    type RenderContext
-} from '@powerline-dev/codex-powerline-core';
 import { render } from 'ink';
 import { PassThrough } from 'node:stream';
 import {
@@ -13,6 +9,8 @@ import {
 
 import { forceInkColors } from '../../tui/__tests__/helpers/ink-colors';
 import { waitFor } from '../../tui/__tests__/helpers/wait-for-ink';
+import { type RenderContext } from '../../types/RenderContext';
+import { DEFAULT_SETTINGS } from '../../types/Settings';
 import type { WidgetItem } from '../../types/Widget';
 import { LinkWidget } from '../Link';
 

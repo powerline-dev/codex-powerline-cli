@@ -1,13 +1,12 @@
-import {
-    NO_GIT_HIDEABLE_STATE,
-    isHidden,
-    type RenderContext
-} from '@powerline-dev/codex-powerline-core';
-
+import { type RenderContext } from '../types/RenderContext';
 import type { WidgetItem } from '../types/Widget';
 import { getGitShortSha } from '../utils/git';
 
 import { GitStatusWidgetBase } from './shared/git-status-widget';
+import {
+    NO_GIT_HIDEABLE_STATE,
+    isHidden
+} from './shared/hideable';
 
 export class GitShaWidget extends GitStatusWidgetBase {
     getDefaultColor(): string { return 'brightBlack'; }

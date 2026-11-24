@@ -1,4 +1,3 @@
-import { DEFAULT_SETTINGS } from '@powerline-dev/codex-powerline-core';
 import {
     afterEach,
     beforeEach,
@@ -8,6 +7,7 @@ import {
 } from 'vitest';
 
 import type { RenderContext } from '../../types';
+import { DEFAULT_SETTINGS } from '../../types/Settings';
 import { calculateContextPercentageMetrics } from '../../utils/context-percentage';
 import { getWidget } from '../../utils/widgets';
 

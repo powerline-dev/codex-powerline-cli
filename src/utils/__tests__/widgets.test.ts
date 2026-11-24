@@ -1,15 +1,15 @@
 import {
-    DEFAULT_SETTINGS,
-    getHideKeybind,
-    getLabelKeybind,
-    type Settings
-} from '@powerline-dev/codex-powerline-core';
-import {
     describe,
     expect,
     it
 } from 'vitest';
 
+import {
+    DEFAULT_SETTINGS,
+    type Settings
+} from '../../types/Settings';
+import { getHideKeybind } from '../../widgets/shared/hideable';
+import { getLabelKeybind } from '../../widgets/shared/raw-or-labeled';
 import {
     filterWidgetCatalog,
     getAllWidgetTypes,

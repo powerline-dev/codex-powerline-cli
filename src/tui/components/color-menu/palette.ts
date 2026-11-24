@@ -1,5 +1,4 @@
-import type { ColorLevelString } from '@powerline-dev/codex-powerline-core';
-
+import type { ColorLevelString } from '../../../types/ColorLevel';
 import {
     getAvailableBackgroundColorsForUI,
     getAvailableColorsForUI,

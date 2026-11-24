@@ -1,15 +1,13 @@
 import {
-    DEFAULT_SETTINGS,
-    PermissionsWidget,
-    StatusJSONSchema
-} from '@powerline-dev/codex-powerline-core';
-import {
     describe,
     expect,
     it
 } from 'vitest';
 
+import { DEFAULT_SETTINGS } from '../../types/Settings';
+import { StatusJSONSchema } from '../../types/StatusJSON';
 import type { WidgetItem } from '../../types/Widget';
+import { PermissionsWidget } from '../Permissions';
 
 const ITEM: WidgetItem = { id: 'permissions', type: 'permissions' };
 const widget = new PermissionsWidget();

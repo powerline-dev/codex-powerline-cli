@@ -1,11 +1,10 @@
+import { type NumberFormat } from '../../types/NumberFormat';
+import { type RenderContext } from '../../types/RenderContext';
 import {
-    formatPercent,
     getContextWindowTurnCacheTokens,
-    type NumberFormat,
-    type RenderContext,
     type TurnCacheTokens
-} from '@powerline-dev/codex-powerline-core';
-
+} from '../../utils/context-window';
+import { formatPercent } from '../../utils/number-format';
 import { formatTokens } from '../../utils/renderer';
 
 // Resolves the cache token triple for either scope:

@@ -1,7 +1,3 @@
-import {
-    DEFAULT_SETTINGS,
-    type Settings
-} from '@powerline-dev/codex-powerline-core';
 import { render } from 'ink';
 import { PassThrough } from 'node:stream';
 import React from 'react';
@@ -13,6 +9,10 @@ import {
     vi
 } from 'vitest';
 
+import {
+    DEFAULT_SETTINGS,
+    type Settings
+} from '../../../types/Settings';
 import { waitFor } from '../../__tests__/helpers/wait-for-ink';
 import {
     ImportPreviewDialog,

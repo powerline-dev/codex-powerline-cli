@@ -1,12 +1,12 @@
-import {
-    removeMetadataKeys,
-    setWidgetFormat
-} from '@powerline-dev/codex-powerline-core';
-
 import type {
     CustomKeybind,
     WidgetItem
 } from '../../types/Widget';
+
+import {
+    removeMetadataKeys,
+    setWidgetFormat
+} from './metadata';
 
 export const CYCLE_FORMAT_ACTION = 'cycle-format';
 

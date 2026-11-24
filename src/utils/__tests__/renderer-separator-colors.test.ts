@@ -1,8 +1,3 @@
-import {
-    DEFAULT_SETTINGS,
-    type RenderContext,
-    type Settings
-} from '@powerline-dev/codex-powerline-core';
 import chalk from 'chalk';
 import {
     afterEach,
@@ -12,6 +7,11 @@ import {
     it
 } from 'vitest';
 
+import { type RenderContext } from '../../types/RenderContext';
+import {
+    DEFAULT_SETTINGS,
+    type Settings
+} from '../../types/Settings';
 import type { WidgetItem } from '../../types/Widget';
 import { stripSgrCodes } from '../ansi';
 import { updateColorMap } from '../colors';

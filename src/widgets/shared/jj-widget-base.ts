@@ -1,10 +1,5 @@
-import {
-    NO_JJ_HIDEABLE_STATE,
-    isHidden,
-    type RenderContext,
-    type Settings
-} from '@powerline-dev/codex-powerline-core';
-
+import { type RenderContext } from '../../types/RenderContext';
+import { type Settings } from '../../types/Settings';
 import type {
     HideableState,
     Widget,
@@ -12,6 +7,11 @@ import type {
     WidgetItem
 } from '../../types/Widget';
 import { isInsideJjRepo } from '../../utils/jj';
+
+import {
+    NO_JJ_HIDEABLE_STATE,
+    isHidden
+} from './hideable';
 
 // The Jujutsu widgets each read one value with their own jj command and format
 // it; the TUI preview formats a sample the same way. Outside a jj repo, or when

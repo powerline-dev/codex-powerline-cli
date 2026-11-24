@@ -1,4 +1,3 @@
-import type { RenderContext } from '@powerline-dev/codex-powerline-core';
 import { execFileSync } from 'node:child_process';
 import * as fs from 'node:fs';
 import * as os from 'node:os';
@@ -12,6 +11,7 @@ import {
     vi
 } from 'vitest';
 
+import type { RenderContext } from '../../types/RenderContext';
 import * as executablePath from '../executable-path';
 import {
     clearGitCache,

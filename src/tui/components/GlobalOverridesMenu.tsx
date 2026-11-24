@@ -1,20 +1,21 @@
 import {
-    DefaultPaddingSideSchema,
-    NUMBER_KINDS,
-    getColorLevelString,
-    getNextNumberStyle,
-    type GlobalNumberFormat,
-    type NumberFormat,
-    type NumberKind,
-    type Settings
-} from '@powerline-dev/codex-powerline-core';
-import {
     Box,
     Text,
     useInput
 } from 'ink';
 import React, { useState } from 'react';
 
+import { getColorLevelString } from '../../types/ColorLevel';
+import {
+    NUMBER_KINDS,
+    type GlobalNumberFormat,
+    type NumberFormat,
+    type NumberKind
+} from '../../types/NumberFormat';
+import {
+    DefaultPaddingSideSchema,
+    type Settings
+} from '../../types/Settings';
 import {
     COLOR_MAP,
     applyColors,
@@ -26,6 +27,7 @@ import {
     getPlainInput,
     shouldInsertInput
 } from '../../utils/input-guards';
+import { getNextNumberStyle } from '../../utils/number-format';
 
 import { ConfirmDialog } from './ConfirmDialog';
 

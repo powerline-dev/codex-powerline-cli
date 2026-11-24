@@ -1,9 +1,3 @@
-import {
-    CURRENT_VERSION,
-    DEFAULT_SETTINGS,
-    type InstallationMetadata,
-    type Settings
-} from '@powerline-dev/codex-powerline-core';
 import * as fs from 'node:fs';
 import * as os from 'node:os';
 import path from 'node:path';
@@ -19,6 +13,12 @@ import {
     type MockInstance
 } from 'vitest';
 
+import {
+    CURRENT_VERSION,
+    DEFAULT_SETTINGS,
+    type InstallationMetadata,
+    type Settings
+} from '../../types/Settings';
 import type { ImportValidationResult } from '../config';
 
 // Unique per run, so test runs going at once don't delete each other's files

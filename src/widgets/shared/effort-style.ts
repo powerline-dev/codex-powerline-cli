@@ -1,12 +1,10 @@
-import {
-    getLabel,
-    removeMetadataKeys,
-    type ColorLevelString
-} from '@powerline-dev/codex-powerline-core';
-
+import { type ColorLevelString } from '../../types/ColorLevel';
 import type { WidgetItem } from '../../types/Widget';
 import { getColorAnsiCode } from '../../utils/colors';
 import type { ThinkingEffortLevel } from '../../utils/reasoning-effort';
+
+import { removeMetadataKeys } from './metadata';
+import { getLabel } from './raw-or-labeled';
 
 // Every option below stores nothing while at its default, so a Thinking
 // Effort widget nobody has customized keeps an empty metadata object.

@@ -1,7 +1,3 @@
-import {
-    DEFAULT_SETTINGS,
-    type RenderContext
-} from '@powerline-dev/codex-powerline-core';
 import { execFileSync } from 'node:child_process';
 import {
     beforeEach,
@@ -11,6 +7,8 @@ import {
     vi
 } from 'vitest';
 
+import { type RenderContext } from '../../types/RenderContext';
+import { DEFAULT_SETTINGS } from '../../types/Settings';
 import type { WidgetItem } from '../../types/Widget';
 import { mockExecutableResolution } from '../../utils/__tests__/executable-path-test-helpers';
 import { JjDeletionsWidget } from '../JjDeletions';

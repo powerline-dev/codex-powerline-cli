@@ -1,0 +1,22 @@
+{
+  "version": 4,
+  "colorLevel": 2,
+  "defaultPadding": " ",
+  "lines": [
+    [
+      { "id": "model", "type": "model", "rawValue": true, "color": "black", "backgroundColor": "bgCyan", "bold": true },
+      { "id": "effort", "type": "thinking-effort", "rawValue": true, "color": "brightWhite", "backgroundColor": "bgBlue" },
+      { "id": "branch", "type": "git-branch", "rawValue": true, "color": "brightWhite", "backgroundColor": "bgMagenta" },
+      { "id": "context", "type": "context-percentage", "color": "black", "backgroundColor": "bgGreen" }
+    ],
+    [
+      { "id": "cwd", "type": "current-working-dir", "rawValue": true, "color": "black", "backgroundColor": "bgYellow" },
+      { "id": "session", "type": "session-usage", "color": "black", "backgroundColor": "bgCyan" },
+      { "id": "weekly", "type": "weekly-usage", "color": "brightWhite", "backgroundColor": "bgBlue" }
+    ]
+  ],
+  "powerline": {
+    "enabled": true,
+    "separators": ["\uE0B0"]
+  }
+}

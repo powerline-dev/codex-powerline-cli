@@ -1,4 +1,3 @@
-import { DEFAULT_SETTINGS } from '@powerline-dev/codex-powerline-core';
 import type * as childProcess from 'node:child_process';
 import * as fs from 'node:fs';
 import { createRequire } from 'node:module';
@@ -15,6 +14,7 @@ import {
     it
 } from 'vitest';
 
+import { DEFAULT_SETTINGS } from '../../types/Settings';
 import type { WidgetItem } from '../../types/Widget';
 import { getWidget } from '../../utils/widgets';
 import { GitAccountWidget } from '../GitAccount';
@@ -50,7 +50,7 @@ describe('Git Account', () => {
         const modulePath = (relative: string) => JSON.stringify(fileURLToPath(new URL(relative, import.meta.url)));
         fs.writeFileSync(entryPath, `
             import { GitAccountWidget } from ${modulePath('../GitAccount.ts')};
-            import { DEFAULT_SETTINGS } from ${JSON.stringify(fileURLToPath(import.meta.resolve('@powerline-dev/codex-powerline-core')))};
+            import { DEFAULT_SETTINGS } from ${modulePath('../../types/Settings.ts')};
             const [, , cwd, rawItem] = process.argv;
             const output = new GitAccountWidget().render(JSON.parse(rawItem), { data: { cwd } }, DEFAULT_SETTINGS);
             console.log(JSON.stringify(output));

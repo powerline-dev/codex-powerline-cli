@@ -1,8 +1,4 @@
 import {
-    getColorLevelString,
-    type ColorLevelString
-} from '@powerline-dev/codex-powerline-core';
-import {
     Box,
     Text,
     useInput,
@@ -10,6 +6,10 @@ import {
 } from 'ink';
 import React, { useState } from 'react';
 
+import {
+    getColorLevelString,
+    type ColorLevelString
+} from '../../types/ColorLevel';
 import type {
     WidgetEditorProps,
     WidgetItem

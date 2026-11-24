@@ -1,8 +1,4 @@
 import {
-    ContextLengthWidget,
-    DEFAULT_SETTINGS
-} from '@powerline-dev/codex-powerline-core';
-import {
     afterEach,
     beforeEach,
     describe,
@@ -12,9 +8,11 @@ import {
 } from 'vitest';
 
 import type { RenderContext } from '../../types';
+import { DEFAULT_SETTINGS } from '../../types/Settings';
 import type { WidgetItem } from '../../types/Widget';
 import * as usage from '../../utils/usage';
 import { ContextBarWidget } from '../ContextBar';
+import { ContextLengthWidget } from '../ContextLength';
 import { ContextWindowWidget } from '../ContextWindow';
 
 describe('ContextBarWidget', () => {

@@ -1,13 +1,11 @@
 import {
-    DEFAULT_SETTINGS,
-    type RenderContext
-} from '@powerline-dev/codex-powerline-core';
-import {
     describe,
     expect,
     it
 } from 'vitest';
 
+import { type RenderContext } from '../../types/RenderContext';
+import { DEFAULT_SETTINGS } from '../../types/Settings';
 import { GitStatusWidget } from '../GitStatus';
 
 describe('GitStatusWidget', () => {

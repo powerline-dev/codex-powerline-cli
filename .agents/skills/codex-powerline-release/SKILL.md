@@ -11,10 +11,8 @@ in to npm or upload a package.
 
 ## Prepare and validate
 
-Release Core separately before a CLI release that needs a new Core version.
-Pin the exact published Core version in the CLI's `package.json` and run
-`bun install` to update the lockfile. Keep the matching release checkout in
-`../codex-powerline-core` for the local Bun resolution.
+The CLI repository contains all source and presets. No sibling checkout or
+separate package release is required.
 
 Check `package.json`, the changelog, and the working tree. For a new release,
 bump the version only if it has not already been prepared:
@@ -31,19 +29,18 @@ the matching version section in `CHANGELOG.md`.
 bun run release:dry-run
 ```
 
-This builds the sibling Core checkout, then runs CLI lint and tests, checks the
-built Node entry point with `--version` and `--help`, and packs the CLI without
-uploading anything. Use `npm pack --dry-run`
-after the build to inspect a package's file list. Check that the CLI package
-includes `dist/codex-powerline.js`, its chunks, `LICENSE`, and `NOTICE`, and
-that the built version matches the manifest.
+This installs dependencies, runs lint and all tests, builds the CLI, and checks
+the built Node entry point with `--version` and `--help`. It then packs the CLI,
+installs that tarball in a temporary npm prefix, and checks the installed Node
+entry point. Nothing is uploaded. Use `npm pack --dry-run` after the build to
+inspect the file list. Check that it includes `dist/codex-powerline.js`, its
+chunks, `configTemplates/`, `LICENSE`, and `NOTICE`, and that the built version
+matches the manifest.
 
-Pack Core and the CLI with `npm pack`. Install both tarballs in one command
-into a temporary npm prefix, then run the installed executable with the sample
-payload and a shipped preset. This checks the dependency without publishing
-Core. The maintainer's `bun run release` command installs the CLI tarball with
-its pinned Core from npm before publishing only the CLI. Do not run it during
-release preparation.
+Render `scripts/payload.example.json` with each shipped preset using the
+installed executable. The maintainer's `bun run release` command performs the
+same validation and publishes the CLI tarball. Do not run it during release
+preparation.
 
 For installer or font changes, also install the packed tarball with a temporary
 `HOME`, `CODEX_HOME`, and npm global prefix. Check that `assets/fonts/` and its
@@ -57,7 +54,6 @@ Use the public npm version list to check whether the planned version is
 already published:
 
 ```sh
-npm view @powerline-dev/codex-powerline-core versions --json
 npm view @powerline-dev/codex-powerline-cli versions --json
 ```
 

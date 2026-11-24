@@ -1,4 +1,4 @@
-import type { RenderContext } from '@powerline-dev/codex-powerline-core';
+import type { RenderContext } from '../types/RenderContext';
 
 import { TokenCountWidget } from './shared/token-count-widget';
 

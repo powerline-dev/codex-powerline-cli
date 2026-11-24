@@ -7,8 +7,8 @@ assistant's runtime, config files, credentials, or transcript format.
 
 ## Development
 
-- Clone and build Core in `../codex-powerline-core` before installing the CLI.
-  The Bun resolution is for local development, not an npm dependency path.
+- This repository owns the complete CLI, settings, themes, widgets, and presets.
+  Development and releases require only this checkout.
 
 - Install dependencies with `bun install --frozen-lockfile`.
 - Run the editor from source with `bun run start configure`.
@@ -45,7 +45,8 @@ asks to keep the work local.
 | Widgets and registry | `src/widgets/`, `src/utils/widget-manifest.ts` |
 | Settings files and backups | `src/utils/config.ts` |
 
-Schemas, migrations, themes, shared widgets, and presets are in Core.
+Schemas are in `src/types/`; migrations and themes in `src/utils/`; widgets
+in `src/widgets/`; and presets in `configTemplates/`.
 Preserve older layout imports. Unknown widget IDs stay in saved settings and
 do not render. Do not register a widget that has no Codex data or other
 supported local source. Keep README examples usable from an unpublished checkout.

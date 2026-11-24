@@ -1,8 +1,3 @@
-import {
-    DEFAULT_SETTINGS,
-    type RenderContext,
-    type Settings
-} from '@powerline-dev/codex-powerline-core';
 import * as os from 'node:os';
 import {
     afterEach,
@@ -13,6 +8,11 @@ import {
     vi
 } from 'vitest';
 
+import { type RenderContext } from '../../types/RenderContext';
+import {
+    DEFAULT_SETTINGS,
+    type Settings
+} from '../../types/Settings';
 import type { WidgetItem } from '../../types/Widget';
 import {
     getVisibleText,

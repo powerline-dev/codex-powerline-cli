@@ -1,12 +1,9 @@
-import {
-    formatPercent,
-    type NumberFormat
-} from '@powerline-dev/codex-powerline-core';
-
+import { type NumberFormat } from '../../types/NumberFormat';
 import type {
     CustomKeybind,
     WidgetItem
 } from '../../types/Widget';
+import { formatPercent } from '../../utils/number-format';
 
 import { makeLineProgressBar } from './progress-bar';
 import { makeSliderBar } from './usage-display';

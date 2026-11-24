@@ -1,7 +1,3 @@
-import {
-    DEFAULT_SETTINGS,
-    type Settings
-} from '@powerline-dev/codex-powerline-core';
 import chalk from 'chalk';
 import { render } from 'ink';
 import { PassThrough } from 'node:stream';
@@ -14,6 +10,10 @@ import {
     vi
 } from 'vitest';
 
+import {
+    DEFAULT_SETTINGS,
+    type Settings
+} from '../../../types/Settings';
 import type { WidgetItem } from '../../../types/Widget';
 import { updateColorMap } from '../../../utils/colors';
 import { EffortColorsEditor } from '../effort-colors-editor';

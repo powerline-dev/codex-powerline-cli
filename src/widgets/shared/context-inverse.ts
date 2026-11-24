@@ -1,11 +1,10 @@
-import {
-    isMetadataFlagEnabled,
-    toggleMetadataFlag
-} from '@powerline-dev/codex-powerline-core';
-
 import type { WidgetItem } from '../../types/Widget';
 
 import { makeModifierText } from './editor-display';
+import {
+    isMetadataFlagEnabled,
+    toggleMetadataFlag
+} from './metadata';
 
 const INVERSE_KEY = 'inverse';
 const TOGGLE_INVERSE_ACTION = 'toggle-inverse';

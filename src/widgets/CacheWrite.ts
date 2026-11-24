@@ -1,11 +1,5 @@
-import {
-    formatRawOrLabeledValue,
-    isHidden,
-    resolveNumberFormat,
-    type RenderContext,
-    type Settings
-} from '@powerline-dev/codex-powerline-core';
-
+import { type RenderContext } from '../types/RenderContext';
+import { type Settings } from '../types/Settings';
 import type {
     CustomKeybind,
     HideableState,
@@ -13,6 +7,7 @@ import type {
     WidgetEditorDisplay,
     WidgetItem
 } from '../types/Widget';
+import { resolveNumberFormat } from '../utils/number-format';
 
 import {
     formatTokensWithPercentage,
@@ -26,6 +21,8 @@ import {
     handleCacheOptionsAction,
     isCacheSessionScope
 } from './shared/cache-scope';
+import { isHidden } from './shared/hideable';
+import { formatRawOrLabeledValue } from './shared/raw-or-labeled';
 
 const LABEL = 'Cache Write: ';
 

@@ -1,8 +1,3 @@
-import {
-    isMetadataFlagEnabled,
-    toggleMetadataFlag
-} from '@powerline-dev/codex-powerline-core';
-
 import type {
     CustomKeybind,
     HideableState,
@@ -10,6 +5,10 @@ import type {
 } from '../../types/Widget';
 
 import { makeModifierText } from './editor-display';
+import {
+    isMetadataFlagEnabled,
+    toggleMetadataFlag
+} from './metadata';
 
 const SCOPE_SESSION_KEY = 'cacheScopeSession';
 const TOGGLE_CACHE_SCOPE_ACTION = 'toggle-cache-scope';

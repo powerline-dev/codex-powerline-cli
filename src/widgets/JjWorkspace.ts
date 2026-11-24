@@ -1,8 +1,4 @@
-import {
-    formatRawOrLabeledValue,
-    type RenderContext
-} from '@powerline-dev/codex-powerline-core';
-
+import { type RenderContext } from '../types/RenderContext';
 import type {
     CustomKeybind,
     WidgetEditorProps,
@@ -11,6 +7,7 @@ import type {
 import { runJjArgs } from '../utils/jj';
 
 import { JjWidgetBase } from './shared/jj-widget-base';
+import { formatRawOrLabeledValue } from './shared/raw-or-labeled';
 import {
     formatSymbolPrefix,
     getSymbolKeybind,

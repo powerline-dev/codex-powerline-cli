@@ -1,7 +1,3 @@
-import {
-    getColorLevelString,
-    type Settings
-} from '@powerline-dev/codex-powerline-core';
 import chalk from 'chalk';
 import {
     Box,
@@ -11,6 +7,8 @@ import {
 import SelectInput from 'ink-select-input';
 import React, { useState } from 'react';
 
+import { getColorLevelString } from '../../types/ColorLevel';
+import { type Settings } from '../../types/Settings';
 import type { WidgetItem } from '../../types/Widget';
 import {
     applyColors,

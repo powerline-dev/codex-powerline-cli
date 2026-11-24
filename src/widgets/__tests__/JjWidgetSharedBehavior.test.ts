@@ -1,8 +1,3 @@
-import {
-    DEFAULT_SETTINGS,
-    NO_JJ_HIDEABLE_STATE,
-    getEnabledHideStates
-} from '@powerline-dev/codex-powerline-core';
 import { execFileSync } from 'node:child_process';
 import {
     beforeEach,
@@ -16,6 +11,7 @@ import type {
     Widget,
     WidgetItem
 } from '../../types';
+import { DEFAULT_SETTINGS } from '../../types/Settings';
 import { mockExecutableResolution } from '../../utils/__tests__/executable-path-test-helpers';
 import { JjBookmarksWidget } from '../JjBookmarks';
 import { JjChangesWidget } from '../JjChanges';
@@ -25,6 +21,10 @@ import { JjInsertionsWidget } from '../JjInsertions';
 import { JjRevisionWidget } from '../JjRevision';
 import { JjRootDirWidget } from '../JjRootDir';
 import { JjWorkspaceWidget } from '../JjWorkspace';
+import {
+    NO_JJ_HIDEABLE_STATE,
+    getEnabledHideStates
+} from '../shared/hideable';
 
 vi.mock('node:child_process', () => ({ execFileSync: vi.fn() }));
 

@@ -2,8 +2,11 @@
 
 ## 1.0.4 (codex-powerline-cli, unreleased)
 
-- Move the CLI to `powerline-dev/codex-powerline-cli` and share settings,
-  migrations, themes, presets, and portable widgets through Core.
+- Consolidate settings, migrations, themes, presets, widgets, and their tests
+  in `powerline-dev/codex-powerline-cli`. Remove the separate Core npm dependency
+  and sibling checkout requirement.
+- Build, test, pack, and release the CLI from one repository. Validate the
+  installed CLI tarball during release dry runs.
 - Keep the `codex-powerline` executable and the existing settings path and format.
 - Use standard Unicode symbols in Fast Mode, Sandbox Status, Compaction Counter,
   Git Worktree, and JJ Revision. Apply the standard symbols to imported layouts

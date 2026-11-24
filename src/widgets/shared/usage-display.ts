@@ -1,12 +1,5 @@
-import {
-    formatPercent,
-    isMetadataFlagEnabled,
-    removeMetadataKeys,
-    toggleMetadataFlag,
-    type NumberFormat,
-    type RenderContext
-} from '@powerline-dev/codex-powerline-core';
-
+import { type NumberFormat } from '../../types/NumberFormat';
+import { type RenderContext } from '../../types/RenderContext';
 import type {
     CustomKeybind,
     HideableState,
@@ -16,8 +9,14 @@ import {
     DEFAULT_RESET_LOCALE,
     canonicalizeLocale
 } from '../../utils/locales';
+import { formatPercent } from '../../utils/number-format';
 
 import { makeModifierText } from './editor-display';
+import {
+    isMetadataFlagEnabled,
+    removeMetadataKeys,
+    toggleMetadataFlag
+} from './metadata';
 import type { TimerProgressBarOptions } from './progress-bar';
 import {
     makeLineProgressBar,

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-import { StatusJSONSchema } from '@powerline-dev/codex-powerline-core';
 import { parseArgs } from 'node:util';
 
+import { StatusJSONSchema } from './types/StatusJSON';
 import {
     initConfigPath,
     loadSettings

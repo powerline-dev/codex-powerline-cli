@@ -1,16 +1,4 @@
 import {
-    EDIT_HIDE_STATES_ACTION,
-    EDIT_LABEL_ACTION,
-    generateGuid,
-    getHideKeybind,
-    getHideModifierText,
-    getLabelKeybind,
-    getLabelModifierText,
-    getNumberFormatKeybind,
-    getNumberFormatModifierText,
-    type Settings
-} from '@powerline-dev/codex-powerline-core';
-import {
     Box,
     Text,
     useInput,
@@ -22,6 +10,7 @@ import React, {
     useState
 } from 'react';
 
+import { type Settings } from '../../types/Settings';
 import type {
     CustomKeybind,
     Widget,
@@ -29,6 +18,11 @@ import type {
     WidgetItemType
 } from '../../types/Widget';
 import { getBackgroundColorsForPowerline } from '../../utils/colors';
+import { generateGuid } from '../../utils/guid';
+import {
+    getNumberFormatKeybind,
+    getNumberFormatModifierText
+} from '../../utils/number-format';
 import { canDetectTerminalWidth } from '../../utils/terminal';
 import {
     filterWidgetCatalog,
@@ -37,6 +31,16 @@ import {
     getWidgetCatalog,
     getWidgetCatalogCategories
 } from '../../utils/widgets';
+import {
+    EDIT_HIDE_STATES_ACTION,
+    getHideKeybind,
+    getHideModifierText
+} from '../../widgets/shared/hideable';
+import {
+    EDIT_LABEL_ACTION,
+    getLabelKeybind,
+    getLabelModifierText
+} from '../../widgets/shared/raw-or-labeled';
 
 import { ConfirmDialog } from './ConfirmDialog';
 import { HideStatesEditor } from './HideStatesEditor';

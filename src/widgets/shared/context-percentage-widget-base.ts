@@ -1,17 +1,15 @@
-import {
-    formatPercent,
-    formatRawOrLabeledValue,
-    resolveNumberFormat,
-    type RenderContext,
-    type Settings
-} from '@powerline-dev/codex-powerline-core';
-
+import { type RenderContext } from '../../types/RenderContext';
+import { type Settings } from '../../types/Settings';
 import type {
     CustomKeybind,
     Widget,
     WidgetEditorDisplay,
     WidgetItem
 } from '../../types/Widget';
+import {
+    formatPercent,
+    resolveNumberFormat
+} from '../../utils/number-format';
 
 import {
     getContextInverseModifierText,
@@ -25,6 +23,7 @@ import {
     getContextSliderModifierText,
     renderContextSlider
 } from './context-slider';
+import { formatRawOrLabeledValue } from './raw-or-labeled';
 
 // Context % and Context % (usable) differ only in their name, color, label, preview
 // sample and how they measure the used share of the context window

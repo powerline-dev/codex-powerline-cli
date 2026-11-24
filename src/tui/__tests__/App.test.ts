@@ -1,7 +1,3 @@
-import {
-    CURRENT_VERSION,
-    DEFAULT_SETTINGS
-} from '@powerline-dev/codex-powerline-core';
 import chalk from 'chalk';
 import * as fs from 'node:fs';
 import {
@@ -13,6 +9,10 @@ import {
     vi
 } from 'vitest';
 
+import {
+    CURRENT_VERSION,
+    DEFAULT_SETTINGS
+} from '../../types/Settings';
 import {
     getColorAnsiCode,
     updateColorMap

@@ -1,10 +1,4 @@
-import {
-    NO_GIT_HIDEABLE_STATE,
-    WIDGET_SYMBOLS,
-    isHidden,
-    type RenderContext
-} from '@powerline-dev/codex-powerline-core';
-
+import { type RenderContext } from '../types/RenderContext';
 import type {
     CustomKeybind,
     HideableState,
@@ -20,10 +14,15 @@ import {
 
 import { makeModifierText } from './shared/editor-display';
 import {
+    NO_GIT_HIDEABLE_STATE,
+    isHidden
+} from './shared/hideable';
+import {
     formatSymbolPrefix,
     getSymbolKeybind,
     renderSymbolOverrideEditor
 } from './shared/symbol-override';
+import { WIDGET_SYMBOLS } from './shared/symbols';
 import { getGraphemes } from './shared/text-cursor';
 
 const DEFAULT_SYMBOL = WIDGET_SYMBOLS.gitWorktree;

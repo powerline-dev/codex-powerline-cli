@@ -1,15 +1,9 @@
+import { type NumberFormat } from '../../types/NumberFormat';
 import {
-    formatPercent,
-    formatRawOrLabeledValue,
-    isHidden,
-    resolveNumberFormat,
-    type NumberFormat,
     type RenderContext,
-    type RenderUsageData,
-    type Settings,
-    type UsageWindowMetrics
-} from '@powerline-dev/codex-powerline-core';
-
+    type RenderUsageData
+} from '../../types/RenderContext';
+import { type Settings } from '../../types/Settings';
 import type {
     CustomKeybind,
     HideableState,
@@ -18,11 +12,18 @@ import type {
     WidgetItem
 } from '../../types/Widget';
 import {
+    formatPercent,
+    resolveNumberFormat
+} from '../../utils/number-format';
+import {
     getUsageErrorMessage,
     resolveUsageWindowWithFallback,
     resolveWeeklyUsageWindow
 } from '../../utils/usage';
+import { type UsageWindowMetrics } from '../../utils/usage-types';
 
+import { isHidden } from './hideable';
+import { formatRawOrLabeledValue } from './raw-or-labeled';
 import {
     USAGE_NO_DATA_HIDEABLE_STATE,
     cycleUsageDisplayMode,

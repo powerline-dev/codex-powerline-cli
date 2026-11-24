@@ -1,10 +1,8 @@
-import {
-    getColorLevelString,
-    type RenderContext,
-    type Settings
-} from '@powerline-dev/codex-powerline-core';
 import React from 'react';
 
+import { getColorLevelString } from '../types/ColorLevel';
+import { type RenderContext } from '../types/RenderContext';
+import { type Settings } from '../types/Settings';
 import type {
     CustomKeybind,
     Widget,

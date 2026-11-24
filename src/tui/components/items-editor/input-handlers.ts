@@ -1,24 +1,23 @@
-import {
-    CYCLE_NUMBER_STYLE_ACTION,
-    EDIT_HIDE_STATES_ACTION,
-    EDIT_LABEL_ACTION,
-    cycleNumberStyle,
-    generateGuid
-} from '@powerline-dev/codex-powerline-core';
-
 import type {
     CustomKeybind,
     Widget,
     WidgetItem,
     WidgetItemType
 } from '../../../types/Widget';
+import { generateGuid } from '../../../utils/guid';
 import { getPlainInput } from '../../../utils/input-guards';
 import { moveItem } from '../../../utils/move-item';
+import {
+    CYCLE_NUMBER_STYLE_ACTION,
+    cycleNumberStyle
+} from '../../../utils/number-format';
 import {
     filterWidgetCatalog,
     getWidget,
     type WidgetCatalogEntry
 } from '../../../utils/widgets';
+import { EDIT_HIDE_STATES_ACTION } from '../../../widgets/shared/hideable';
+import { EDIT_LABEL_ACTION } from '../../../widgets/shared/raw-or-labeled';
 
 export type WidgetPickerAction = 'change' | 'add' | 'insert';
 export type WidgetPickerLevel = 'category' | 'widget';

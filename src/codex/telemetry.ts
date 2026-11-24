@@ -1,4 +1,4 @@
-import type { StatusJSON } from '@powerline-dev/codex-powerline-core';
+import type { StatusJSON } from '../types/StatusJSON';
 
 type Json = Record<string, unknown>;
 type RequestId = number | string;

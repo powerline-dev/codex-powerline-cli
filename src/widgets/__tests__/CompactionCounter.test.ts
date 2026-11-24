@@ -1,8 +1,4 @@
 import {
-    DEFAULT_SETTINGS,
-    type CompactionData
-} from '@powerline-dev/codex-powerline-core';
-import {
     describe,
     expect,
     it,
@@ -13,6 +9,8 @@ import type {
     RenderContext,
     WidgetItem
 } from '../../types';
+import { type CompactionData } from '../../types/RenderContext';
+import { DEFAULT_SETTINGS } from '../../types/Settings';
 import { ZERO_COMPACTION_STATS } from '../../utils/compaction';
 import { CompactionCounterWidget } from '../CompactionCounter';
 

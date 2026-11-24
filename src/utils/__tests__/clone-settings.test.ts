@@ -1,12 +1,11 @@
 import {
-    DEFAULT_SETTINGS,
-    cloneSettings
-} from '@powerline-dev/codex-powerline-core';
-import {
     describe,
     expect,
     it
 } from 'vitest';
+
+import { DEFAULT_SETTINGS } from '../../types/Settings';
+import { cloneSettings } from '../clone-settings';
 
 describe('cloneSettings', () => {
     it('creates a deep clone that is independent from source', () => {

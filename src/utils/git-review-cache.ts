@@ -1,4 +1,3 @@
-import type { RenderContext } from '@powerline-dev/codex-powerline-core';
 import {
     execFileSync,
     spawn
@@ -16,6 +15,8 @@ import {
 } from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+
+import type { RenderContext } from '../types/RenderContext';
 
 import {
     getVisibleWidth,

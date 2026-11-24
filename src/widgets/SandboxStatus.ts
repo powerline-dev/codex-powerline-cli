@@ -1,9 +1,5 @@
-import {
-    WIDGET_SYMBOLS,
-    type RenderContext,
-    type Settings
-} from '@powerline-dev/codex-powerline-core';
-
+import { type RenderContext } from '../types/RenderContext';
+import { type Settings } from '../types/Settings';
 import type {
     CustomKeybind,
     Widget,
@@ -18,6 +14,7 @@ import {
     handleFormatAction,
     type FormatOptions
 } from './shared/format-options';
+import { WIDGET_SYMBOLS } from './shared/symbols';
 
 const FORMATS = ['glyph', 'text', 'word'] as const;
 type SandboxFormat = typeof FORMATS[number];

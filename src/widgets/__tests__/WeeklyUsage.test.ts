@@ -1,9 +1,4 @@
 import {
-    DEFAULT_SETTINGS,
-    type RenderContext,
-    type UsageWindowMetrics
-} from '@powerline-dev/codex-powerline-core';
-import {
     afterEach,
     beforeEach,
     describe,
@@ -12,8 +7,11 @@ import {
     vi
 } from 'vitest';
 
+import { type RenderContext } from '../../types/RenderContext';
+import { DEFAULT_SETTINGS } from '../../types/Settings';
 import type { WidgetItem } from '../../types/Widget';
 import * as usage from '../../utils/usage';
+import { type UsageWindowMetrics } from '../../utils/usage-types';
 import { WeeklyUsageWidget } from '../WeeklyUsage';
 
 import { runUsagePercentWidgetSuite } from './helpers/usage-widget-suites';

@@ -1,9 +1,4 @@
 import {
-    EDIT_HIDE_STATES_ACTION,
-    getHideKeybind,
-    getNumberFormatKeybind
-} from '@powerline-dev/codex-powerline-core';
-import {
     describe,
     expect,
     it,
@@ -15,7 +10,12 @@ import type {
     Widget,
     WidgetItem
 } from '../../../../types/Widget';
+import { getNumberFormatKeybind } from '../../../../utils/number-format';
 import type { WidgetCatalogEntry } from '../../../../utils/widgets';
+import {
+    EDIT_HIDE_STATES_ACTION,
+    getHideKeybind
+} from '../../../../widgets/shared/hideable';
 import {
     handleMoveInputMode,
     handleNormalInputMode,

@@ -1,7 +1,3 @@
-import type {
-    RenderContext,
-    Settings
-} from '@powerline-dev/codex-powerline-core';
 import {
     Box,
     Text,
@@ -9,6 +5,8 @@ import {
 } from 'ink';
 import React, { useState } from 'react';
 
+import type { RenderContext } from '../types/RenderContext';
+import type { Settings } from '../types/Settings';
 import type {
     CustomKeybind,
     Widget,

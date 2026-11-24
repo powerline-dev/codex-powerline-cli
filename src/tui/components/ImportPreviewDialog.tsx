@@ -1,4 +1,3 @@
-import type { Settings } from '@powerline-dev/codex-powerline-core';
 import {
     Box,
     Text,
@@ -6,6 +5,7 @@ import {
 } from 'ink';
 import React, { useState } from 'react';
 
+import type { Settings } from '../../types/Settings';
 import type { WidgetItem } from '../../types/Widget';
 import {
     applyImport,

@@ -1,9 +1,4 @@
 import {
-    assignPowerlineThemeSlots,
-    getColorLevelString,
-    type Settings
-} from '@powerline-dev/codex-powerline-core';
-import {
     Box,
     Text,
     useInput
@@ -15,11 +10,14 @@ import React, {
     useState
 } from 'react';
 
+import { getColorLevelString } from '../../types/ColorLevel';
+import { type Settings } from '../../types/Settings';
 import {
     getPowerlineTheme,
     getPowerlineThemes
 } from '../../utils/colors';
 import { getPlainInput } from '../../utils/input-guards';
+import { assignPowerlineThemeSlots } from '../../utils/powerline-theme-index';
 
 import { ConfirmDialog } from './ConfirmDialog';
 import {

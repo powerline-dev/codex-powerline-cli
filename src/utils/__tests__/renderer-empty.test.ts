@@ -1,4 +1,3 @@
-import { DEFAULT_SETTINGS } from '@powerline-dev/codex-powerline-core';
 import xterm from '@xterm/headless';
 import {
     describe,
@@ -6,6 +5,7 @@ import {
     it
 } from 'vitest';
 
+import { DEFAULT_SETTINGS } from '../../types/Settings';
 import type { WidgetItem } from '../../types/Widget';
 import { renderCodexStatus } from '../status-render';
 

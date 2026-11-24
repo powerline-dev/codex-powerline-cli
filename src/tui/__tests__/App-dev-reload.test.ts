@@ -1,7 +1,3 @@
-import {
-    DEFAULT_SETTINGS,
-    type Settings
-} from '@powerline-dev/codex-powerline-core';
 import chalk from 'chalk';
 import { render } from 'ink';
 import { randomBytes } from 'node:crypto';
@@ -20,6 +16,10 @@ import {
     vi
 } from 'vitest';
 
+import {
+    DEFAULT_SETTINGS,
+    type Settings
+} from '../../types/Settings';
 import { initConfigPath } from '../../utils/config';
 import {
     DEV_RELOAD_CHILD_ARG_PREFIX,

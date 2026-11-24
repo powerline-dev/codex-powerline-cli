@@ -1,14 +1,14 @@
 import {
-    DEFAULT_SETTINGS,
-    type RenderContext,
-    type Settings
-} from '@powerline-dev/codex-powerline-core';
-import {
     describe,
     expect,
     it
 } from 'vitest';
 
+import { type RenderContext } from '../../types/RenderContext';
+import {
+    DEFAULT_SETTINGS,
+    type Settings
+} from '../../types/Settings';
 import type { WidgetItem } from '../../types/Widget';
 import {
     applyLineGradient,

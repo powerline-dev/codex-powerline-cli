@@ -1,19 +1,22 @@
-import {
-    CURRENT_VERSION,
-    SettingsSchema,
-    SettingsSchema_v1,
-    detectVersion,
-    migrateConfig,
-    needsMigration,
-    normalizeVersionlessConfig,
-    upgradeLegacyWidgetTypes,
-    type Settings
-} from '@powerline-dev/codex-powerline-core';
 import * as fs from 'node:fs';
 import * as os from 'node:os';
 import * as path from 'node:path';
 
+import {
+    CURRENT_VERSION,
+    SettingsSchema,
+    SettingsSchema_v1,
+    type Settings
+} from '../types/Settings';
+
+import {
+    detectVersion,
+    migrateConfig,
+    needsMigration,
+    normalizeVersionlessConfig
+} from './migrations';
 import { getPackageVersion } from './terminal';
+import { upgradeLegacyWidgetTypes } from './widget-aliases';
 
 // Use fs.promises directly (always available in modern Node.js)
 const readFile = fs.promises.readFile;

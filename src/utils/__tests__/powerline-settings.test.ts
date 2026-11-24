@@ -1,14 +1,12 @@
 import {
-    DEFAULT_SETTINGS,
-    buildEnabledPowerlineSettings
-} from '@powerline-dev/codex-powerline-core';
-import {
     describe,
     expect,
     it
 } from 'vitest';
 
+import { DEFAULT_SETTINGS } from '../../types/Settings';
 import type { WidgetItem } from '../../types/Widget';
+import { buildEnabledPowerlineSettings } from '../powerline-settings';
 
 describe('powerline settings helpers', () => {
     it('enables powerline with default theme and default padding', () => {

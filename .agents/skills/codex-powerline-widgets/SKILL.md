@@ -8,9 +8,9 @@ description: Add or change Codex Powerline widgets, Powerline themes, renderer l
 ## Check before adding a widget
 
 Review the full widget and layout manifests in `src/utils/widget-manifest.ts`
-and `LEGACY_WIDGET_TYPE_ALIASES` in Core’s `src/utils/widget-aliases.ts`. Compare what the
+and `LEGACY_WIDGET_TYPE_ALIASES` in `src/utils/widget-aliases.ts`. Compare what the
 request needs to the widgets' display names, descriptions, rendered output,
-and editor options. Read the closest implementations in `src/widgets/` or Core.
+and editor options. Read the closest implementations in `src/widgets/`.
 A different name or ID does not make a widget distinct.
 
 - If a widget already meets the request, name it and explain how to select or
@@ -32,7 +32,7 @@ A different name or ID does not make a widget distinct.
    live mode. If a field is unavailable, hide the widget or use its existing
    no-data behavior. Do not present missing usage or cost as zero.
 3. Keep existing widget IDs and metadata readable. If an ID must change,
-   add its old spelling to the aliases in Core. Imported
+   add its old spelling to `src/utils/widget-aliases.ts`. Imported
    unknown widgets remain in the file but do not render.
 4. Check the affected widget and renderer tests. Smoke-test styled output
    from the built CLI with `scripts/payload.example.json`. For a layout bug,

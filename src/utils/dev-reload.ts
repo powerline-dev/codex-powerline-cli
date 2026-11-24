@@ -1,12 +1,13 @@
-import {
-    SettingsSchema,
-    type Settings
-} from '@powerline-dev/codex-powerline-core';
 import { spawn as spawnProcess } from 'node:child_process';
 import { randomBytes } from 'node:crypto';
 import * as fs from 'node:fs';
 import * as os from 'node:os';
 import * as path from 'node:path';
+
+import {
+    SettingsSchema,
+    type Settings
+} from '../types/Settings';
 
 // Development aid: with CODEX_POWERLINE_DEV_RELOAD=1 the interactive TUI runs
 // under a small supervisor, and ctrl+r restarts it in place (new code, same

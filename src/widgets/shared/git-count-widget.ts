@@ -1,11 +1,5 @@
-import {
-    NO_GIT_HIDEABLE_STATE,
-    formatRawOrLabeledValue,
-    isHidden,
-    type RenderContext,
-    type Settings
-} from '@powerline-dev/codex-powerline-core';
-
+import { type RenderContext } from '../../types/RenderContext';
+import { type Settings } from '../../types/Settings';
 import type {
     CustomKeybind,
     HideableState,
@@ -22,6 +16,11 @@ import {
     type GitFileStatusCounts
 } from '../../utils/git';
 
+import {
+    NO_GIT_HIDEABLE_STATE,
+    isHidden
+} from './hideable';
+import { formatRawOrLabeledValue } from './raw-or-labeled';
 import {
     getSymbolKeybind,
     renderSymbolSlotsEditor,

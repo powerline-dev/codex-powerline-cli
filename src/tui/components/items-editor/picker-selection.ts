@@ -1,9 +1,8 @@
-import { clearLabel } from '@powerline-dev/codex-powerline-core';
-
 import type {
     WidgetItem,
     WidgetItemType
 } from '../../../types/Widget';
+import { clearLabel } from '../../../widgets/shared/raw-or-labeled';
 
 import type { WidgetPickerAction } from './input-handlers';
 

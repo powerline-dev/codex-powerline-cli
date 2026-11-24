@@ -1,21 +1,19 @@
-import {
-    formatRawOrLabeledValue,
-    getContextWindowSize,
-    resolveNumberFormat,
-    type RenderContext,
-    type Settings
-} from '@powerline-dev/codex-powerline-core';
-
+import { type RenderContext } from '../types/RenderContext';
+import { type Settings } from '../types/Settings';
 import type {
     Widget,
     WidgetEditorDisplay,
     WidgetItem
 } from '../types/Widget';
+import { getContextWindowSize } from '../utils/context-window';
 import {
     getContextConfig,
     getModelContextIdentifier
 } from '../utils/model-context';
+import { resolveNumberFormat } from '../utils/number-format';
 import { formatTokens } from '../utils/renderer';
+
+import { formatRawOrLabeledValue } from './shared/raw-or-labeled';
 
 const LABEL = 'Win: ';
 

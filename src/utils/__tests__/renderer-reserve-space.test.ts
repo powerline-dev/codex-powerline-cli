@@ -1,13 +1,11 @@
 import {
-    SettingsSchema,
-    type StatusJSON
-} from '@powerline-dev/codex-powerline-core';
-import {
     describe,
     expect,
     it
 } from 'vitest';
 
+import { SettingsSchema } from '../../types/Settings';
+import { type StatusJSON } from '../../types/StatusJSON';
 import {
     getVisibleText,
     getVisibleWidth

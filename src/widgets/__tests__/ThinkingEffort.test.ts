@@ -1,7 +1,3 @@
-import {
-    DEFAULT_SETTINGS,
-    type Settings
-} from '@powerline-dev/codex-powerline-core';
 import chalk from 'chalk';
 import {
     describe,
@@ -15,6 +11,10 @@ import type {
     StatusJSON,
     WidgetItem
 } from '../../types';
+import {
+    DEFAULT_SETTINGS,
+    type Settings
+} from '../../types/Settings';
 import { updateColorMap } from '../../utils/colors';
 import {
     calculateMaxWidthsFromPreRendered,

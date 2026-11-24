@@ -1,4 +1,3 @@
-import { DEFAULT_SETTINGS } from '@powerline-dev/codex-powerline-core';
 import { render } from 'ink';
 import { PassThrough } from 'node:stream';
 import React from 'react';
@@ -10,6 +9,7 @@ import {
     vi
 } from 'vitest';
 
+import { DEFAULT_SETTINGS } from '../../../types/Settings';
 import type { WidgetItem } from '../../../types/Widget';
 import {
     letReactCatchUp,

@@ -1,4 +1,3 @@
-import { DEFAULT_SETTINGS } from '@powerline-dev/codex-powerline-core';
 import {
     describe,
     expect,
@@ -9,6 +8,7 @@ import type {
     RenderContext,
     WidgetItem
 } from '../../types';
+import { DEFAULT_SETTINGS } from '../../types/Settings';
 import { SandboxStatusWidget } from '../SandboxStatus';
 
 const ITEM: WidgetItem = { id: 'sandbox-status', type: 'sandbox-status' };

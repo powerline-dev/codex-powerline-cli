@@ -1,12 +1,11 @@
-import {
-    advanceGlobalPowerlineThemeIndex,
-    advanceGlobalSeparatorIndex,
-    type RenderContext,
-    type RenderUsageData,
-    type Settings,
-    type StatusJSON
-} from '@powerline-dev/codex-powerline-core';
 import chalk from 'chalk';
+
+import {
+    type RenderContext,
+    type RenderUsageData
+} from '../types/RenderContext';
+import { type Settings } from '../types/Settings';
+import { type StatusJSON } from '../types/StatusJSON';
 
 import {
     getVisibleText,
@@ -14,6 +13,7 @@ import {
 } from './ansi';
 import { updateColorMap } from './colors';
 import { getConfigLoadError } from './config';
+import { advanceGlobalPowerlineThemeIndex } from './powerline-theme-index';
 import {
     buildConfigWarningBadge,
     calculateMaxWidthsFromPreRendered,
@@ -21,6 +21,7 @@ import {
     preRenderAllWidgets,
     renderStatusLine
 } from './renderer';
+import { advanceGlobalSeparatorIndex } from './separator-index';
 import { sanitizeTerminalText } from './terminal-sanitize';
 import { getCodexLines } from './widgets';
 

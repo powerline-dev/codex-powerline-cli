@@ -1,10 +1,10 @@
-import { DEFAULT_SETTINGS } from '@powerline-dev/codex-powerline-core';
 import {
     describe,
     expect,
     it
 } from 'vitest';
 
+import { DEFAULT_SETTINGS } from '../../types/Settings';
 import type {
     Widget,
     WidgetItem

@@ -1,9 +1,5 @@
-import {
-    formatRawOrLabeledValue,
-    type RenderContext,
-    type Settings
-} from '@powerline-dev/codex-powerline-core';
-
+import { type RenderContext } from '../../types/RenderContext';
+import { type Settings } from '../../types/Settings';
 import type {
     CustomKeybind,
     Widget,
@@ -12,6 +8,7 @@ import type {
 } from '../../types/Widget';
 import { formatUsageDuration } from '../../utils/usage';
 
+import { formatRawOrLabeledValue } from './raw-or-labeled';
 import {
     getUsageCompactKeybind,
     getUsageTextModifierText,

@@ -1,14 +1,13 @@
-import {
-    isMetadataFlagEnabled,
-    toggleMetadataFlag
-} from '@powerline-dev/codex-powerline-core';
-
 import type {
     CustomKeybind,
     WidgetItem
 } from '../../types/Widget';
 
 import { makeModifierText } from './editor-display';
+import {
+    isMetadataFlagEnabled,
+    toggleMetadataFlag
+} from './metadata';
 
 const LINK_TO_REPO_KEY = 'linkToRepo';
 const TOGGLE_LINK_ACTION = 'toggle-link';

@@ -1,8 +1,4 @@
 import {
-    DEFAULT_SETTINGS,
-    ModelWidget
-} from '@powerline-dev/codex-powerline-core';
-import {
     describe,
     expect,
     it
@@ -12,6 +8,8 @@ import type {
     RenderContext,
     WidgetItem
 } from '../../types';
+import { DEFAULT_SETTINGS } from '../../types/Settings';
+import { ModelWidget } from '../Model';
 
 const ITEM: WidgetItem = { id: 'model', type: 'model' };
 const RAW_ITEM: WidgetItem = { id: 'model', type: 'model', rawValue: true };

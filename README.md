@@ -161,17 +161,16 @@ Uninstalling Powerline keeps Codex CLI, your saved layout, and installed fonts.
 - 🌿 **Stay oriented.** Show your working folder, Git or Jujutsu status, and Codex workspace and permissions.
 - 📦 **Take your layout with you.** Export your setup as JSON and import it on another machine.
 
-Import [Author’s Favorite](https://github.com/powerline-dev/codex-powerline-core/blob/main/configTemplates/authors-favorite.json) for a Minimal theme layout with a working-folder row and four aligned columns. Widgets reserve space when data is missing.
+Import [Author’s Favorite](configTemplates/authors-favorite.json) for a Minimal theme layout with a working-folder row and four aligned columns. Widgets reserve space when data is missing.
 
 ## Development
 
-Install Bun and clone [Core](https://github.com/powerline-dev/codex-powerline-core) and this repository side by side. From this repository, run:
+Install [Bun](https://bun.sh/) and clone this repository. It contains the CLI,
+settings schemas, migrations, themes, widgets, tests, and layout presets.
 
 ```sh
-cd ../codex-powerline-core
-bun install --frozen-lockfile
-bun run build
-cd ../codex-powerline-cli
+git clone https://github.com/powerline-dev/codex-powerline-cli.git
+cd codex-powerline-cli
 bun install --frozen-lockfile
 bun run start configure
 bun test
@@ -180,18 +179,27 @@ bun run build
 node dist/codex-powerline.js --config ./configTemplates/powerline.json run
 ```
 
-The Bun resolution links to the sibling Core checkout. Rebuild Core after shared changes.
-The published npm package uses a versioned Core dependency.
+Settings contracts live in `src/types/`, migrations and themes in `src/utils/`,
+widgets in `src/widgets/`, and shipped presets in `configTemplates/`.
+Existing layouts, widget IDs, and settings paths remain compatible.
 
-See [AGENTS.md](AGENTS.md) for the project map and reusable development workflows.
-See the [release skill](.agents/skills/codex-powerline-release/SKILL.md) to
-prepare and test both packages without uploading them.
+See [AGENTS.md](AGENTS.md) for the project map and development workflows.
+The [VS Code extension](https://github.com/powerline-dev/codex-powerline-vscode)
+launches the installed CLI and uses the same settings and widgets.
 
-Release Core from its own repository first. Pin the published Core version in
-the CLI's `package.json`, run `bun install` to update the lockfile, and use
-the matching sibling Core checkout. Run `bun run release:dry-run` here to
-check the CLI without uploading it. Run `bun run release` here to publish
-only the CLI. It checks the packaged CLI with the pinned Core from npm first.
+### Release preparation
+
+Update `package.json` and [CHANGELOG.md](CHANGELOG.md), then run:
+
+```sh
+bun run release:dry-run
+```
+
+This checks lint, tests, the build, and the packed CLI installed in a temporary
+npm prefix. The CLI is the only npm package to release; no sibling checkout
+or separate core package is needed. See the
+[release skill](.agents/skills/codex-powerline-release/SKILL.md) for details.
+When ready, `bun run release` validates and publishes the CLI package.
 
 ## 🤝 Contributing
 

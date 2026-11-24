@@ -1,18 +1,16 @@
-import {
-    formatRawOrLabeledValue,
-    isHidden,
-    resolveNumberFormat,
-    type RenderContext,
-    type Settings
-} from '@powerline-dev/codex-powerline-core';
-
+import { type RenderContext } from '../../types/RenderContext';
+import { type Settings } from '../../types/Settings';
 import type {
     HideableState,
     Widget,
     WidgetEditorDisplay,
     WidgetItem
 } from '../../types/Widget';
+import { resolveNumberFormat } from '../../utils/number-format';
 import { formatTokens } from '../../utils/renderer';
+
+import { isHidden } from './hideable';
+import { formatRawOrLabeledValue } from './raw-or-labeled';
 
 const ZERO_HIDEABLE_STATE: HideableState = { key: 'zero', label: 'when token count is zero' };
 

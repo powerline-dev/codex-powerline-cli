@@ -1,10 +1,5 @@
-import {
-    NO_GIT_HIDEABLE_STATE,
-    isHidden,
-    type RenderContext,
-    type Settings
-} from '@powerline-dev/codex-powerline-core';
-
+import { type RenderContext } from '../types/RenderContext';
+import { type Settings } from '../types/Settings';
 import type {
     HideableState,
     Widget,
@@ -23,6 +18,11 @@ import {
     truncateTitle
 } from '../utils/git-review-cache';
 import { renderOsc8Link } from '../utils/hyperlink';
+
+import {
+    NO_GIT_HIDEABLE_STATE,
+    isHidden
+} from './shared/hideable';
 
 const NO_DATA_HIDEABLE_STATE: HideableState = { key: 'no-data', label: 'when there is no PR/MR' };
 const STATUS_HIDEABLE_STATE: HideableState = { key: 'status', label: 'status segment' };

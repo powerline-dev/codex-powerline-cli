@@ -1,4 +1,4 @@
-import type { CompactionData } from '@powerline-dev/codex-powerline-core';
+import type { CompactionData } from '../types/RenderContext';
 
 /** Shared zeroed stats for missing/unreadable transcripts and as a render fallback. Treat as read-only. */
 export const ZERO_COMPACTION_STATS: CompactionData = Object.freeze({

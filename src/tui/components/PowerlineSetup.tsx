@@ -1,9 +1,4 @@
 import {
-    buildEnabledPowerlineSettings,
-    type PowerlineConfig,
-    type Settings
-} from '@powerline-dev/codex-powerline-core';
-import {
     Box,
     Text,
     useInput
@@ -11,8 +6,11 @@ import {
 import * as os from 'node:os';
 import React, { useState } from 'react';
 
+import { type PowerlineConfig } from '../../types/PowerlineConfig';
+import { type Settings } from '../../types/Settings';
 import { getPlainInput } from '../../utils/input-guards';
 import { type PowerlineFontStatus } from '../../utils/powerline';
+import { buildEnabledPowerlineSettings } from '../../utils/powerline-settings';
 
 import { ConfirmDialog } from './ConfirmDialog';
 import {

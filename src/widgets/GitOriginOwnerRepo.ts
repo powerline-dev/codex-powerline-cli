@@ -1,9 +1,4 @@
-import {
-    isMetadataFlagEnabled,
-    toggleMetadataFlag,
-    type RenderContext
-} from '@powerline-dev/codex-powerline-core';
-
+import { type RenderContext } from '../types/RenderContext';
 import type {
     CustomKeybind,
     WidgetEditorDisplay,
@@ -17,6 +12,10 @@ import {
 import { makeModifierText } from './shared/editor-display';
 import { isLinkToRepoEnabled } from './shared/git-remote';
 import { GitRemoteWidgetBase } from './shared/git-remote-widget-base';
+import {
+    isMetadataFlagEnabled,
+    toggleMetadataFlag
+} from './shared/metadata';
 
 const OWNER_ONLY_WHEN_FORK_KEY = 'ownerOnlyWhenFork';
 const TOGGLE_OWNER_ONLY_ACTION = 'toggle-owner-only';

@@ -1,4 +1,3 @@
-import type { RenderContext } from '@powerline-dev/codex-powerline-core';
 import {
     beforeEach,
     expect,
@@ -6,6 +5,7 @@ import {
     vi
 } from 'vitest';
 
+import type { RenderContext } from '../../../types/RenderContext';
 import type {
     CustomKeybind,
     WidgetEditorDisplay,

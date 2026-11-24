@@ -1,7 +1,6 @@
-import { getContextWindowMetrics } from '@powerline-dev/codex-powerline-core';
-
 import type { RenderContext } from '../types';
 
+import { getContextWindowMetrics } from './context-window';
 import {
     getContextConfig,
     getContextWindowEnvOverride,

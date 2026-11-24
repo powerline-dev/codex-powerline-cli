@@ -373,8 +373,4 @@ export function getBackgroundColorsForPowerline(): string[] {
         .map(c => c.name);
 }
 
-export {
-    getPowerlineTheme,
-    getPowerlineThemes,
-    type PowerlineTheme
-} from '@powerline-dev/codex-powerline-core';
+export { getPowerlineTheme, getPowerlineThemes, type PowerlineTheme } from './powerline-themes';

@@ -1,9 +1,4 @@
 import {
-    clearLabel,
-    getLabel,
-    setLabel
-} from '@powerline-dev/codex-powerline-core';
-import {
     Box,
     Text,
     useInput
@@ -11,6 +6,11 @@ import {
 import React from 'react';
 
 import type { WidgetItem } from '../../types/Widget';
+import {
+    clearLabel,
+    getLabel,
+    setLabel
+} from '../../widgets/shared/raw-or-labeled';
 import { useTextCursor } from '../../widgets/shared/text-cursor';
 
 export interface LabelEditorProps {

@@ -1,8 +1,3 @@
-import {
-    StatusJSONSchema,
-    type RenderContext,
-    type Settings
-} from '@powerline-dev/codex-powerline-core';
 import { render } from 'ink';
 import type { SpawnSyncReturns } from 'node:child_process';
 import { spawnSync } from 'node:child_process';
@@ -22,6 +17,9 @@ import {
 
 import { forceInkColors } from '../../tui/__tests__/helpers/ink-colors';
 import { waitFor } from '../../tui/__tests__/helpers/wait-for-ink';
+import { type RenderContext } from '../../types/RenderContext';
+import { type Settings } from '../../types/Settings';
+import { StatusJSONSchema } from '../../types/StatusJSON';
 import type { WidgetItem } from '../../types/Widget';
 import {
     getVisibleText,

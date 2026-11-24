@@ -1,12 +1,9 @@
-import {
-    formatRawOrLabeledValue,
-    type RenderContext
-} from '@powerline-dev/codex-powerline-core';
-
+import { type RenderContext } from '../types/RenderContext';
 import type { WidgetItem } from '../types/Widget';
 import { runGitArgs } from '../utils/git';
 
 import { GitStatusWidgetBase } from './shared/git-status-widget';
+import { formatRawOrLabeledValue } from './shared/raw-or-labeled';
 
 export class GitAccountWidget extends GitStatusWidgetBase {
     getDefaultColor(): string { return 'blue'; }

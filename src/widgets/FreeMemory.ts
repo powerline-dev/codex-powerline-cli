@@ -1,20 +1,21 @@
-import {
-    effectiveDecimals,
-    formatRawOrLabeledValue,
-    renderMagnitude,
-    resolveNumberFormat,
-    type NumberFormat,
-    type RenderContext,
-    type Settings
-} from '@powerline-dev/codex-powerline-core';
 import { execSync } from 'node:child_process';
 import os from 'node:os';
 
+import { type NumberFormat } from '../types/NumberFormat';
+import { type RenderContext } from '../types/RenderContext';
+import { type Settings } from '../types/Settings';
 import type {
     Widget,
     WidgetEditorDisplay,
     WidgetItem
 } from '../types/Widget';
+import {
+    effectiveDecimals,
+    renderMagnitude,
+    resolveNumberFormat
+} from '../utils/number-format';
+
+import { formatRawOrLabeledValue } from './shared/raw-or-labeled';
 
 const LABEL = 'Mem: ';
 

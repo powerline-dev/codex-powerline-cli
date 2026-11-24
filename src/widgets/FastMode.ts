@@ -1,10 +1,5 @@
-import {
-    WIDGET_SYMBOLS,
-    isHidden,
-    type RenderContext,
-    type Settings
-} from '@powerline-dev/codex-powerline-core';
-
+import { type RenderContext } from '../types/RenderContext';
+import { type Settings } from '../types/Settings';
 import type {
     CustomKeybind,
     HideableState,
@@ -20,6 +15,8 @@ import {
     handleFormatAction,
     type FormatOptions
 } from './shared/format-options';
+import { isHidden } from './shared/hideable';
+import { WIDGET_SYMBOLS } from './shared/symbols';
 
 const STATE_DOT_OFF = '○';
 const STATE_DOT_ON = '◉';
