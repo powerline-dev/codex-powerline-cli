@@ -37,6 +37,8 @@ A different name or ID does not make a widget distinct.
 4. Check the affected widget and renderer tests. Smoke-test styled output
    from the built CLI with `scripts/payload.example.json`. For a layout bug,
    include both Powerline and plain layouts when both share the changed path.
+5. When a task includes independent widget changes, commit each change with
+   its tests after its focused checks pass.
 
 The preview and the live renderer both use the widget registry. The launcher
 prints ANSI rows and supports OSC 8 links.
