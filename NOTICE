@@ -16,3 +16,6 @@ patched by Nerd Fonts v3.5.1 (Ryan L McIntyre and contributors).
 Source: https://github.com/ryanoasis/nerd-fonts/tree/v3.5.1/patched-fonts/Meslo/S
 See assets/fonts/LICENSE.txt, assets/fonts/APACHE-2.0.txt, and
 assets/fonts/NERD-FONTS-LICENSE for the font license terms.
+
+README platform icons from Devicon v2.17.0 use the MIT License.
+See assets/platforms/SOURCES.md and assets/platforms/DEVICON-LICENSE.txt.

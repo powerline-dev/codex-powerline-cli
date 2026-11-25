@@ -23,7 +23,9 @@
     "NOTICE",
     "AUTHORS",
     "configTemplates/",
-    "docs/powerline-preview.png",
+    "assets/preview.png",
+    "assets/platforms/",
+    "docs/development.md",
     "scripts/payload.example.json",
     "assets/header.svg"
   ],

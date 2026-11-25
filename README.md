@@ -5,8 +5,14 @@
 **A customizable Powerline status bar for the OpenAI Codex CLI.**
 
 [ccstatusline](https://github.com/sirmalloc/ccstatusline), rewritten for Codex.
-See your model, context, usage limits, and Git state in your terminal, with
-flexible layouts, themes, and a live configuration preview.
+See your model, context, usage limits, and Git state with flexible layouts,
+themes, and a live configuration preview.
+
+**Also supported in**
+
+<a href="https://github.com/powerline-dev/codex-powerline-vscode"><img src="assets/platforms/vscode.png" alt="" width="28" height="28" /> VS Code</a> &nbsp; · &nbsp; <a href="https://github.com/powerline-dev/codex-powerline-visualstudio"><img src="assets/platforms/visualstudio.png" alt="" width="28" height="28" /> Visual Studio</a>
+
+One Powerline CLI. The same layouts, themes, and widgets across all three hosts.
 
 Give a ⭐ if this project helped you!
 
@@ -24,25 +30,128 @@ Give a ⭐ if this project helped you!
 [![GitHub pull requests](https://img.shields.io/github/issues-pr/powerline-dev/codex-powerline-cli)](https://github.com/powerline-dev/codex-powerline-cli/pulls)
 [![GitHub contributors](https://img.shields.io/github/contributors/powerline-dev/codex-powerline-cli)](https://github.com/powerline-dev/codex-powerline-cli/graphs/contributors)
 
-![Two Powerline rows with the model, reasoning effort, Git branch, context usage, working directory, and usage limits](docs/powerline-preview.png)
+![Codex Powerline preview](assets/preview.png)
 
 </div>
 
-## Contents
+## 📥 Install
 
-- [Install](#-install)
-  - [Windows](#-windows)
-  - [macOS](#-macos)
-  - [Linux](#-linux)
-- [Configure with Codex](#configure-with-codex)
-- [Features](#-features)
-- [Contributing](#-contributing)
-- [Changelog](CHANGELOG.md)
-- [Development](#development)
-- [Author and Acknowledgments](#author-and-acknowledgments)
-- [License](#license)
+The commands below apply after `@powerline-dev/codex-powerline-cli` is released on npm.
+For now, use the [development setup](docs/development.md). The executable name and
+settings path are unchanged.
 
-## Configure with Codex
+If you still have the former unscoped package installed, it uses the same
+`codex-powerline` command. Use separate npm prefixes to keep both installs.
+
+### 🪟 Windows
+
+**📦 Install and launch**
+
+Install [Node.js 22.12 or newer](https://nodejs.org/en/download) if needed.
+Open PowerShell and paste this block. Sign in, then save and exit the editor.
+
+```powershell
+npm install --global @openai/codex @powerline-dev/codex-powerline-cli
+codex login
+codex-powerline configure
+codex-powerline run
+```
+
+**🔄 Update**
+
+```powershell
+npm install --global @powerline-dev/codex-powerline-cli@latest
+```
+
+**🧹 Uninstall**
+
+```powershell
+npm uninstall --global @powerline-dev/codex-powerline-cli
+```
+
+If PowerShell blocks scripts, paste the same commands into Command Prompt.
+If the separators look like boxes, try a Nerd Font in Windows Terminal.
+
+### 🍎 macOS
+
+**📦 Install and launch**
+
+Install [Node.js 22.12 or newer](https://nodejs.org/en/download) if needed.
+Open Terminal and paste this block. Sign in, then save and exit the editor.
+
+The package includes a Nerd Font and installs it automatically. In Apple
+Terminal, setup selects it for your current profile; allow Terminal automation
+if macOS asks. Other terminal apps may require selecting the font in settings.
+
+```sh
+npm install --global @openai/codex @powerline-dev/codex-powerline-cli
+codex login
+codex-powerline configure
+codex-powerline run
+```
+
+**🔄 Update**
+
+```sh
+npm install --global @powerline-dev/codex-powerline-cli@latest
+```
+
+**🧹 Uninstall**
+
+```sh
+npm uninstall --global @powerline-dev/codex-powerline-cli
+```
+
+### 🐧 Linux
+
+**📦 Install and launch**
+
+Install [Node.js 22.12 or newer](https://nodejs.org/en/download) if needed.
+Open a terminal and paste this block. Sign in, then save and exit the editor.
+
+```sh
+npm install --global @openai/codex @powerline-dev/codex-powerline-cli
+codex login
+codex-powerline configure
+codex-powerline run
+```
+
+**🔄 Update**
+
+```sh
+npm install --global @powerline-dev/codex-powerline-cli@latest
+```
+
+**🧹 Uninstall**
+
+```sh
+npm uninstall --global @powerline-dev/codex-powerline-cli
+```
+
+Uninstalling Powerline keeps Codex CLI, your saved layout, and installed fonts.
+
+## ✨ Features
+
+- 🎨 **Make it yours.** Stack rows, pick a theme, and tweak colors and separators with a live preview.
+- ⏱️ **Know what’s left.** See context usage and your 5-hour and weekly limits at a glance.
+- 🧠 **See what Codex is using.** Show the active model, reasoning effort, token counts, and cache stats.
+- 🌿 **Stay oriented.** Show your working folder, Git or Jujutsu status, and Codex workspace and permissions.
+- 📦 **Take your layout with you.** Export your setup as JSON and import it on another machine.
+
+Import [Author’s Favorite](configTemplates/authors-favorite.json) for a Minimal theme layout with a working-folder row and four aligned columns. Widgets reserve space when data is missing.
+
+## ⚙️ Configure
+
+Choose your widgets, rows, and theme in the live editor:
+
+```sh
+codex-powerline configure
+```
+
+Save your layout, then launch `codex-powerline run`. The IDE extensions use
+the same saved layout after **Restart Terminal**.
+
+### Configure with Codex
 
 The [Configure Powerline skill](.agents/skills/codex-powerline-configure/)
 turns a description of your status bar into a saved layout and a preview.
@@ -63,159 +172,13 @@ checkout, interactive Powerline editor, or MCP server is needed.
 Codex saves the layout separately and gives you the launch command. Add
 “make it my default” if you want `codex-powerline run` to use it automatically.
 
-## 🚀 Install
-
-The commands below apply after `@powerline-dev/codex-powerline-cli` is released on npm.
-For now, use the [development setup](#development). The executable name and
-settings path are unchanged.
-
-If you still have the former unscoped package installed, it uses the same
-`codex-powerline` command. Use separate npm prefixes to keep both installs.
-
-### 🪟 Windows
-
-Install [Node.js 22.12 or newer](https://nodejs.org/en/download) if needed.
-Open PowerShell and paste this block. Sign in, then save and exit the editor.
-
-```powershell
-npm install --global @openai/codex @powerline-dev/codex-powerline-cli
-codex login
-codex-powerline configure
-codex-powerline run
-```
-
-**Update Powerline**
-
-```powershell
-npm install --global @powerline-dev/codex-powerline-cli@latest
-```
-
-**Uninstall Powerline**
-
-```powershell
-npm uninstall --global @powerline-dev/codex-powerline-cli
-```
-
-If PowerShell blocks scripts, paste the same commands into Command Prompt.
-If the separators look like boxes, try a Nerd Font in Windows Terminal.
-
-### 🍎 macOS
-
-Install [Node.js 22.12 or newer](https://nodejs.org/en/download) if needed.
-Open Terminal and paste this block. Sign in, then save and exit the editor.
-
-The package includes a Nerd Font and installs it automatically. In Apple
-Terminal, setup selects it for your current profile; allow Terminal automation
-if macOS asks. Other terminal apps may require selecting the font in settings.
-
-```sh
-npm install --global @openai/codex @powerline-dev/codex-powerline-cli
-codex login
-codex-powerline configure
-codex-powerline run
-```
-
-**Update Powerline**
-
-```sh
-npm install --global @powerline-dev/codex-powerline-cli@latest
-```
-
-**Uninstall Powerline**
-
-```sh
-npm uninstall --global @powerline-dev/codex-powerline-cli
-```
-
-### 🐧 Linux
-
-Install [Node.js 22.12 or newer](https://nodejs.org/en/download) if needed.
-Open a terminal and paste this block. Sign in, then save and exit the editor.
-
-```sh
-npm install --global @openai/codex @powerline-dev/codex-powerline-cli
-codex login
-codex-powerline configure
-codex-powerline run
-```
-
-**Update Powerline**
-
-```sh
-npm install --global @powerline-dev/codex-powerline-cli@latest
-```
-
-**Uninstall Powerline**
-
-```sh
-npm uninstall --global @powerline-dev/codex-powerline-cli
-```
-
-Uninstalling Powerline keeps Codex CLI, your saved layout, and installed fonts.
-
-## ✨ Features
-
-- 🎨 **Make it yours.** Stack rows, pick a theme, and tweak colors and separators with a live preview.
-- ⏱️ **Know what’s left.** See context usage and your 5-hour and weekly limits at a glance.
-- 🧠 **See what Codex is using.** Show the active model, reasoning effort, token counts, and cache stats.
-- 🌿 **Stay oriented.** Show your working folder, Git or Jujutsu status, and Codex workspace and permissions.
-- 📦 **Take your layout with you.** Export your setup as JSON and import it on another machine.
-
-Import [Author’s Favorite](configTemplates/authors-favorite.json) for a Minimal theme layout with a working-folder row and four aligned columns. Widgets reserve space when data is missing.
-
-## Development
-
-Install [Bun](https://bun.sh/) and clone this repository. It contains the CLI,
-settings schemas, migrations, themes, widgets, tests, and layout presets.
-
-```sh
-git clone https://github.com/powerline-dev/codex-powerline-cli.git
-cd codex-powerline-cli
-bun install --frozen-lockfile
-bun run start configure
-bun test
-bun run lint
-bun run build
-node dist/codex-powerline.js --config ./configTemplates/powerline.json run
-```
-
-Settings contracts live in `src/types/`, migrations and themes in `src/utils/`,
-widgets in `src/widgets/`, and shipped presets in `configTemplates/`.
-Existing layouts, widget IDs, and settings paths remain compatible.
-
-See [AGENTS.md](AGENTS.md) for the project map and development workflows.
-The [VS Code extension](https://github.com/powerline-dev/codex-powerline-vscode)
-launches the installed CLI and uses the same settings and widgets.
-
-### Release preparation
-
-Update `package.json` and [CHANGELOG.md](CHANGELOG.md), then run:
-
-```sh
-bun run release:dry-run
-```
-
-This checks lint, tests, the build, and the packed CLI installed in a temporary
-npm prefix. The CLI is the only npm package to release; no sibling checkout
-or separate core package is needed. See the
-[release skill](.agents/skills/codex-powerline-release/SKILL.md) for details.
-When ready, `bun run release` validates and publishes the CLI package.
-
 ## 🤝 Contributing
 
-Contributions are welcome. Open an issue to report a bug or discuss a larger
-change. For a code change, fork the repository, create a focused branch, add
-tests when they fit, and open a pull request.
+Contributions are welcome! Open an issue, suggest a feature, or send a focused
+pull request. See the [development guide](docs/development.md) for setup,
+checks, and release preparation.
 
-Before you open a pull request, run:
-
-```sh
-bun test
-bun run lint
-bun run build
-```
-
-## Author and Acknowledgments
+## Author and acknowledgments
 
 **Martin Hájek** is the author and maintainer of Codex Powerline.
 
