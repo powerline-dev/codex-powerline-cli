@@ -1,6 +1,6 @@
 {
   "name": "@powerline-dev/codex-powerline-cli",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Customizable terminal status bar for Codex CLI with model, usage limits, workspace, permissions, and Git widgets.",
   "main": "./dist/codex-powerline.js",
   "module": "./dist/codex-powerline.js",

@@ -36,6 +36,24 @@ or separate core package is needed. See the
 [release skill](../.agents/skills/codex-powerline-release/SKILL.md) for details.
 When ready, `bun run release` validates and publishes the CLI package.
 
+## Automatic npm releases
+
+GitHub Actions validates each push to `main` and publishes the CLI only if
+`package.json` has a stable version newer than every stable version on npm.
+Ordinary commits that keep the published version run the checks without publishing.
+
+Set up [npm Trusted Publishing](https://docs.npmjs.com/trusted-publishers/) once:
+
+1. In GitHub, create the `npm-release` environment. Under **Deployment branches
+   and tags**, allow only the `main` branch. Do not add required reviewers if
+   you want publishes to run without manual approval.
+2. In the npm package settings for `@powerline-dev/codex-powerline-cli`, add a
+   GitHub Actions trusted publisher. Use organization `powerline-dev`, repository
+   `codex-powerline-cli`, workflow `publish-npm.yml`, and environment `npm-release`.
+   Allow `npm publish`. No npm token or GitHub Actions secret is needed.
+3. Push the version and changelog commit to `main`. To retry after setup, run
+   **Publish CLI to npm** from the Actions tab with `main` selected.
+
 ## Contribution checks
 
 Contributions are welcome. Open an issue to report a bug or discuss a larger

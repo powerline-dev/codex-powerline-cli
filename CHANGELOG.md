@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.7
+
+- Validate CLI changes in GitHub Actions and automatically publish new stable
+  versions from `main` to npm through Trusted Publishing.
+
 ## 1.0.6
 
 - Keep the visible Codex chat's model, reasoning effort, and status in the

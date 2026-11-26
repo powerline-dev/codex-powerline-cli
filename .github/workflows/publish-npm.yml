@@ -1,0 +1,87 @@
+name: Publish CLI to npm
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.4.5'
+      - name: Validate the CLI release
+        run: bun run release:dry-run
+      - name: Pack the CLI
+        run: npm pack --pack-destination "$RUNNER_TEMP"
+      - uses: actions/upload-artifact@v7
+        with:
+          name: npm-package
+          path: ${{ runner.temp }}/powerline-dev-codex-powerline-cli-*.tgz
+          if-no-files-found: error
+
+  publish:
+    if: github.repository == 'powerline-dev/codex-powerline-cli' && github.ref == 'refs/heads/main'
+    needs: validate
+    runs-on: ubuntu-latest
+    environment: npm-release
+    concurrency:
+      group: npm-publish
+      cancel-in-progress: false
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          registry-url: https://registry.npmjs.org/
+          package-manager-cache: false
+      - uses: actions/download-artifact@v8
+        with:
+          name: npm-package
+          path: release
+      - name: Publish a new stable version
+        shell: bash
+        run: |
+          tarballs=(release/*.tgz)
+          if [[ ${#tarballs[@]} -ne 1 || ! -f "${tarballs[0]}" ]]; then
+            echo 'Expected exactly one CLI tarball.' >&2
+            exit 1
+          fi
+          tarball=${tarballs[0]}
+          version=$(tar -xOf "$tarball" package/package.json | node -p 'JSON.parse(require("node:fs").readFileSync(0, "utf8")).version')
+          if [[ ! "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Expected a stable CLI version, got: $version" >&2
+            exit 1
+          fi
+          versions=$(npm view @powerline-dev/codex-powerline-cli versions --json --registry https://registry.npmjs.org/)
+          decision=$(npm_versions="$versions" cli_version="$version" node --input-type=module <<'NODE'
+          const versions = [JSON.parse(process.env.npm_versions)].flat();
+          if (!versions.length || !versions.every((version) => typeof version === 'string')) {
+            throw new Error('Unexpected npm version list.');
+          }
+          const target = process.env.cli_version;
+          const stable = /^\d+\.\d+\.\d+$/;
+          const compare = new Intl.Collator('en', { numeric: true }).compare;
+          const isNewer = !versions.includes(target) &&
+              versions.every((version) => !stable.test(version) || compare(target, version) > 0);
+          console.log(isNewer ? 'publish' : 'skip');
+          NODE
+          )
+          if [[ "$decision" == publish ]]; then
+            npm publish "$tarball" --access public --registry https://registry.npmjs.org/
+          else
+            echo "Skipping $version: npm already has this version or a newer stable release."
+          fi
