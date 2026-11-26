@@ -105,9 +105,12 @@ export class CodexTelemetry {
         const { id, method, params } = decode(line);
         if ((typeof id !== 'number' && typeof id !== 'string') || typeof method !== 'string' || !OBSERVED.has(method))
             return;
+        const { cwd, threadId, model, effort, sandboxPolicy, approvalPolicy, approvalsReviewer, serviceTier, serviceTierForTurn, collaborationMode, ephemeral, threadSource } = object(params);
+        // Codex starts hidden threads to generate titles and recaps for the visible chat.
+        if (THREAD_OPEN.has(method) && ephemeral === true && (threadSource === 'thread_title' || threadSource === 'system'))
+            return;
         if (THREAD_OPEN.has(method))
             this.switchIndex++;
-        const { cwd, threadId, model, effort, sandboxPolicy, approvalPolicy, approvalsReviewer, serviceTier, serviceTierForTurn, collaborationMode } = object(params);
         this.pending.set(id, {
             method,
             switchIndex: this.switchIndex,

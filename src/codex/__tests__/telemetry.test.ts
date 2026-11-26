@@ -52,6 +52,49 @@ describe('Codex telemetry', () => {
         expect(chat()).toBeUndefined();
     });
 
+    it('keeps the visible chat active while a hidden title thread starts and unloads', () => {
+        const telemetry = new CodexTelemetry('/workspace');
+        telemetry.request(JSON.stringify({ id: 1, method: 'thread/start' }));
+        telemetry.request(JSON.stringify({
+            id: 'title',
+            method: 'thread/start',
+            params: { cwd: '/workspace/project', ephemeral: true, threadSource: 'thread_title', model: 'gpt-5.6-luna' }
+        }));
+        telemetry.response(JSON.stringify({
+            id: 1,
+            result: {
+                thread: { id: 'visible', status: { type: 'idle' } },
+                cwd: '/workspace/project', model: 'gpt-6.2-sol', reasoningEffort: 'medium'
+            }
+        }));
+        telemetry.response(JSON.stringify({
+            id: 'title',
+            result: { thread: { id: 'helper', status: { type: 'idle' } }, model: 'gpt-5.6-luna' }
+        }));
+        telemetry.request(JSON.stringify({
+            id: 'title-turn',
+            method: 'turn/start',
+            params: { threadId: 'helper', effort: 'low' }
+        }));
+        telemetry.response(JSON.stringify({ id: 'title-turn', result: { turn: { id: 'title-turn' } } }));
+        telemetry.response(JSON.stringify({
+            method: 'thread/status/changed',
+            params: { threadId: 'helper', status: { type: 'notLoaded' } }
+        }));
+        telemetry.response(JSON.stringify({
+            method: 'thread/status/changed',
+            params: { threadId: 'visible', status: { type: 'active', activeFlags: ['waitingOnApproval'] } }
+        }));
+
+        expect(telemetry.snapshot()).toMatchObject({
+            session_id: 'visible',
+            cwd: '/workspace/project',
+            model: 'gpt-6.2-sol',
+            effort: { level: 'medium' },
+            chat_status: 'waiting_for_approval'
+        });
+    });
+
     it('uses the resumed chat status and keeps active flags ahead of turn history', () => {
         const telemetry = new CodexTelemetry('/project');
         const resume = (id: number, threadId: string, status: Record<string, unknown>) => {
