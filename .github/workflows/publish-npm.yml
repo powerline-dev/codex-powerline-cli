@@ -55,7 +55,7 @@ jobs:
       - name: Publish a new stable version
         shell: bash
         run: |
-          tarballs=(release/*.tgz)
+          tarballs=(./release/*.tgz)
           if [[ ${#tarballs[@]} -ne 1 || ! -f "${tarballs[0]}" ]]; then
             echo 'Expected exactly one CLI tarball.' >&2
             exit 1
