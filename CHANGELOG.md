@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.6
+
+- Keep the visible Codex chat's model, reasoning effort, and status in the
+  Powerline footer while Codex generates a title or recap in a hidden thread.
+
 ## 1.0.5
 
 - Consolidate settings, migrations, themes, presets, widgets, and their tests
