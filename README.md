@@ -2,7 +2,7 @@
 
 # ![Codex Powerline](assets/header.svg)
 
-**A customizable Powerline status bar for the OpenAI Codex CLI.**
+**An extension for the OpenAI Codex CLI that adds a customizable Powerline status bar.**
 
 [ccstatusline](https://github.com/sirmalloc/ccstatusline), rewritten for Codex.
 See your model, context, usage limits, and Git state with flexible layouts,
